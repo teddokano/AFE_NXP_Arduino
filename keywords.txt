@@ -1,0 +1,25 @@
+##########
+# classes
+##########
+
+AFE_NXP	KEYWORD1
+NAFE13388	KEYWORD1
+
+##########
+# methods and functions
+##########
+
+txrx	KEYWORD2
+write_r16	KEYWORD2
+read_r16	KEYWORD2
+write_r24	KEYWORD2
+read_r24	KEYWORD2
+
+##########
+# register names
+##########
+
+##########
+# constants
+##########
+
