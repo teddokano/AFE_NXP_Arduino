@@ -45,8 +45,8 @@ Type#|Header file|Features|Interface|Evaluation board
 [NAFE13388](https://www.nxp.com/products/peripherals-and-logic/signal-chain/analog-front-end/highly-configurable-8-channel-25-v-universal-input-low-power-analog-front-end:NAFEx1388)	|`NAFE13388.h`	|Highly Configurable 8 Channel ±25 V Universal Input Low Power Analog Front-End	|SPI (mode1)	|[NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board](https://www.nxp.com/design/development-boards/analog-toolbox/nafexx388-evb-8-channels-universal-input-afe-evaluation-board:NAFExx388-EVB)
 
 # Getting started
-
-Use Library manager in Arduino IDE for easy install
+How to setup? --> [https://youtu.be/UEOFC0TwA6c](https://youtu.be/UEOFC0TwA6c)  
+![Boards](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/demo_video.png) 
 
 # What's inside?
 
