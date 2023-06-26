@@ -42,8 +42,8 @@ void NAFE13388::reset( void )
 	delay( 1 );
 }
 
-void NAFE13388::logical_ch_config( int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3, double coeff )
-{
+void NAFE13388::logical_ch_config( int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3 )
+{	
 	write_r16( ch );
 	
 	write_r16( 0x0020, cc0 );
@@ -62,7 +62,22 @@ void NAFE13388::logical_ch_config( int ch, uint16_t cc0, uint16_t cc1, uint16_t 
 	
 	write_r16( 0x0024, bits );
 	
-	coeff_uV[ ch ]	= coeff;
+	double pga;
+	
+	switch ( (cc0 >> 5) & 0x7  )
+	{
+		case 0:
+			pga	= 0.2;
+			break;
+		case 1:
+			pga	= 0.4;
+			break;
+		default:
+			pga	= 0.8;
+			break;
+	}
+	
+	coeff_uV[ ch ]	= ((10.0 / (double)(1L << 24)) / pga) * 1e6;
 }
 
 double NAFE13388::read( int ch )

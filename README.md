@@ -65,5 +65,4 @@ NAFE13388_simple		|NAFE13388	|**Simple** sample for just showing 2ch outputs in 
 
 
 # Document
-
-Contents of this section will be added later
+For details of the library, please find descriptions in [this document](https://teddokano.github.io/AFE_NXP_Arduino/annotated.html).
