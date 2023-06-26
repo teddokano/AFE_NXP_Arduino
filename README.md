@@ -1,8 +1,8 @@
 # AFE_NXP_Arduino
 Analog Front End device operation sample code for [Arduino](https://www.arduino.cc) 
 
-![Boards](https://github.com/teddokano/additional_files/blob/main/LCDDriver_NXP_Arduino/board.jpg)  
-_PCA8561AHN-ARD : Arduino® Shield Evaluation Board for LCD driver_
+![Boards](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/afe.jpg)  
+_NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino_
 
 ## What is this?
 An Arduino library for NXP Analog Front End device with sample code.  
