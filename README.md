@@ -2,7 +2,7 @@
 Analog Front End device operation sample code for [Arduino](https://www.arduino.cc) 
 
 ![Boards](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/afe.jpg)  
-_NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino_
+_NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
 
 ## What is this?
 An Arduino library for NXP Analog Front End device with sample code.  
@@ -20,10 +20,12 @@ void setup() {
   while (!Serial)
     ;
 
-  SPI.begin();
-  afe.begin();
-
   Serial.println("\n***** Hello, NAFE13388! *****");
+
+  SPI.begin();
+  pinMode(SS, OUTPUT);  //  Required for UNO R4
+  
+  afe.begin();
 
   afe.logical_ch_config(0, 0x1150, 0x00AC, 0x1400, 0x0000);
   afe.logical_ch_config(1, 0x3350, 0x00A4, 0x1400, 0x3060);
