@@ -27,8 +27,8 @@ void setup() {
   
   afe.begin();
 
-  afe.logical_ch_config(0, 0x1150, 0x00AC, 0x1400, 0x0000);
-  afe.logical_ch_config(1, 0x3350, 0x00A4, 0x1400, 0x3060);
+  afe.logical_ch_config(0, 0x22F0, 0x70AC, 0x5800, 0x0000);
+  afe.logical_ch_config(1, 0x33F0, 0x70B1, 0x5800, 0x3860);
 
   Serial.println("logical channel 0 and 1 are shown in micro-volt");
 }

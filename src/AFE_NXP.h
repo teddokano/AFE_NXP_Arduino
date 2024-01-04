@@ -2,10 +2,8 @@
  *
  *  @class   NAFE13388
  *  @author  Tedd OKANO
- *  @version 0.1.1
- *  @date    27-June-2023
  *
- *  Copyright: 2023 Tedd OKANO
+ *  Copyright: 2023 - 2024 Tedd OKANO
  *  Released under the MIT license
  *
  *  A simple class library for NXP Analog Front End: NAFE13388
@@ -22,12 +20,14 @@
  *  	 ;
  *  
  *     SPI.begin();
+ *     pinMode(SS, OUTPUT);  //  Required for UNO R4
+ *     
  *     afe.begin();
  *  
  *     Serial.println("\n***** Hello, NAFE13388! *****");
  *  
- *     afe.logical_ch_config(0, 0x1150, 0x00AC, 0x1400, 0x0000);
- *     afe.logical_ch_config(1, 0x3350, 0x00A4, 0x1400, 0x3060);
+ *     afe.logical_ch_config(0, 0x22F0, 0x70AC, 0x5800, 0x0000);
+ *     afe.logical_ch_config(1, 0x33F0, 0x70B1, 0x5800, 0x3860);
  *  
  *     Serial.println("logical channel 0 and 1 are shown in micro-volt");
  *   }
