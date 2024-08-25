@@ -68,16 +68,16 @@ public:
 	 *	(3) Call reset()
 	 *	(4) Call boot()
 	 */
-	void begin( void );
+	virtual void begin( void );
 
 	/** Set system-level config registers */
-	void boot( void );
+	virtual void boot( void );
 
 	/** Issue RESET command */
-	void reset( void );
+	virtual void reset( void );
 	
 	/** Board initialization (initializing control pin state) */
-	void board_init( void );
+	virtual void board_init( void );
 	
 	/** Configure logical channel
 	 *
@@ -87,14 +87,14 @@ public:
 	 * @param cc2	16bit value to be set CH_CONFIG2 register (0x22)
 	 * @param cc3	16bit value to be set CH_CONFIG3 register (0x23)
 	 */
-	void logical_ch_config( int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3 );
+	virtual void logical_ch_config( int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3 );
 
 	/** Read ADC
 	 *
 	 * @param ch logical channel number (0 ~ 15)
 	 * @return ADC read value in micro-volt
 	 */
-	double read( int ch );
+	virtual double read( int ch );
 
 	/** Number of enabled logical channels */
 	int		enabled_channels;
