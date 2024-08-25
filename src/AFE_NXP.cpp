@@ -1,23 +1,22 @@
 #include "AFE_NXP.h"
 
-/* NAFE13388 class ******************************************/
+/* NAFE13388_Base class ******************************************/
 
-NAFE13388::NAFE13388() : enabled_channels( 0 )
-{
-	board_init();
-}
-
-NAFE13388::~NAFE13388()
+NAFE13388_Base::NAFE13388_Base() : enabled_channels( 0 )
 {
 }
 
-void NAFE13388::begin( void )
+NAFE13388_Base::~NAFE13388_Base()
+{
+}
+
+void NAFE13388_Base::begin( void )
 {
 	reset();
 	boot();	
 }
 
-void NAFE13388::boot( void )
+void NAFE13388_Base::boot( void )
 {
 	write_r16( 0x0010 ); 
 	write_r16( 0x002A, 0x0000 );
@@ -30,23 +29,28 @@ void NAFE13388::boot( void )
 	delay( 1 );
 }
 
-void NAFE13388::reset( void )
+void NAFE13388_Base::reset( void )
 {
 	write_r16( 0x0014 ); 
 	delay( 1 );
 }
 
-void NAFE13388::board_init( void )
+void NAFE13388_Base::board_init( int _pin_nINT, int _pin_DRDY, int _pin_SYN, int _pin_nRESET )
 {
-	pinMode( pin_nRESET,	OUTPUT );
-	pinMode( pin_SYN,		OUTPUT );
-	pinMode( pin_DRDY,		INPUT );
-	pinMode( pin_nINT,		INPUT );
-	digitalWrite( pin_nRESET,	1 );
-	digitalWrite( pin_SYN,		1 );
+	pinMode( _pin_nINT,		INPUT );
+	pinMode( _pin_DRDY,		INPUT );
+	pinMode( _pin_SYN,		OUTPUT );
+	pinMode( _pin_nRESET,	OUTPUT );
+
+	digitalWrite( _pin_SYN,		1 );
+	digitalWrite( _pin_nRESET,	1 );
+	
+	Serial.print("_pin_nRESET = ");
+	Serial.println(_pin_nRESET);
+
 }
 
-void NAFE13388::logical_ch_config( int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3 )
+void NAFE13388_Base::logical_ch_config( int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3 )
 {	
 	constexpr double	pga_gain[]	= { 0.2, 0.4, 0.8, 1, 2, 4, 8, 16 };
 	
@@ -71,7 +75,7 @@ void NAFE13388::logical_ch_config( int ch, uint16_t cc0, uint16_t cc1, uint16_t 
 	coeff_uV[ ch ]	= ((10.0 / (double)(1L << 24)) / pga_gain[ (cc0 >> 5) & 0x7 ]) * 1e6;
 }
 
-double NAFE13388::read( int ch )
+double NAFE13388_Base::read( int ch )
 {
 	write_r16( ch );
 	write_r16( 0x2000 );
@@ -79,5 +83,27 @@ double NAFE13388::read( int ch )
 	
 	return read_r24( 0x2040 + ch ) * coeff_uV[ ch ];
 };
+
+/* NAFE13388 class ******************************************/
+
+NAFE13388::NAFE13388() : NAFE13388_Base()
+{
+	board_init( pin_nINT, pin_DRDY, pin_SYN, pin_nRESET );
+}
+
+NAFE13388::~NAFE13388()
+{
+}
+
+/* NAFE13388_UIM class ******************************************/
+
+NAFE13388_UIM::NAFE13388_UIM() : NAFE13388_Base()
+{
+	board_init( pin_nINT, pin_DRDY, pin_SYN, pin_nRESET );
+}
+
+NAFE13388_UIM::~NAFE13388_UIM()
+{
+}
 
 //double	NAFE13388::coeff_uV[ 16 ];
