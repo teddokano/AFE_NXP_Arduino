@@ -74,7 +74,10 @@ public:
 	void boot( void );
 
 	/** Issue RESET command */
-	void reset();
+	void reset( void );
+	
+	/** Board initialization (initializing control pin state) */
+	void board_init( void );
 	
 	/** Configure logical channel
 	 *

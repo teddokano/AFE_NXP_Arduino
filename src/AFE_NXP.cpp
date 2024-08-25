@@ -4,6 +4,7 @@
 
 NAFE13388::NAFE13388() : enabled_channels( 0 )
 {
+	board_init();
 }
 
 NAFE13388::~NAFE13388()
@@ -12,13 +13,6 @@ NAFE13388::~NAFE13388()
 
 void NAFE13388::begin( void )
 {
-	pinMode( pin_nRESET,	OUTPUT );
-	pinMode( pin_SYN,		OUTPUT );
-	pinMode( pin_DRDY,		INPUT );
-	pinMode( pin_nINT,		INPUT );
-	digitalWrite( pin_nRESET,	1 );
-	digitalWrite( pin_SYN,		1 );
-
 	reset();
 	boot();	
 }
@@ -40,6 +34,16 @@ void NAFE13388::reset( void )
 {
 	write_r16( 0x0014 ); 
 	delay( 1 );
+}
+
+void NAFE13388::board_init( void )
+{
+	pinMode( pin_nRESET,	OUTPUT );
+	pinMode( pin_SYN,		OUTPUT );
+	pinMode( pin_DRDY,		INPUT );
+	pinMode( pin_nINT,		INPUT );
+	digitalWrite( pin_nRESET,	1 );
+	digitalWrite( pin_SYN,		1 );
 }
 
 void NAFE13388::logical_ch_config( int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3 )
