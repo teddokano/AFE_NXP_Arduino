@@ -12,12 +12,12 @@ NAFE13388::~NAFE13388()
 
 void NAFE13388::begin( void )
 {
-	pinMode( 6, OUTPUT );
-	pinMode( 5, OUTPUT );
-	pinMode( 3, INPUT );
-	pinMode( 2, INPUT );
-	digitalWrite( 6 , 1 );
-	digitalWrite( 5 , 1 );
+	pinMode( pin_nRESET,	OUTPUT );
+	pinMode( pin_SYN,		OUTPUT );
+	pinMode( pin_DRDY,		INPUT );
+	pinMode( pin_nINT,		INPUT );
+	digitalWrite( pin_nRESET,	1 );
+	digitalWrite( pin_SYN,		1 );
 
 	reset();
 	boot();	

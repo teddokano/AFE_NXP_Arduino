@@ -44,6 +44,8 @@
 #ifndef ARDUINO_AFE_DRIVER_H
 #define ARDUINO_AFE_DRIVER_H
 
+#define	TARGET_UIM
+
 #include <Arduino.h>
 #include <stdint.h>
 
@@ -96,6 +98,19 @@ public:
 	
 	/** Coefficient to convert from ADC read value to micro-volt */
 	double	coeff_uV[ 16 ];
+
+	/** Control pins definitions */
+#ifdef TARGET_UIM
+	constexpr static int	pin_nINT	= 3;
+	constexpr static int	pin_DRDY	= 4;
+	constexpr static int	pin_SYN		= 6;
+	constexpr static int	pin_nRESET	= 7;
+#else
+	constexpr static int	pin_nINT	= 2;
+	constexpr static int	pin_DRDY	= 3;
+	constexpr static int	pin_SYN		= 5;
+	constexpr static int	pin_nRESET	= 6;
+#endif
 };
 
 #endif //	ARDUINO_AFE_DRIVER_H
