@@ -10,6 +10,10 @@ This library provides simple API to get analog input channels.
 Include device name header file (`NAFE1338.h`) to use those class libraries. 
 
 With `AFE_NXP_Arduino` library, characters can be shown by next sample code. 
+
+> **Note**  
+> Current version of NAFE13388_UIM class and its sample code is supporting Arduino UNO R3 only. 
+
 ```cpp
 #include <NAFE13388.h>
 
