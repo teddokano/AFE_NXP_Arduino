@@ -24,5 +24,4 @@ void loop() {
   Serial.print(afe.read(0));
   Serial.print(",  ");
   Serial.println(afe.read(1));
-  delay(1);
 }
