@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['s_20inside_0',['What&apos;s inside?',['../md__r_e_a_d_m_e.html#autotoc_md4',1,'']]],
-  ['sample_20code_1',['List of sample code',['../md__r_e_a_d_m_e.html#autotoc_md7',1,'']]],
-  ['spi_5ffor_5fafe_2',['SPI_for_AFE',['../class_s_p_i__for___a_f_e.html',1,'']]],
-  ['spi_5ffor_5fafe_2ecpp_3',['SPI_for_AFE.cpp',['../_s_p_i__for___a_f_e_8cpp.html',1,'']]],
-  ['spi_5ffor_5fafe_2eh_4',['SPI_for_AFE.h',['../_s_p_i__for___a_f_e_8h.html',1,'']]],
-  ['started_5',['Getting started',['../md__r_e_a_d_m_e.html#autotoc_md3',1,'']]],
-  ['supported_20device_6',['Supported device',['../md__r_e_a_d_m_e.html#autotoc_md2',1,'']]]
+  ['read_0',['read',['../class_n_a_f_e13388___base.html#ac6380064db10ffb6b47d27452b77042e',1,'NAFE13388_Base']]],
+  ['read_5fr16_1',['read_r16',['../class_s_p_i__for___a_f_e.html#a615896216d6ed8e74ff4ddba188a0541',1,'SPI_for_AFE']]],
+  ['read_5fr24_2',['read_r24',['../class_s_p_i__for___a_f_e.html#a25aa79d7c6d233ae9a55626a1b3de5be',1,'SPI_for_AFE']]],
+  ['readme_2emd_3',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
+  ['reset_4',['reset',['../class_n_a_f_e13388___base.html#ae93bb841d6908eba50450889aeb26645',1,'NAFE13388_Base']]]
 ];

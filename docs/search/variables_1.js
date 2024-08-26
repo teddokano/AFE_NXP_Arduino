@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['enabled_5fchannels_0',['enabled_channels',['../class_n_a_f_e13388.html#a22d9d13a5e7f600cfe717c0014030d28',1,'NAFE13388']]]
+  ['enabled_5fchannels_0',['enabled_channels',['../class_n_a_f_e13388___base.html#a6387640c04f0e86b1ef54f7596a2e7b0',1,'NAFE13388_Base']]]
 ];

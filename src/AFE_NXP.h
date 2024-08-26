@@ -142,27 +142,21 @@ public:
  *  
  *   void setup() {
  *     Serial.begin(9600);
- *     while (!Serial)
- *  	 ;
- *  
- *     SPI.begin();
- *     pinMode(SS, OUTPUT);  //  Required for UNO R4
- *     
+ *     Serial.println("\n***** Hello, NAFE13388! *****");
+ *     SPI.begin();  
+ *    
  *     afe.begin();
  *  
- *     Serial.println("\n***** Hello, NAFE13388! *****");
- *  
- *     afe.logical_ch_config(0, 0x22F0, 0x70AC, 0x5800, 0x0000);
- *     afe.logical_ch_config(1, 0x33F0, 0x70B1, 0x5800, 0x3860);
+ *     afe.logical_ch_config(0, 0x1070, 0x00A4, 0x2880, 0x0000);
+ *     afe.logical_ch_config(1, 0x2070, 0x00A4, 0x2880, 0x0000);
  *  
  *     Serial.println("logical channel 0 and 1 are shown in micro-volt");
  *   }
  *  
  *   void loop() {
  *     Serial.print(afe.read(0));
- *     Serial.print(",  ");
+ *    Serial.print(",  ");
  *     Serial.println(afe.read(1));
- *     delay(100);
  *   }
  *  @endcode
  */
