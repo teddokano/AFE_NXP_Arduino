@@ -14,10 +14,10 @@ void setup() {
   
   afe.begin();
 
-  afe.logical_ch_config(0, 0x22F0, 0x70AC, 0x5800, 0x0000);
-  afe.logical_ch_config(1, 0x33F0, 0x70B1, 0x5800, 0x3860);
+  afe.logical_ch_config(0, 0x1110, 0x00BC, 0x4C80, 0x0000);
+  afe.logical_ch_config(1, 0x2210, 0x00BC, 0x4C80, 0x0000);
 
-  Serial.println("logical channel 0 and 1 are shown in micro-volt");
+  Serial.println("\nlogical channel 0 (AI1P-AI1N) and 1 (AI2P-AI2N) voltages are shown in micro-volt");
 }
 
 void loop() {
