@@ -8,7 +8,7 @@ _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO 
 ![Boards](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/afe.jpg)  
 _NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
 
-![NAFE13388.jpg](./image/NAFE13388.jpg)
+![NAFE13388.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/NAFE13388.jpg)
 *Analog-Front-End chip: NAFE13388*
 
 ## What is this?
@@ -17,6 +17,10 @@ This library provides simple API to get analog input channels.
 Include device name header file (`NAFE1338.h`) to use those class libraries. 
 
 With `AFE_NXP_Arduino` library, characters can be shown by next sample code. 
+
+> **Note**  
+> Current version of NAFE13388_UIM class and its sample code is supporting Arduino **UNO R3 only**. 
+
 ```cpp
 #include <NAFE13388.h>
 
@@ -24,20 +28,17 @@ NAFE13388 afe;
 
 void setup() {
   Serial.begin(9600);
-  while (!Serial)
-    ;
-
   Serial.println("\n***** Hello, NAFE13388! *****");
 
   SPI.begin();
-  pinMode(SS, OUTPUT);  //  Required for UNO R4
   
   afe.begin();
+  afe.blink_leds();
+  
+  afe.logical_ch_config(0, 0x1710, 0x00BC, 0x4C80, 0x0000);
+  afe.logical_ch_config(1, 0x2710, 0x00BC, 0x4C80, 0x0000);
 
-  afe.logical_ch_config(0, 0x22F0, 0x70AC, 0x5800, 0x0000);
-  afe.logical_ch_config(1, 0x33F0, 0x70B1, 0x5800, 0x3860);
-
-  Serial.println("logical channel 0 and 1 are shown in micro-volt");
+  Serial.println("logical channel 0 (AI1P-AICOM) and 1 (AI2P-AICOM) voltages are shown in micro-volt");
 }
 
 void loop() {
