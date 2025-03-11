@@ -1,8 +1,15 @@
 # AFE_NXP_Arduino
 Analog Front End device operation sample code for [Arduino](https://www.arduino.cc) 
 
+
+![UIM_on_FRDM.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/UIM.jpg)  
+_NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
+
 ![Boards](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/afe.jpg)  
 _NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
+
+![NAFE13388.jpg](./image/NAFE13388.jpg)
+*Analog-Front-End chip: NAFE13388*
 
 ## What is this?
 An Arduino library for NXP Analog Front End device with sample code.  
@@ -10,10 +17,6 @@ This library provides simple API to get analog input channels.
 Include device name header file (`NAFE1338.h`) to use those class libraries. 
 
 With `AFE_NXP_Arduino` library, characters can be shown by next sample code. 
-
-> **Note**  
-> Current version of NAFE13388_UIM class and its sample code is supporting Arduino UNO R3 only. 
-
 ```cpp
 #include <NAFE13388.h>
 
@@ -46,9 +49,15 @@ void loop() {
 ```
 
 ## Supported device
-Type#|Header file|Features|Interface|Evaluation board
+Type#|Features|Interface
+---|---|---
+[NAFE13388](https://www.nxp.com/products/peripherals-and-logic/signal-chain/analog-front-end/highly-configurable-8-channel-25-v-universal-input-low-power-analog-front-end:NAFEx1388)	|Highly Configurable 8 Channel ±25 V Universal Input Low Power Analog Front-End	|SPI (mode1)
+
+## Evaluation boards
+Name|Header file|Features|Interface|Evaluation board
 ---|---|---|---|---
-[NAFE13388](https://www.nxp.com/products/peripherals-and-logic/signal-chain/analog-front-end/highly-configurable-8-channel-25-v-universal-input-low-power-analog-front-end:NAFEx1388)	|`NAFE13388.h`	|Highly Configurable 8 Channel ±25 V Universal Input Low Power Analog Front-End	|SPI (mode1)	|[NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board](https://www.nxp.com/design/development-boards/analog-toolbox/nafexx388-evb-8-channels-universal-input-afe-evaluation-board:NAFExx388-EVB)
+[NAFExx388-EVB](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFExx388-EVB)	|`NAFE13388.h`	|	General purpose evaluation board for NAFE13388 |SPI (mode1)	|[NAFE13388-UIM 8-Channel Universal Input AFE Arduino® Shield Board](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFExx388-EVB)
+[NAFE13388_UIM](https://www.nxp.com/products/peripherals-and-logic/signal-chain/analog-front-end/highly-configurable-8-channel-25-v-universal-input-low-power-analog-front-end:NAFEx1388)	|`NAFE13388_UIM.h`	|AFE Arduino shield type evaluation board |SPI (mode1)	|[NAFE13388-UIM 8-Channel Universal Input AFE Arduino® Shield Board](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFE13388-UIM)
 
 # Getting started
 How to setup? --> [https://youtu.be/UEOFC0TwA6c](https://youtu.be/UEOFC0TwA6c)  
@@ -61,13 +70,14 @@ Examples are provided as scketch files.
 
 ### How to use?
 
-After library install, Choose menu on Arduino-IDE: `File`→`Examples`→`LCDDrivers_NXP_Arduino`→ **sketch for your try**
+After library install, Choose menu on Arduino-IDE: `File`→`Examples`→`AFE_NXP_Arduino`→ **sketch for your try**
 
 ### List of sample code
 
 Sketch|Target|Feature
 ---|---|---
-NAFE13388_simple		|NAFE13388	|**Simple** sample for just showing 2ch outputs in micro-volt value
+NAFE13388_simple		|NAFE13388-FVB	|**Simple** sample for just showing 2ch outputs in micro-volt value
+NAFE13388_UIM_simple		|NAFE13388-UIM	|**Simple** sample for just showing 2ch outputs in micro-volt value
 
 
 # Document
