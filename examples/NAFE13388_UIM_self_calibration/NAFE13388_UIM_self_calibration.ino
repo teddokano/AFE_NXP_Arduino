@@ -1,0 +1,67 @@
+#include <NAFE13388_UIM.h>
+NAFE13388_UIM afe;
+
+void table_view(NAFE13388::Register24 reg_addr, int length);
+void zprintf(const char *format, ...);
+
+void setup() {
+  Serial.begin(9600);
+
+  Serial.println("\n***** Hello, NAFE13388! *****");
+
+  SPI.begin();
+
+  afe.begin();
+  afe.blink_leds();
+
+  afe.logical_ch_config(0, 0x1110, 0x00BC, 0x4C80, 0x0000);
+  afe.logical_ch_config(1, 0x2210, 0x00BC, 0x4C80, 0x0000);
+
+  Serial.println("Registre dump: GAIN_COEFF0~15, OFFSET_COEF0~15");
+  table_view(NAFE13388::Register24::GAIN_COEFF0, 32);
+
+  Serial.println("\nRe-calibration (for PGA_gain=0.2~16) in progress");
+  for (auto i = 0; i < 8; i++) {
+    Serial.print("  ..");
+    Serial.print(i+1);
+    Serial.println("/8");
+    afe.recalibrate(i);
+  }
+
+  Serial.println("\nRegistre dump (after re-calibration): GAIN_COEFF0~15, OFFSET_COEF0~15");
+  table_view(NAFE13388::Register24::GAIN_COEFF0, 32);
+
+  Serial.println("\nlogical channel 0 (AI1P-AI1N) and 1 (AI2P-AI2N) voltages are shown in micro-volt");
+}
+
+void loop() {
+  Serial.print(afe.read<NAFE13388_UIM::microvolt_t>(0));
+  Serial.print(",  ");
+  Serial.println(afe.read<NAFE13388_UIM::microvolt_t>(1));
+}
+
+#define COLS 4
+
+void table_view(NAFE13388::Register24 reg_addr, int length) {
+  auto ROWS = length / COLS;
+  for (int y = 0; y < ROWS; y++) {
+    for (int x = 0; x < COLS; x++) {
+      int n = x * ROWS + y;
+
+      zprintf("  %8ld @ 0x%04X,", afe.reg(reg_addr + n), reg_addr + n);
+    }
+    zprintf("\n");
+  }
+}
+
+#define MAX_STR_LENGTH 80
+void zprintf(const char *format, ...) {
+  char s[MAX_STR_LENGTH];
+  va_list args;
+
+  va_start(args, format);
+  vsnprintf(s, MAX_STR_LENGTH, format, args);
+  va_end(args);
+
+  Serial.print(s);
+}
