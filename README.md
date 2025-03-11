@@ -14,6 +14,9 @@ With `AFE_NXP_Arduino` library, characters can be shown by next sample code.
 ![UIM_on_FRDM.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/UIM.jpg)  
 _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
 
+![OPREF pin for UIM.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/IOREF.jpg)  
+_For the UIM board, IOREF pin need to be unconnected to avoid supply conflict_
+
 ![Boards](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/afe.jpg)  
 _NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
 
