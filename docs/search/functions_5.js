@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['write_5fr16_0',['write_r16',['../class_s_p_i__for___a_f_e.html#ada6b0981fde1c39986131127ff6d31c7',1,'SPI_for_AFE::write_r16(uint16_t reg)'],['../class_s_p_i__for___a_f_e.html#a1731ceb792edb2cb9e41e855876453a1',1,'SPI_for_AFE::write_r16(uint16_t reg, uint16_t val)']]],
-  ['write_5fr24_1',['write_r24',['../class_s_p_i__for___a_f_e.html#a4ae6013d2ce7a6e31de735d422aeef7e',1,'SPI_for_AFE']]]
+  ['nafe13388_0',['NAFE13388',['../class_n_a_f_e13388.html#aa4c2e121e8f4e02a0088bfa89e5065dd',1,'NAFE13388']]],
+  ['nafe13388_5fbase_1',['NAFE13388_Base',['../class_n_a_f_e13388___base.html#a7e592cbe737cc00de8825fd7e45cb23b',1,'NAFE13388_Base']]],
+  ['nafe13388_5fuim_2',['NAFE13388_UIM',['../class_n_a_f_e13388___u_i_m.html#acda5e3d18dd3d2853e63a82344e3138b',1,'NAFE13388_UIM']]]
 ];

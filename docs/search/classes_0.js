@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['nafe13388_0',['NAFE13388',['../class_n_a_f_e13388.html',1,'']]],
-  ['nafe13388_5fbase_1',['NAFE13388_Base',['../class_n_a_f_e13388___base.html',1,'']]],
-  ['nafe13388_5fuim_2',['NAFE13388_UIM',['../class_n_a_f_e13388___u_i_m.html',1,'']]]
+  ['_5fref_5fpoints_0',['_ref_points',['../struct_n_a_f_e13388___base_1_1__ref__points.html',1,'NAFE13388_Base']]],
+  ['_5freference_5fpoint_1',['_reference_point',['../struct_n_a_f_e13388___base_1_1__reference__point.html',1,'NAFE13388_Base']]]
 ];

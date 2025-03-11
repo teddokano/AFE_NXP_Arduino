@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['list_20of_20sample_20code_0',['List of sample code',['../md__r_e_a_d_m_e.html#autotoc_md7',1,'']]],
-  ['logical_5fch_5fconfig_1',['logical_ch_config',['../class_n_a_f_e13388___base.html#a5e7f2251a09df7d49d106a385b489311',1,'NAFE13388_Base']]]
+  ['immidiate_5fread_0',['immidiate_read',['../class_a_f_e__base.html#abddfae1a67b6e01ca2b39322673f8d6b',1,'AFE_base']]],
+  ['inside_1',['What&apos;s inside?',['../md__r_e_a_d_m_e.html#autotoc_md5',1,'']]],
+  ['is_20this_2',['What is this?',['../md__r_e_a_d_m_e.html#autotoc_md1',1,'']]]
 ];

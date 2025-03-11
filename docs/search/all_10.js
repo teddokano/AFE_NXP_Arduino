@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['what_20is_20this_0',['What is this?',['../md__r_e_a_d_m_e.html#autotoc_md1',1,'']]],
-  ['what_20s_20inside_1',['What&apos;s inside?',['../md__r_e_a_d_m_e.html#autotoc_md4',1,'']]],
-  ['write_5fr16_2',['write_r16',['../class_s_p_i__for___a_f_e.html#ada6b0981fde1c39986131127ff6d31c7',1,'SPI_for_AFE::write_r16(uint16_t reg)'],['../class_s_p_i__for___a_f_e.html#a1731ceb792edb2cb9e41e855876453a1',1,'SPI_for_AFE::write_r16(uint16_t reg, uint16_t val)']]],
-  ['write_5fr24_3',['write_r24',['../class_s_p_i__for___a_f_e.html#a4ae6013d2ce7a6e31de735d422aeef7e',1,'SPI_for_AFE']]]
+  ['tbd_0',['TBD',['../class_n_a_f_e13388___base.html#a93d87b82239122d04d021048a9f5060dad159f0b550140e5392f805bb70582803',1,'NAFE13388_Base']]],
+  ['temperature_1',['temperature',['../class_n_a_f_e13388___base.html#af22fdbf78a0ee02146ef67c367439694',1,'NAFE13388_Base']]],
+  ['this_2',['What is this?',['../md__r_e_a_d_m_e.html#autotoc_md1',1,'']]],
+  ['thrs_5ftemp_3',['THRS_TEMP',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba8969a19acd94300990e216f67c0a5e22',1,'NAFE13388_Base']]],
+  ['to_20use_4',['How to use?',['../md__r_e_a_d_m_e.html#autotoc_md7',1,'']]],
+  ['txrx_5',['txrx',['../class_s_p_i__for___a_f_e.html#a3063f4bf133088e6c239a446310686f5',1,'SPI_for_AFE']]]
 ];

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['afe_5fnxp_2ecpp_0',['AFE_NXP.cpp',['../_a_f_e___n_x_p_8cpp.html',1,'']]],
-  ['afe_5fnxp_2eh_1',['AFE_NXP.h',['../_a_f_e___n_x_p_8h.html',1,'']]],
-  ['afe_5fnxp_5farduino_2',['AFE_NXP_Arduino',['../md__r_e_a_d_m_e.html',1,'']]]
+  ['_5fref_5fpoints_0',['_ref_points',['../struct_n_a_f_e13388___base_1_1__ref__points.html',1,'NAFE13388_Base']]],
+  ['_5freference_5fpoint_1',['_reference_point',['../struct_n_a_f_e13388___base_1_1__reference__point.html',1,'NAFE13388_Base']]]
 ];
