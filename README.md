@@ -1,6 +1,15 @@
 # AFE_NXP_Arduino
 Analog Front End device operation sample code for [Arduino](https://www.arduino.cc) 
 
+## What is this?
+An Arduino library for NXP Analog Front End device with sample code.  
+This library provides simple API to get analog input channels.  
+Include device name header file (`NAFE1338.h`) to use those class libraries. 
+
+With `AFE_NXP_Arduino` library, characters can be shown by next sample code. 
+
+> **Note**  
+> Current version of NAFE13388_UIM class and its sample code is supporting Arduino **UNO R3 only**. 
 
 ![UIM_on_FRDM.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/UIM.jpg)  
 _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
@@ -11,15 +20,7 @@ _NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino UNO 
 ![NAFE13388.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/NAFE13388.jpg)
 *Analog-Front-End chip: NAFE13388*
 
-## What is this?
-An Arduino library for NXP Analog Front End device with sample code.  
-This library provides simple API to get analog input channels.  
-Include device name header file (`NAFE1338.h`) to use those class libraries. 
 
-With `AFE_NXP_Arduino` library, characters can be shown by next sample code. 
-
-> **Note**  
-> Current version of NAFE13388_UIM class and its sample code is supporting Arduino **UNO R3 only**. 
 
 ```cpp
 #include <NAFE13388.h>
