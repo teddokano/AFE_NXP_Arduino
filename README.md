@@ -81,7 +81,7 @@ After library install, Choose menu on Arduino-IDE: `File`→`Examples`→`AFE_NX
 
 Sketch|Target|Feature
 ---|---|---
-NAFE13388_simple		|NAFE13388-FVB	|**Simple** sample for just showing 2ch outputs in micro-volt value
+NAFE13388_simple		|NAFE13388-EVB	|**Simple** sample for just showing 2ch outputs in micro-volt value
 NAFE13388_UIM_simple		|NAFE13388-UIM	|**Simple** sample for just showing 2ch outputs in micro-volt value
 
 
