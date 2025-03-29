@@ -14,8 +14,8 @@ void setup() {
   afe.begin();
   afe.blink_leds();
 
-  afe.logical_ch_config(0, 0x1110, 0x00BC, 0x4C80, 0x0000);
-  afe.logical_ch_config(1, 0x2210, 0x00BC, 0x4C80, 0x0000);
+  afe.open_logical_channel(0, 0x1110, 0x00BC, 0x4C80, 0x0000);
+  afe.open_logical_channel(1, 0x2210, 0x00BC, 0x4C80, 0x0000);
 
   Serial.println("Registre dump: GAIN_COEFF0~15, OFFSET_COEF0~15");
   table_view(NAFE13388::Register24::GAIN_COEFF0, 32);
@@ -25,7 +25,7 @@ void setup() {
     Serial.print("  ..");
     Serial.print(i+1);
     Serial.println("/8");
-    afe.recalibrate(i);
+    afe.self_calibrate(i);
   }
 
   Serial.println("\nRegistre dump (after re-calibration): GAIN_COEFF0~15, OFFSET_COEF0~15");
@@ -35,9 +35,9 @@ void setup() {
 }
 
 void loop() {
-  Serial.print(afe.read<NAFE13388_UIM::microvolt_t>(0));
+  Serial.print(afe.raw2uv(0,afe.start_and_read(0)));
   Serial.print(",  ");
-  Serial.println(afe.read<NAFE13388_UIM::microvolt_t>(1));
+  Serial.println(afe.raw2uv(1,afe.start_and_read(1)));
 }
 
 #define COLS 4

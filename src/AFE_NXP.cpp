@@ -160,8 +160,6 @@ void NAFE13388_Base::reset( bool hardware_reset )
 
 void NAFE13388_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 {	
-	constexpr double	pga_gain[]	= { 0.2, 0.4, 0.8, 1, 2, 4, 8, 16 };
-	
 	command( ch );
 	
 	for ( auto i = 0; i < 4; i++ )
@@ -539,3 +537,6 @@ void NAFE13388_UIM::blink_leds( void )
 		}
 	}
 }
+
+double	NAFE13388_Base::pga_gain[]	= { 0.2, 0.4, 0.8, 1, 2, 4, 8, 16 };
+

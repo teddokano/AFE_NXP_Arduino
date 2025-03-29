@@ -326,8 +326,8 @@ public:
 	 */
 	virtual void	read( raw_t *data );
 	
-	
-	constexpr static double	pga_gain[]	= { 0.2, 0.4, 0.8, 1, 2, 4, 8, 16 };
+//	constexpr static double	pga_gain[]	= { 0.2, 0.4, 0.8, 1, 2, 4, 8, 16 };
+	static double	pga_gain[];
 
 	enum class Register16 : uint16_t {
 		CH_CONFIG0				= 0x20,
