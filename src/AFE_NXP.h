@@ -1,6 +1,6 @@
 /**	NXP Analog Front End class library for Arduino
  *
- *	Copyright: 2023 - 2024 Tedd OKANO
+ *	Copyright: 2023 - 2025 Tedd OKANO
  *	Released under the MIT license
  *
  *	A simple class library for NXP Analog Front End: NAFE13388 evaluation boards
@@ -21,11 +21,9 @@ public:
 	/** ADC readout types */
 	using raw_t								= int32_t;
 	using microvolt_t						= double;
-	constexpr static float immidiate_read	= -1.0;
-	constexpr static float default_delay	= INFINITY;
 
 	/** Constructor to create a AFE_base instance */
-	AFE_base( int nINT, int DRDY, int SYN, int nRESET );
+	AFE_base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET );
 
 	/** Destractor */
 	virtual ~AFE_base();
@@ -43,6 +41,9 @@ public:
 
 	/** Issue RESET command */
 	virtual void reset( bool hardware_reset = false )	= 0;
+
+	
+	/** set callback function when DRDY comes */
 	
 	/** Configure logical channel
 	 *
@@ -52,82 +53,189 @@ public:
 	 * @param cc2	16bit value to be set CH_CONFIG2 register (0x22)
 	 * @param cc3	16bit value to be set CH_CONFIG3 register (0x23)
 	 */
-	virtual void logical_ch_config( int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3 )	= 0;
+	virtual void open_logical_channel( int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3 )	= 0;
 
 	/** Configure logical channel
 	 *
 	 * @param ch logical channel number (0 ~ 15)
 	 * @param cc array for CH_CONFIG0, CH_CONFIG1, CH_CONFIG2 and CH_CONFIG3 values
 	 */
-	virtual void logical_ch_config( int ch, const uint16_t (&cc)[ 4 ] )	= 0;
+	virtual void open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )	= 0;
 
 	/** Logical channel disable
 	 *
 	 * @param ch logical channel number (0 ~ 15)
 	 */
-	virtual void logical_ch_disable( int ch )	= 0;
+	virtual void close_logical_channel( int ch )		= 0;
 
-	/** ADC channel read
-	 *
-	 * @param ch logical channel number (0 ~ 15)
+	/** All logical channel disable
 	 */
-	virtual int32_t	adc_read( int ch )	= 0;
-
-	/** Read ADC
-	 *	Performs ADC read. 
-	 *	If the delay is not given, just the ADC register is read.
-	 *	If the delay is given, measurement is started in this method and read-out after delay.
-	 *	The delay between start and read-out is specified in seconds. 
-	 *	
-	 *	This method need to be called with return type as 
-	 *	    double value = read<NAFE13388::microvolt_t>( 0, 0.01 );
-	 *	    int32_t value = read<NAFE13388::raw_t>( 0, 0.01 );
-	 *	
-	 * @param ch logical channel number (0 ~ 15)
-	 * @param delay ADC result read-out delay after measurement start if given
-	 * @return ADC readout value
-	 */
-	template<class T>
-	T read( int ch, float delay = default_delay );
+	virtual void close_logical_channel( void )			= 0;
 
 	/** Start ADC
 	 *
 	 * @param ch logical channel number (0 ~ 15)
 	 */
-	virtual void start( int ch )	= 0;
+	virtual void start( int ch )						= 0;
+
+	/** Start ADC on all logical channel
+	 */
+	virtual void start( void )							= 0;
+
+	/** Start continuous AD conversion
+	 */
+	virtual void start_continuous_conversion( void )	= 0;
+
+	/** DRDY event select
+	 *
+	 * @param set true for DRDY by sequencer is done
+	 */	
+	virtual void DRDY_by_sequencer_done( bool flag = true )	= 0;
+
+	/** Read ADC for single channel
+	 *
+	 * @param ch logical channel number (0 ~ 15)
+	 */
+	virtual raw_t	read( int ch )							= 0;
+
+	/** Read ADC for all channel
+	 *
+	 * @param data_ptr pointer to array to store ADC data
+	 */
+	virtual void	read( raw_t *data_ptr )					= 0;
+
+	/** Start and read ADC for single  channel
+	 *
+	 * @param ch logical channel number (0 ~ 15)
+	 */
+	virtual raw_t	start_and_read( int ch );
+	
+#ifdef	NON_TEMPLATE_VERSION_FOR_START_AND_READ
+
+	/** Start and read ADC for all channel
+	 *
+	 * @param data_ptr pointer to array to store ADC data
+	 */
+	virtual void	start_and_read( raw_t *data_ptr );
+
+#else
+	template<typename T>
+	inline void start_and_read( T data )
+	{
+//		double	wait_time	= cbf_DRDY ? -1.0 : total_delay * delay_accuracy;
+		double	wait_time	= total_delay * delay_accuracy;
+		
+		start();
+		wait_conversion_complete( wait_time );
+		
+		read( data );
+	};
+#endif
+	
+	/** Convert raw output to micro-volt
+	 *
+	 * @param ch logical channel number to select its gain coefficient
+	 * @param value ADC read value
+	 */
+	inline double raw2uv( int ch, raw_t value )
+	{
+		return value * coeff_uV[ ch ];
+	}
+	
+	/** Convert raw output to milli-volt
+	 *
+	 * @param ch logical channel number to select its gain coefficient
+	 * @param value ADC read value
+	 */
+	inline double raw2mv( int ch, raw_t value )
+	{
+		return value * coeff_uV[ ch ] * 1e-3;
+	}
+	
+	/** Convert raw output to volt
+	 *
+	 * @param ch logical channel number to select its gain coefficient
+	 * @param value ADC read value
+	 */
+	inline double raw2v( int ch, raw_t value )
+	{
+		return value * coeff_uV[ ch ] * 1e-6;
+	}
+	
+	/** Coefficient to convert from ADC read value to micro-volt
+	 *
+	 * @param ch logical channel number
+	 */
+	inline double coeff_mV( int ch )
+	{
+		return coeff_uV[ ch ];
+	}
+	
+	/** Caliculated delay from logical channel setting (for single channel)
+	 *
+	 * @param ch logical channel number
+	 */
+	inline double drdy_delay( int ch )
+	{
+		return ch_delay[ ch ];
+	}
+
+	/** Caliculated delay from logical channel setting (for all channels)
+	 */
+	inline double drdy_delay( void )
+	{
+		return total_delay;
+	}
 
 	/** Number of enabled logical channels */
-	int		enabled_channels;
+	inline int enabled_logical_channels( void )
+	{
+		return enabled_channels;
+	}
 	
-	/** Coefficient to convert from ADC read value to micro-volt */
-	double	coeff_uV[ 16 ];
-
-	/** Channel delay */
-	double	ch_delay[ 16 ];
-	static double	delay_accuracy;
-
-private:
-	void	start_and_delay( int ch, float delay );
+	/** Switch to use DRDY to start ADC result reading
+	 *
+	 * @param use true (default) to use DRDY. if false, caliculated delay is used to start reading. 
+	 */
+	void	use_DRDY_trigger( bool use = true );
 
 protected:
-	int 	bit_count( uint32_t value );
-
+	bool	dev_add;
+	bool	highspeed_variant;
 	int		pin_nINT;
 	int		pin_DRDY;
 	int		pin_SYN;
 	int		pin_nRESET;
+
+	int 			bit_count( uint32_t value );
+
+	/** Number of enabled logical channels */
+	int				enabled_channels;
+	
+	/** Coefficient to convert from ADC read value to micro-volt */
+	double			coeff_uV[ 16 ];
+
+	/** Channel delay */
+	double			ch_delay[ 16 ];
+	double			total_delay;
+	static double	delay_accuracy;
+	
+
+	uint32_t		drdy_count;
+	volatile bool	drdy_flag;
+
+	constexpr static uint32_t	timeout_limit	= 100000000;
+
+	virtual void			init( void );
+	void					default_drdy_cb( void );
+	
+	static void				DRDY_cb( void );
+	int						wait_conversion_complete( double delay = -1.0 );
 };
 
 class NAFE13388_Base : public AFE_base
 {
 public:
-	
-	/** Constructor to create a AFE_base instance */
-	NAFE13388_Base( int nINT, int DRDY, int SYN, int nRESET );
-
-	/** Destractor */
-	virtual ~NAFE13388_Base();
-	
 	using	ch_setting_t	= uint16_t[ 4 ];
 
 	typedef struct	_reference_point	{
@@ -141,7 +249,13 @@ public:
 		reference_point	low;
 		int				cal_index;
 	} ref_points;
+	
+	/** Constructor to create a AFE_base instance */
+	NAFE13388_Base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET );
 
+	/** Destractor */
+	virtual ~NAFE13388_Base();
+	
 	/** Set system-level config registers */
 	virtual void boot( void );
 
@@ -156,36 +270,64 @@ public:
 	 * @param cc2	16bit value to be set CH_CONFIG2 register (0x22)
 	 * @param cc3	16bit value to be set CH_CONFIG3 register (0x23)
 	 */
-	virtual void logical_ch_config( int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3 );
+	virtual void open_logical_channel( int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3 );
 
 	/** Configure logical channel
 	 *
 	 * @param ch logical channel number (0 ~ 15)
 	 * @param cc array for CH_CONFIG0, CH_CONFIG1, CH_CONFIG2 and CH_CONFIG3 values
 	 */
-	virtual void logical_ch_config( int ch, const uint16_t (&cc)[ 4 ] );
+	virtual void open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] );
 
 private:	
 	double 	calc_delay( int ch );
+	void 	channel_info_update( uint16_t value );
 
 public:
 	/** Logical channel disable
 	 *
 	 * @param ch logical channel number (0 ~ 15)
 	 */
-	virtual void logical_ch_disable( int ch );
+	virtual void close_logical_channel( int ch );
 
-	/** ADC channel read
-	 *
-	 * @param ch logical channel number (0 ~ 15)
+	/** All logical channel disable
 	 */
-	virtual int32_t	adc_read( int ch );
+	virtual void close_logical_channel( void );
 
 	/** Start ADC
 	 *
 	 * @param ch logical channel number (0 ~ 15)
 	 */
 	virtual void start( int ch );
+
+	/** Start ADC on all logical channel
+	 */
+	virtual void start( void );
+
+	/** Start continuous AD conversion
+	 */
+	virtual void start_continuous_conversion();
+
+	/** DRDY event select
+	 *
+	 * @param set true for DRDY by sequencer is done
+	 */	
+	virtual void DRDY_by_sequencer_done( bool flag = true );
+	
+	/** Read ADC for single channel
+	 *
+	 * @param ch logical channel number (0 ~ 15)
+	 */
+	virtual raw_t	read( int ch );
+
+	/** Read ADC for all channel
+	 *
+	 * @param data_ptr pointer to array to store ADC data
+	 */
+	virtual void	read( raw_t *data );
+	
+	
+	constexpr static double	pga_gain[]	= { 0.2, 0.4, 0.8, 1, 2, 4, 8, 16 };
 
 	enum class Register16 : uint16_t {
 		CH_CONFIG0				= 0x20,
@@ -351,18 +493,6 @@ public:
 		CMD_CALC_CRC_FAC	= 0x2008,
 	};
 
-	template<class T>
-	friend T operator+( const T& rn, const int n )
-	{
-		return T( static_cast<uint16_t>( rn ) + n );
-	}
-
-	template<class T>
-	friend T operator+( const int n, const T& rn )
-	{
-		return T( n + static_cast<uint16_t>( rn ) );
-	}
-
 	/** Command
 	 *	
 	 * @param com "Comand" type or uint16_t value
@@ -398,7 +528,7 @@ public:
 	 * @return readout value
 	 */
 	virtual uint32_t	reg( Register24 r );
-	
+		
 	/** Register bit operation
 	 *
 	 *	overwrite bits i a register
@@ -443,7 +573,6 @@ public:
 	 */
 	float	temperature( void );
 	
-	
 	/** Gain and offset coefficient customization
 	 *
 	 *	Sets gain and offset coefficients with given target ADC read-out values at two reference voltaeg points
@@ -451,6 +580,12 @@ public:
 	 */
 	void	gain_offset_coeff( const ref_points &ref );
 
+	enum CalibrationError : int {
+		NoError		=  0,
+		GainError	= -1,
+		OffsetError	= -2,
+	};
+	
 	/** On-board calibration with specified input and voltage
 	 *
 	 *	Updates coefficients at pga_gain_index
@@ -460,8 +595,9 @@ public:
 	 * @param reference_source_voltage	Reference voltage. This is not required if internal reference is used
 	 * @param input_select				Physical input channel selection. It will use internal voltage reference if this value is 0
 	 * @param use_positive_side			Physical input channel selection AnP or AnN
+	 * @return CalibrationError 		Error code
 	 */
-	void	recalibrate( int pga_gain_index, int channel_selection = 15, int input_select = 0, double reference_source_voltage = 0, bool use_positive_side = true );
+	int		self_calibrate( int pga_gain_index, int channel_selection = 15, int input_select = 0, double reference_source_voltage = 0, bool use_positive_side = true );
 
 	/** Blinks LEDs on GPIO pins */
 	void blink_leds( void );
@@ -471,7 +607,7 @@ class NAFE13388 : public NAFE13388_Base
 {
 public:	
 	/** Constructor to create a NAFE13388 instance */
-	NAFE13388( int nINT = 2, int DRDY = 3, int SYN = 5, int nRESET = 6 );
+	NAFE13388( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 2, int DRDY = 3, int SYN = 5, int nRESET = 6 );
 
 	/** Destractor */
 	virtual ~NAFE13388();
@@ -481,7 +617,7 @@ class NAFE13388_UIM : public NAFE13388_Base
 {
 public:	
 	/** Constructor to create a NAFE13388 instance */
-	NAFE13388_UIM( int nINT = 3, int DRDY = 4, int SYN = 6, int nRESET = 7 );
+	NAFE13388_UIM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 3, int DRDY = 4, int SYN = 6, int nRESET = 7 );
 
 	/** Destractor */
 	virtual ~NAFE13388_UIM();
@@ -489,5 +625,24 @@ public:
 	void blink_leds( void );
 };
 
+inline NAFE13388_Base::Register16 operator+( NAFE13388_Base::Register16 rn, int n )
+{
+	return static_cast<NAFE13388_Base::Register16>( static_cast<uint16_t>( rn ) + n );
+}
+
+inline NAFE13388_Base::Register16 operator+( int n, NAFE13388_Base::Register16 rn )
+{
+	return static_cast<NAFE13388_Base::Register16>( n + static_cast<uint16_t>( rn ) );
+}
+
+inline NAFE13388_Base::Register24 operator+( NAFE13388_Base::Register24 rn, int n )
+{
+	return static_cast<NAFE13388_Base::Register24>( static_cast<uint16_t>( rn ) + n );
+}
+
+inline NAFE13388_Base::Register24 operator+( int n, NAFE13388_Base::Register24 rn )
+{
+	return static_cast<NAFE13388_Base::Register24>( n + static_cast<uint16_t>( rn ) );
+}
 
 #endif //	ARDUINO_AFE_DRIVER_H
