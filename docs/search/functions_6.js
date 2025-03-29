@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['part_5fnumber_0',['part_number',['../class_n_a_f_e13388___base.html#adcd5acf1c43214088e4bd27cad530d86',1,'NAFE13388_Base']]]
+  ['init_0',['init',['../class_a_f_e__base.html#a30065241ab24811b84b922b65269ee16',1,'AFE_base']]]
 ];

@@ -25,7 +25,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LCDDriver_NXP_Arduino<span id="projectnumber">&#160;0.7.6</span>
+   <div id="projectname">LCDDriver_NXP_Arduino<span id="projectnumber">&#160;0.8.1</span>
    </div>
    <div id="projectbrief">Analog Front-End (AFE) device operation sample code for Arduino</div>
   </td>
@@ -87,6 +87,8 @@ $(function(){ initResizable(false); });
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="class_s_p_i__for___a_f_e-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">SPI_for_AFE Class Reference</div></div>
 </div><!--header-->
@@ -120,6 +122,20 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a4ae6013d2ce7a6e31de735d422aeef7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25aa79d7c6d233ae9a55626a1b3de5be" id="r_a25aa79d7c6d233ae9a55626a1b3de5be"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25aa79d7c6d233ae9a55626a1b3de5be">read_r24</a> (uint16_t reg)</td></tr>
 <tr class="separator:a25aa79d7c6d233ae9a55626a1b3de5be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9533b87a2fa75bc3fc06a3c46a22785e" id="r_a9533b87a2fa75bc3fc06a3c46a22785e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9533b87a2fa75bc3fc06a3c46a22785e">burst</a> (uint32_t *data, int length, int width=3)</td></tr>
+<tr class="separator:a9533b87a2fa75bc3fc06a3c46a22785e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:ae368ac5ef6ff4c55e4d08530e89b42c9" id="r_ae368ac5ef6ff4c55e4d08530e89b42c9"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae368ac5ef6ff4c55e4d08530e89b42c9">get_data16</a> (uint8_t *vp)</td></tr>
+<tr class="separator:ae368ac5ef6ff4c55e4d08530e89b42c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab67418538d43e727e337c7b452a95ee8" id="r_ab67418538d43e727e337c7b452a95ee8"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab67418538d43e727e337c7b452a95ee8">get_data24</a> (uint8_t *vp)</td></tr>
+<tr class="separator:ab67418538d43e727e337c7b452a95ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr class="memitem:a6e3a567b3f14eb7c9c42eccd58af084e" id="r_a6e3a567b3f14eb7c9c42eccd58af084e"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e3a567b3f14eb7c9c42eccd58af084e">command_length</a> = 2</td></tr>
+<tr class="separator:a6e3a567b3f14eb7c9c42eccd58af084e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>NXP Analog Front End class library for Arduino</p>
@@ -131,6 +147,94 @@ Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8h_source.html#l00022">22</a> of file <a class="el" href="_s_p_i__for___a_f_e_8h_source.html">SPI_for_AFE.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a9533b87a2fa75bc3fc06a3c46a22785e" name="a9533b87a2fa75bc3fc06a3c46a22785e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9533b87a2fa75bc3fc06a3c46a22785e">&#9670;&#160;</a></span>burst()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SPI_for_AFE::burst </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>length</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>width</em></span><span class="paramdefsep"> = </span><span class="paramdefval">3</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00059">59</a> of file <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html">SPI_for_AFE.cpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00292">NAFE13388_Base::read()</a>.</p>
+
+</div>
+</div>
+<a id="ae368ac5ef6ff4c55e4d08530e89b42c9" name="ae368ac5ef6ff4c55e4d08530e89b42c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae368ac5ef6ff4c55e4d08530e89b42c9">&#9670;&#160;</a></span>get_data16()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t SPI_for_AFE::get_data16 </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>vp</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8h_source.html#l00071">71</a> of file <a class="el" href="_s_p_i__for___a_f_e_8h_source.html">SPI_for_AFE.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00029">read_r16()</a>.</p>
+
+</div>
+</div>
+<a id="ab67418538d43e727e337c7b452a95ee8" name="ab67418538d43e727e337c7b452a95ee8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab67418538d43e727e337c7b452a95ee8">&#9670;&#160;</a></span>get_data24()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t SPI_for_AFE::get_data24 </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>vp</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8h_source.html#l00076">76</a> of file <a class="el" href="_s_p_i__for___a_f_e_8h_source.html">SPI_for_AFE.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00059">burst()</a>, and <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00048">read_r24()</a>.</p>
+
+</div>
+</div>
 <a id="a615896216d6ed8e74ff4ddba188a0541" name="a615896216d6ed8e74ff4ddba188a0541"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a615896216d6ed8e74ff4ddba188a0541">&#9670;&#160;</a></span>read_r16()</h2>
 
@@ -154,9 +258,9 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>data value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00027">27</a> of file <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html">SPI_for_AFE.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00029">29</a> of file <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html">SPI_for_AFE.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00236">NAFE13388_Base::reg()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00312">NAFE13388_Base::reg()</a>.</p>
 
 </div>
 </div>
@@ -183,9 +287,9 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>data value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00046">46</a> of file <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html">SPI_for_AFE.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00048">48</a> of file <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html">SPI_for_AFE.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00241">NAFE13388_Base::reg()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00317">NAFE13388_Base::reg()</a>.</p>
 
 </div>
 </div>
@@ -218,7 +322,7 @@ Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00003">3</a> of file <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html">SPI_for_AFE.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00027">read_r16()</a>, <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00046">read_r24()</a>, <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00011">write_r16()</a>, <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00019">write_r16()</a>, and <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00038">write_r24()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00059">burst()</a>, <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00029">read_r16()</a>, <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00048">read_r24()</a>, <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00013">write_r16()</a>, <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00021">write_r16()</a>, and <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00040">write_r24()</a>.</p>
 
 </div>
 </div>
@@ -244,9 +348,9 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00011">11</a> of file <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html">SPI_for_AFE.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00013">13</a> of file <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html">SPI_for_AFE.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00221">NAFE13388_Base::command()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00226">NAFE13388_Base::reg()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00297">NAFE13388_Base::command()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00302">NAFE13388_Base::reg()</a>.</p>
 
 </div>
 </div>
@@ -277,7 +381,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00019">19</a> of file <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html">SPI_for_AFE.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00021">21</a> of file <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html">SPI_for_AFE.cpp</a>.</p>
 
 </div>
 </div>
@@ -308,9 +412,36 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00038">38</a> of file <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html">SPI_for_AFE.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00040">40</a> of file <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html">SPI_for_AFE.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00231">NAFE13388_Base::reg()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00307">NAFE13388_Base::reg()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a6e3a567b3f14eb7c9c42eccd58af084e" name="a6e3a567b3f14eb7c9c42eccd58af084e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e3a567b3f14eb7c9c42eccd58af084e">&#9670;&#160;</a></span>command_length</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int SPI_for_AFE::command_length = 2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_s_p_i__for___a_f_e_8h_source.html#l00086">86</a> of file <a class="el" href="_s_p_i__for___a_f_e_8h_source.html">SPI_for_AFE.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00059">burst()</a>, <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00029">read_r16()</a>, and <a class="el" href="_s_p_i__for___a_f_e_8cpp_source.html#l00048">read_r24()</a>.</p>
 
 </div>
 </div>

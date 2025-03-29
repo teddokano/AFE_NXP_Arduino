@@ -16,13 +16,14 @@ var searchData=
   ['gain_5fcoeff7_13',['GAIN_COEFF7',['../class_n_a_f_e13388___base.html#a8da94b56680ae6228400f123970f1828ad774418915787b2d0234a766f2de2833',1,'NAFE13388_Base']]],
   ['gain_5fcoeff8_14',['GAIN_COEFF8',['../class_n_a_f_e13388___base.html#a8da94b56680ae6228400f123970f1828a8fd8aeef4f8e3d5ecc32e9fc3365b317',1,'NAFE13388_Base']]],
   ['gain_5fcoeff9_15',['GAIN_COEFF9',['../class_n_a_f_e13388___base.html#a8da94b56680ae6228400f123970f1828abe508768f23bb9dbe59309f79021d5e5',1,'NAFE13388_Base']]],
-  ['global_5falarm_5fenable_16',['GLOBAL_ALARM_ENABLE',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba9e84ca56918e5a5ffb786c3461eea70d',1,'NAFE13388_Base']]],
-  ['global_5falarm_5finterrupt_17',['GLOBAL_ALARM_INTERRUPT',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba2637e3e722177aee586682564fd49b74',1,'NAFE13388_Base']]],
-  ['gpi_5fdata_18',['GPI_DATA',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba94da22c6197ee348b891ebdad3ff2d48',1,'NAFE13388_Base']]],
-  ['gpi_5fedge_5fneg_19',['GPI_EDGE_NEG',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fbae3fe450265cf8d3ddced2d0d285a5c6e',1,'NAFE13388_Base']]],
-  ['gpi_5fedge_5fpos_20',['GPI_EDGE_POS',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba68eb6ad335cc7d7a8d5eb68187a2d5e8',1,'NAFE13388_Base']]],
-  ['gpio_5fconfig0_21',['GPIO_CONFIG0',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba54aaa1eb9c9a76a89bc8c972865147a8',1,'NAFE13388_Base']]],
-  ['gpio_5fconfig1_22',['GPIO_CONFIG1',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fbab5c93aed86f734f68747eedb6f571632',1,'NAFE13388_Base']]],
-  ['gpio_5fconfig2_23',['GPIO_CONFIG2',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba913ae683e6a6be4e640559ad54b0d971',1,'NAFE13388_Base']]],
-  ['gpo_5fdata_24',['GPO_DATA',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fbacd77d706c5f696c2664f3ee706b2944c',1,'NAFE13388_Base']]]
+  ['gainerror_16',['GainError',['../class_n_a_f_e13388___base.html#affb3c442ff082599f9a189493399345fadc4e3e360d0d193bf700bd033a7569b7',1,'NAFE13388_Base']]],
+  ['global_5falarm_5fenable_17',['GLOBAL_ALARM_ENABLE',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba9e84ca56918e5a5ffb786c3461eea70d',1,'NAFE13388_Base']]],
+  ['global_5falarm_5finterrupt_18',['GLOBAL_ALARM_INTERRUPT',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba2637e3e722177aee586682564fd49b74',1,'NAFE13388_Base']]],
+  ['gpi_5fdata_19',['GPI_DATA',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba94da22c6197ee348b891ebdad3ff2d48',1,'NAFE13388_Base']]],
+  ['gpi_5fedge_5fneg_20',['GPI_EDGE_NEG',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fbae3fe450265cf8d3ddced2d0d285a5c6e',1,'NAFE13388_Base']]],
+  ['gpi_5fedge_5fpos_21',['GPI_EDGE_POS',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba68eb6ad335cc7d7a8d5eb68187a2d5e8',1,'NAFE13388_Base']]],
+  ['gpio_5fconfig0_22',['GPIO_CONFIG0',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba54aaa1eb9c9a76a89bc8c972865147a8',1,'NAFE13388_Base']]],
+  ['gpio_5fconfig1_23',['GPIO_CONFIG1',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fbab5c93aed86f734f68747eedb6f571632',1,'NAFE13388_Base']]],
+  ['gpio_5fconfig2_24',['GPIO_CONFIG2',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba913ae683e6a6be4e640559ad54b0d971',1,'NAFE13388_Base']]],
+  ['gpo_5fdata_25',['GPO_DATA',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fbacd77d706c5f696c2664f3ee706b2944c',1,'NAFE13388_Base']]]
 ];

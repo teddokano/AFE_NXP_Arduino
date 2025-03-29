@@ -25,7 +25,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">LCDDriver_NXP_Arduino<span id="projectnumber">&#160;0.7.6</span>
+   <div id="projectname">LCDDriver_NXP_Arduino<span id="projectnumber">&#160;0.8.1</span>
    </div>
    <div id="projectbrief">Analog Front-End (AFE) device operation sample code for Arduino</div>
   </td>
@@ -102,6 +102,8 @@ What is this?</h1>
 </blockquote>
 <p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/UIM.jpg" alt="UIM_on_FRDM.jpg" class="inline"/> <br  />
  <em>NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3</em></p>
+<p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/IOREF.jpg" alt="OPREF pin for UIM.jpg" class="inline"/> <br  />
+ <em>For the UIM board, IOREF pin need to be unconnected to avoid supply conflict</em></p>
 <p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/afe.jpg" alt="Boards" class="inline"/> <br  />
  <em>NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3</em></p>
 <p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/NAFE13388.jpg" alt="NAFE13388.jpg" class="inline"/> <em>Analog-Front-End chip: <a class="el" href="class_n_a_f_e13388.html">NAFE13388</a></em></p>
@@ -118,24 +120,23 @@ What is this?</h1>
 <div class="line">  afe.<a class="code hl_function" href="class_a_f_e__base.html#a33584cc8f4bcf9455a4ee06dfa65cbd8">begin</a>();</div>
 <div class="line">  afe.<a class="code hl_function" href="class_n_a_f_e13388___base.html#a28049eff49b53c5b9843887bba17915f">blink_leds</a>();</div>
 <div class="line">  </div>
-<div class="line">  afe.<a class="code hl_function" href="class_n_a_f_e13388___base.html#a5e7f2251a09df7d49d106a385b489311">logical_ch_config</a>(0, 0x1710, 0x00BC, 0x4C80, 0x0000);</div>
-<div class="line">  afe.<a class="code hl_function" href="class_n_a_f_e13388___base.html#a5e7f2251a09df7d49d106a385b489311">logical_ch_config</a>(1, 0x2710, 0x00BC, 0x4C80, 0x0000);</div>
+<div class="line">  afe.logical_ch_config(0, 0x1710, 0x00BC, 0x4C80, 0x0000);</div>
+<div class="line">  afe.logical_ch_config(1, 0x2710, 0x00BC, 0x4C80, 0x0000);</div>
 <div class="line"> </div>
 <div class="line">  Serial.println(<span class="stringliteral">&quot;logical channel 0 (AI1P-AICOM) and 1 (AI2P-AICOM) voltages are shown in micro-volt&quot;</span>);</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">void</span> loop() {</div>
-<div class="line">  Serial.print(afe.<a class="code hl_function" href="class_a_f_e__base.html#ad57ac9643078ef421fe01a989bc64353">read</a>(0));</div>
+<div class="line">  Serial.print(afe.<a class="code hl_function" href="class_n_a_f_e13388___base.html#a2dece813f0f0bfa71f75266c2a3609e2">read</a>(0));</div>
 <div class="line">  Serial.print(<span class="stringliteral">&quot;,  &quot;</span>);</div>
-<div class="line">  Serial.println(afe.<a class="code hl_function" href="class_a_f_e__base.html#ad57ac9643078ef421fe01a989bc64353">read</a>(1));</div>
+<div class="line">  Serial.println(afe.<a class="code hl_function" href="class_n_a_f_e13388___base.html#a2dece813f0f0bfa71f75266c2a3609e2">read</a>(1));</div>
 <div class="line">  delay(100);</div>
 <div class="line">}</div>
 <div class="ttc" id="a_n_a_f_e13388_8h_html"><div class="ttname"><a href="_n_a_f_e13388_8h.html">NAFE13388.h</a></div></div>
-<div class="ttc" id="aclass_a_f_e__base_html_a33584cc8f4bcf9455a4ee06dfa65cbd8"><div class="ttname"><a href="class_a_f_e__base.html#a33584cc8f4bcf9455a4ee06dfa65cbd8">AFE_base::begin</a></div><div class="ttdeci">virtual void begin(void)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00035">AFE_NXP.cpp:35</a></div></div>
-<div class="ttc" id="aclass_a_f_e__base_html_ad57ac9643078ef421fe01a989bc64353"><div class="ttname"><a href="class_a_f_e__base.html#ad57ac9643078ef421fe01a989bc64353">AFE_base::read</a></div><div class="ttdeci">T read(int ch, float delay=default_delay)</div></div>
-<div class="ttc" id="aclass_n_a_f_e13388___base_html_a28049eff49b53c5b9843887bba17915f"><div class="ttname"><a href="class_n_a_f_e13388___base.html#a28049eff49b53c5b9843887bba17915f">NAFE13388_Base::blink_leds</a></div><div class="ttdeci">void blink_leds(void)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00370">AFE_NXP.cpp:370</a></div></div>
-<div class="ttc" id="aclass_n_a_f_e13388___base_html_a5e7f2251a09df7d49d106a385b489311"><div class="ttname"><a href="class_n_a_f_e13388___base.html#a5e7f2251a09df7d49d106a385b489311">NAFE13388_Base::logical_ch_config</a></div><div class="ttdeci">virtual void logical_ch_config(int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00196">AFE_NXP.cpp:196</a></div></div>
-<div class="ttc" id="aclass_n_a_f_e13388_html"><div class="ttname"><a href="class_n_a_f_e13388.html">NAFE13388</a></div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8h_source.html#l00470">AFE_NXP.h:471</a></div></div>
+<div class="ttc" id="aclass_a_f_e__base_html_a33584cc8f4bcf9455a4ee06dfa65cbd8"><div class="ttname"><a href="class_a_f_e__base.html#a33584cc8f4bcf9455a4ee06dfa65cbd8">AFE_base::begin</a></div><div class="ttdeci">virtual void begin(void)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00045">AFE_NXP.cpp:45</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e13388___base_html_a28049eff49b53c5b9843887bba17915f"><div class="ttname"><a href="class_n_a_f_e13388___base.html#a28049eff49b53c5b9843887bba17915f">NAFE13388_Base::blink_leds</a></div><div class="ttdeci">void blink_leds(void)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00482">AFE_NXP.cpp:482</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e13388___base_html_a2dece813f0f0bfa71f75266c2a3609e2"><div class="ttname"><a href="class_n_a_f_e13388___base.html#a2dece813f0f0bfa71f75266c2a3609e2">NAFE13388_Base::read</a></div><div class="ttdeci">virtual raw_t read(int ch)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00287">AFE_NXP.cpp:287</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e13388_html"><div class="ttname"><a href="class_n_a_f_e13388.html">NAFE13388</a></div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8h_source.html#l00606">AFE_NXP.h:607</a></div></div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md2"></a>
 Supported device</h1>
 <table class="markdownTable">
@@ -172,7 +173,7 @@ List of sample code</h3>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Sketch   </th><th class="markdownTableHeadNone">Target   </th><th class="markdownTableHeadNone">Feature    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">NAFE13388_simple   </td><td class="markdownTableBodyNone">NAFE13388-FVB   </td><td class="markdownTableBodyNone"><b>Simple</b> sample for just showing 2ch outputs in micro-volt value    </td></tr>
+<td class="markdownTableBodyNone">NAFE13388_simple   </td><td class="markdownTableBodyNone">NAFE13388-EVB   </td><td class="markdownTableBodyNone"><b>Simple</b> sample for just showing 2ch outputs in micro-volt value    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">NAFE13388_UIM_simple   </td><td class="markdownTableBodyNone">NAFE13388-UIM   </td><td class="markdownTableBodyNone"><b>Simple</b> sample for just showing 2ch outputs in micro-volt value   </td></tr>
 </table>
