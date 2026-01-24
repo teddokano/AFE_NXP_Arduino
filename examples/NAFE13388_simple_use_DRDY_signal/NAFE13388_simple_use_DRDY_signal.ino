@@ -1,12 +1,21 @@
+/* 
+ * NAFE13388-UIM board operation sample for Arduino
+ * 
+ *  Copyright: 2023 - 2026 Tedd OKANO
+ *  Released under the MIT license
+ *
+ * This sample code shows operation with **DRDY** signal (at D4 pin) from AFE 
+ * Since the DRDY signal is very short pulse, it will be captured by interrupt on D2 pin
+ * Short D4 and D2 pin to handle it
+ */
+
 #include <NAFE13388_UIM.h>
 
 NAFE13388_UIM afe;
 
 void setup() {
   Serial.begin(115200);
-
   Serial.println("\n***** Hello, NAFE13388! *****");
-
 
   SPI.begin();
 
@@ -18,7 +27,7 @@ void setup() {
 
   Serial.println("\nlogical channel 0 (AI1P-GND) and 1 (AI2P-GND) voltages are shown in ADC readout value [V]");
 
-  afe.use_DRDY_trigger(true);  //  disable to use DRDY signal
+  afe.use_DRDY_trigger(true);
 }
 
 void loop() {

@@ -1,3 +1,14 @@
+/* 
+ * NAFE13388-UIM board operation sample for Arduino
+ * 
+ *  Copyright: 2023 - 2026 Tedd OKANO
+ *  Released under the MIT license
+ *
+ * This sample code shows operation with **DRDY** signal (at D4 pin) from AFE 
+ * Since the DRDY signal is very short pulse, it will be captured by interrupt on D2 pin
+ * Short D4 and D2 pin to handle it
+ */
+
 #include <NAFE13388_UIM.h>
 
 NAFE13388_UIM afe;
@@ -31,7 +42,14 @@ void setup() {
   Serial.println("logical channel 6 = (AI4P-AICOM)");
   Serial.println("logical channel 7 = (AI4N-AICOM)");
 
-  afe.use_DRDY_trigger(false);  //  disable to use DRDY signal
+  Serial.println("\r\nenabled logical channel(s) ");
+
+	Serial.println( afe.enabled_logical_channels() );
+//	logical_ch_config_view();
+
+
+	afe.use_DRDY_trigger( true );		//	default = true
+	afe.DRDY_by_sequencer_done( true );	//	generate DRDY at all logical channel conversions are done
 }
 
 void loop() {

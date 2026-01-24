@@ -125,7 +125,6 @@ void AFE_base::default_drdy_cb( void )
 int32_t AFE_base::start_and_read( int ch )
 {
 	double	wait_time	= cbf_DRDY ? -1.0 : ch_delay[ ch ] * delay_accuracy;
-//	double	wait_time	= ch_delay[ ch ] * delay_accuracy;
 	
 	start( ch );
 	wait_conversion_complete( wait_time );
