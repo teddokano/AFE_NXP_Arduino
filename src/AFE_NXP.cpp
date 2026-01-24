@@ -90,10 +90,11 @@ AFE_base::~AFE_base()
 
 void AFE_base::init( void )
 {
-	cbf_DRDY	= DRDY_cb;
 	attachInterrupt( digitalPinToInterrupt( pin_DRDY_input ), DRDY_cb, CHANGE );
+
 	drdy_flag		= false;
-	
+	set_DRDY_callback( static_default_drdy_cb );
+
 	use_DRDY_trigger( false );
 }
 
@@ -112,6 +113,12 @@ void AFE_base::set_DRDY_callback( callback_fp_t func )
 }
 
 void AFE_base::DRDY_cb( void )
+{
+	if ( cbf_DRDY )
+		cbf_DRDY();
+}
+
+void AFE_base::static_default_drdy_cb( void )
 {
 	if ( nullptr != instance )		
 		instance->default_drdy_cb();
@@ -192,6 +199,7 @@ void AFE_base::use_DRDY_trigger( bool use )
 
 
 AFE_base*				AFE_base::instance	= nullptr;
+AFE_base::callback_fp_t	AFE_base::cbf_DRDY	= nullptr;
 
 /* NAFE13388_Base class ******************************************/
 

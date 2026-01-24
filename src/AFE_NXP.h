@@ -105,7 +105,6 @@ public:
 	 *
 	 * @param ch logical channel number (0 ~ 15)
 	 */
-	 */
 	virtual raw_t	read( int ch )							= 0;
 
 	/** Read ADC for all channel
@@ -282,9 +281,10 @@ protected:
 	constexpr static uint32_t	timeout_limit	= 10000000;
 
 	void					default_drdy_cb();
+	static void				static_default_drdy_cb();
 	uint32_t				drdy_count;
 	volatile bool			drdy_flag;
-	callback_fp_t			cbf_DRDY;
+	static callback_fp_t	cbf_DRDY;
 	static void				DRDY_cb();
 
 	virtual void			init( void );
