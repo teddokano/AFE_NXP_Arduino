@@ -23,7 +23,7 @@ public:
 	using microvolt_t						= double;
 
 	/** Constructor to create a AFE_base instance */
-	AFE_base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET );
+	AFE_base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input = 2 );
 
 	/** Destractor */
 	virtual ~AFE_base();
@@ -251,6 +251,7 @@ protected:
 	int		pin_DRDY;
 	int		pin_SYN;
 	int		pin_nRESET;
+	int		pin_DRDY_input;
 
 	int 			bit_count( uint32_t value );
 
@@ -271,12 +272,12 @@ protected:
 	double			total_delay;
 	static double	delay_accuracy;
 	
-	constexpr static uint32_t	timeout_limit	= 100000000;
+	constexpr static uint32_t	timeout_limit	= 10000000;
 
 	void					default_drdy_cb();
 	uint32_t				drdy_count;
 	volatile bool			drdy_flag;
-	static callback_fp_t	cbf_DRDY;
+	callback_fp_t			cbf_DRDY;
 	static void				DRDY_cb();
 
 	virtual void			init( void );
@@ -714,7 +715,7 @@ class NAFE13388_UIM : public NAFE13388_Base
 {
 public:	
 	/** Constructor to create a NAFE13388 instance */
-	NAFE13388_UIM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 3, int DRDY = 4, int SYN = 6, int nRESET = 7 );
+	NAFE13388_UIM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 3, int DRDY = 3, int SYN = 6, int nRESET = 7 );
 
 	/** Destractor */
 	virtual ~NAFE13388_UIM();

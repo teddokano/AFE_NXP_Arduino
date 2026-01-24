@@ -71,19 +71,17 @@ NAFE13388_Base::LogicalChannel::operator NAFE13388_Base::microvolt_t( void )
 
 /* AFE_base class ******************************************/
 
-AFE_base::AFE_base(  bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET ) : 
-	dev_add( spi_addr ), highspeed_variant( hsv ), pin_nINT( nINT ), pin_DRDY( DRDY ), pin_SYN( SYN ), pin_nRESET( nRESET ), enabled_channels( 0 )
+AFE_base::AFE_base(  bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input ) : 
+	dev_add( spi_addr ), highspeed_variant( hsv ), pin_nINT( nINT ), pin_DRDY( DRDY ), pin_SYN( SYN ), pin_nRESET( nRESET ), pin_DRDY_input( DRDY_input ), enabled_channels( 0 )
 {
 	pinMode( pin_nINT,		INPUT );
 	pinMode( pin_DRDY,		INPUT );
+	pinMode( pin_DRDY_input,INPUT_PULLUP );
 	pinMode( pin_SYN,		OUTPUT );
 	pinMode( pin_nRESET,	OUTPUT );
 
 	digitalWrite( pin_SYN,		1 );
 	digitalWrite( pin_nRESET,	1 );
-	
-	Serial.print("pin_nRESET = ");
-	Serial.println( pin_nRESET);
 }
 
 AFE_base::~AFE_base()
@@ -92,8 +90,10 @@ AFE_base::~AFE_base()
 
 void AFE_base::init( void )
 {
-	attachInterrupt( digitalPinToInterrupt( pin_DRDY ), DRDY_cb, RISING );
+	attachInterrupt( digitalPinToInterrupt( pin_DRDY_input ), DRDY_cb, CHANGE );
 	drdy_flag		= false;
+	
+	use_DRDY_trigger( false );
 }
 
 void AFE_base::begin( void )
@@ -112,8 +112,8 @@ void AFE_base::set_DRDY_callback( callback_fp_t func )
 
 void AFE_base::DRDY_cb( void )
 {
-	if ( (nullptr != instance) && instance->cbf_DRDY )		
-		instance->cbf_DRDY();
+	if ( nullptr != instance )		
+		instance->default_drdy_cb();
 }
 
 void AFE_base::default_drdy_cb( void )
@@ -191,7 +191,6 @@ void AFE_base::use_DRDY_trigger( bool use )
 }
 
 
-AFE_base::callback_fp_t	AFE_base::cbf_DRDY	= nullptr;
 AFE_base*				AFE_base::instance	= nullptr;
 
 /* NAFE13388_Base class ******************************************/
@@ -215,12 +214,7 @@ void NAFE13388_Base::boot( void )
 	command( CMD_ABORT ); 
 	delay( 1 );
 
-#if 0	
-	reg( Register16::SYS_CONFIG0,  0x0010 );
-	delay( 1 );
-#else
 	DRDY_by_sequencer_done( true );
-#endif
 }
 
 void NAFE13388_Base::reset( bool hardware_reset )

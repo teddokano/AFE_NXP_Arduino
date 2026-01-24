@@ -3,23 +3,26 @@
 NAFE13388_UIM afe;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   Serial.println("\n***** Hello, NAFE13388! *****");
+
 
   SPI.begin();
 
   afe.begin();
   afe.blink_leds();
 
-  afe.open_logical_channel(0, 0x1110, 0x00BC, 0x4C80, 0x0000);
-  afe.open_logical_channel(1, 0x2210, 0x00BC, 0x4C80, 0x0000);
+  afe.logical_channel[0].configure(0x1710, 0x00A4, 0xBC00, 0x0000);
+  afe.logical_channel[1].configure(0x2710, 0x00A4, 0xBC00, 0x0000);
 
-  Serial.println("\nlogical channel 0 (AI1P-AI1N) and 1 (AI2P-AI2N) voltages are shown in ADC readout raw value");
+  Serial.println("\nlogical channel 0 (AI1P-GND) and 1 (AI2P-GND) voltages are shown in ADC readout value [V]");
+
+  afe.use_DRDY_trigger(true);  //  disable to use DRDY signal
 }
 
 void loop() {
-  Serial.print(afe.start_and_read(0));
+  Serial.print((NAFE13388_UIM::microvolt_t)afe.logical_channel[0] * 1e-6);
   Serial.print(",  ");
-  Serial.println(afe.start_and_read(1));
+  Serial.println((NAFE13388_UIM::microvolt_t)afe.logical_channel[1] * 1e-6);
 }

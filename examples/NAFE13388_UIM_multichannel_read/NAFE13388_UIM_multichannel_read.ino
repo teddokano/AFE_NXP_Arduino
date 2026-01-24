@@ -3,7 +3,7 @@
 NAFE13388_UIM afe;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   Serial.println("\n***** Hello, NAFE13388! *****");
 
@@ -12,14 +12,14 @@ void setup() {
   afe.begin();
   afe.blink_leds();
 
-  afe.open_logical_channel(0, 0x1710, 0x009C, 0x4C00, 0x0000);
-  afe.open_logical_channel(1, 0x7110, 0x009C, 0x4C00, 0x0000);
-  afe.open_logical_channel(2, 0x2710, 0x009C, 0x4C00, 0x0000);
-  afe.open_logical_channel(3, 0x7210, 0x009C, 0x4C00, 0x0000);
-  afe.open_logical_channel(4, 0x3710, 0x009C, 0x4C00, 0x0000);
-  afe.open_logical_channel(5, 0x7310, 0x009C, 0x4C00, 0x0000);
-  afe.open_logical_channel(6, 0x4710, 0x009C, 0x4C00, 0x0000);
-  afe.open_logical_channel(7, 0x7410, 0x009C, 0x4C00, 0x0000);
+  afe.logical_channel[0].configure(0x1710, 0x00A4, 0xBC00, 0x0000);
+  afe.logical_channel[1].configure(0x7110, 0x00A4, 0xBC00, 0x0000);
+  afe.logical_channel[2].configure(0x2710, 0x00A4, 0xBC00, 0x0000);
+  afe.logical_channel[3].configure(0x7210, 0x00A4, 0xBC00, 0x0000);
+  afe.logical_channel[4].configure(0x3710, 0x00A4, 0xBC00, 0x0000);
+  afe.logical_channel[5].configure(0x7310, 0x00A4, 0xBC00, 0x0000);
+  afe.logical_channel[6].configure(0x4710, 0x00A4, 0xBC00, 0x0000);
+  afe.logical_channel[7].configure(0x7410, 0x00A4, 0xBC00, 0x0000);
 
   Serial.println("\n");
   Serial.println("logical channel 0 = (AI1P-AICOM)");
@@ -30,15 +30,16 @@ void setup() {
   Serial.println("logical channel 5 = (AI3N-AICOM)");
   Serial.println("logical channel 6 = (AI4P-AICOM)");
   Serial.println("logical channel 7 = (AI4N-AICOM)");
+
+  afe.use_DRDY_trigger(false);  //  disable to use DRDY signal
 }
 
 void loop() {
-  long data[ 8 ];
-  afe.start_and_read( data );
+  NAFE13388_UIM::microvolt_t data[8];
+  afe.start_and_read(data);
 
-  for ( auto i = 0; i < 8; i++ )
-  {
-    Serial.print(data[ i ]);
+  for (auto i = 0; i < 8; i++) {
+    Serial.print(data[i]);
     Serial.print(",  ");
   }
 
