@@ -90,6 +90,7 @@ AFE_base::~AFE_base()
 
 void AFE_base::init( void )
 {
+	cbf_DRDY	= DRDY_cb;
 	attachInterrupt( digitalPinToInterrupt( pin_DRDY_input ), DRDY_cb, CHANGE );
 	drdy_flag		= false;
 	

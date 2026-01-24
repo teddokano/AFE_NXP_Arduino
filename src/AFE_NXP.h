@@ -105,6 +105,7 @@ public:
 	 *
 	 * @param ch logical channel number (0 ~ 15)
 	 */
+	 */
 	virtual raw_t	read( int ch )							= 0;
 
 	/** Read ADC for all channel
@@ -112,6 +113,12 @@ public:
 	 * @param data_ptr pointer to array to store ADC data
 	 */
 	virtual void	read( raw_t *data_ptr )					= 0;
+
+	/** Read ADC for all channel
+	 *
+	 * @param data_ptr pointer to array to store ADC data
+	 */
+	virtual void	read( microvolt_t *data_ptr )			= 0;
 
 	/** Start and read ADC for single  channel
 	 *
