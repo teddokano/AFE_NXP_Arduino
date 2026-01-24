@@ -59,6 +59,7 @@ var menudata={children:[
 {text:"e",url:"functions_func.html#index_e"},
 {text:"g",url:"functions_func.html#index_g"},
 {text:"i",url:"functions_func.html#index_i"},
+{text:"l",url:"functions_func.html#index_l"},
 {text:"n",url:"functions_func.html#index_n"},
 {text:"o",url:"functions_func.html#index_o"},
 {text:"p",url:"functions_func.html#index_p"},
@@ -74,9 +75,12 @@ var menudata={children:[
 {text:"Enumerator",url:"functions_eval.html",children:[
 {text:"c",url:"functions_eval.html#index_c"},
 {text:"g",url:"functions_eval.html#index_g"},
+{text:"h",url:"functions_eval.html#index_h"},
 {text:"n",url:"functions_eval.html#index_n"},
 {text:"o",url:"functions_eval.html#index_o"},
-{text:"t",url:"functions_eval.html#index_t"}]}]}]},
+{text:"r",url:"functions_eval.html#index_r"},
+{text:"t",url:"functions_eval.html#index_t"},
+{text:"v",url:"functions_eval.html#index_v"}]}]}]},
 {text:"Files",url:"files.html",children:[
 {text:"File List",url:"files.html"},
 {text:"File Members",url:"globals.html",children:[

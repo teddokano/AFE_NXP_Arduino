@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['timeout_5flimit_0',['timeout_limit',['../class_a_f_e__base.html#a308b9039a3221a2b13f6ebcd1f6605b3',1,'AFE_base']]],
-  ['total_5fdelay_1',['total_delay',['../class_a_f_e__base.html#afebe805e43da330337776aca5fe9cbba',1,'AFE_base']]]
+  ['logical_5fchannel_0',['logical_channel',['../class_n_a_f_e13388___base.html#a34f578474b1f74e4d5f71f3bc29a2502',1,'NAFE13388_Base']]],
+  ['low_1',['low',['../struct_n_a_f_e13388___base_1_1__ref__points.html#a5b3425dce4014a63f73eec13b18ca61a',1,'NAFE13388_Base::_ref_points']]]
 ];

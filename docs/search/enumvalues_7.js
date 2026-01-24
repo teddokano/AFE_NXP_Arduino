@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['tbd_0',['TBD',['../class_n_a_f_e13388___base.html#a93d87b82239122d04d021048a9f5060dad159f0b550140e5392f805bb70582803',1,'NAFE13388_Base']]],
-  ['thrs_5ftemp_1',['THRS_TEMP',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba8969a19acd94300990e216f67c0a5e22',1,'NAFE13388_Base']]]
+  ['ref2_5fref2_0',['REF2_REF2',['../class_a_f_e__base.html#a4ac5e1c23c1bd907c835027ca1f33b4ca8116634e74f3a1636faeeda0ff27a4b9',1,'AFE_base']]],
+  ['ref2_5fvhss_1',['REF2_VHSS',['../class_a_f_e__base.html#a4ac5e1c23c1bd907c835027ca1f33b4ca599ed9ad54af576a48a6bc7eeb03d63b',1,'AFE_base']]],
+  ['refcoarse_5fref2_2',['REFCOARSE_REF2',['../class_a_f_e__base.html#a4ac5e1c23c1bd907c835027ca1f33b4caa6646842d010ba926ac80706e78b4ff9',1,'AFE_base']]]
 ];
