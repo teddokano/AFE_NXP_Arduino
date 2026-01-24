@@ -35,7 +35,8 @@ void loop() {
   Serial.print((NAFE13388_UIM::microvolt_t)afe.logical_channel[0] * 1e-6);
   Serial.print(",  ");
   Serial.println((NAFE13388_UIM::microvolt_t)afe.logical_channel[1] * 1e-6);
-}```
+}
+```
 
 ![UIM_on_FRDM.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/UIM.jpg)  
 _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
@@ -55,6 +56,7 @@ _NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino UNO 
 Type#|Features|Interface
 ---|---|---
 [NAFE13388](https://www.nxp.com/products/peripherals-and-logic/signal-chain/analog-front-end/highly-configurable-8-channel-25-v-universal-input-low-power-analog-front-end:NAFEx1388)	|Highly Configurable 8 Channel ±25 V Universal Input Low Power Analog Front-End	|SPI (mode1)
+[NAFE73388](https://www.nxp.com/products/peripherals-and-logic/signal-chain/analog-front-end/highly-configurable-8-channel-25-v-universal-input-low-power-analog-front-end:NAFEx1388)	|Highly Configurable 8 Channel ±25 V Universal Input Low Power Analog Front-End	|SPI (mode1)
 
 ## Evaluation boards
 Name|Header file|Features|Interface|Evaluation board
@@ -77,12 +79,15 @@ After library install, Choose menu on Arduino-IDE: `File`→`Examples`→`AFE_NX
 
 ### List of sample code
 
-Sketch|Target|Feature
----|---|---
-NAFE13388_simple				|NAFE13388-EVB	|**Simple** sample to get 2ch inputs
-NAFE13388_UIM_simple			|NAFE13388-UIM	|**Simple** sample to get 2ch inputs on UIM board
-NAFE13388_UIM_multichannel_read	|NAFE13388-UIM	|**8ch** inputs sample on UIM board
-NAFE13388_UIM_self_calibration	|NAFE13388-UIM	|A sample of performing **self calibration** on UIM board
+Sketch|Target|Feature|NOTE
+---|---|---|---
+1_0_NAFE13388_simple_SCSR				                  |NAFE13388-UIM	|**Simple** sample to get 2ch inputs|
+1_1_NAFE13388_simple_SCSR_using_DRDY_signal|NAFE13388-UIM	|**Simple** sample to get 2ch inputs using DRDY signal|Need to short pins between D2 and D4
+2_0_NAFE13388_multichannel_read_MCMR|NAFE13388-UIM	|Get 8ch inputs using Multi-Channel Multi-Read command| 
+2_1_NAFE13388_multichannel_read_MCMR_using_DRDY|NAFE13388-UIM		|Get 8ch inputs using Multi-Channel Multi-Read command| Need to short pins between D2 and D4
+3_0_NAFE13388_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM	|Get 8ch inputs using Multi-Channel **Continuous**-Read command| Need to short pins between D2 and D4
+4_0_NAFE13388_LVMUX_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM	|Get 8ch inputs and LVMUX inputs (supply voltage, etc)|Need to short pins between D2 and D4
+9_0_NAFE13388_UIM_self_calibration	|NAFE13388-UIM	|A sample of performing **self calibration** on UIM board
 
 
 # Document
