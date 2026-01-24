@@ -192,7 +192,7 @@ int AFE_base::wait_conversion_complete( double wait )
 void AFE_base::use_DRDY_trigger( bool use )
 {
 	if ( use )
-		set_DRDY_callback( DRDY_cb );
+		set_DRDY_callback( static_default_drdy_cb );
 	else
 		set_DRDY_callback( nullptr );
 }
