@@ -1,6 +1,6 @@
 /**	NXP Analog Front End class library for Arduino
  *
- *	Copyright: 2023 - 2025 Tedd OKANO
+ *	Copyright: 2023 - 2026 Tedd OKANO
  *	Released under the MIT license
  *
  *	A simple class library for NXP Analog Front End: NAFE13388 evaluation boards
@@ -42,6 +42,9 @@ public:
 	/** Issue RESET command */
 	virtual void reset( bool hardware_reset = false )	= 0;
 
+	/** set callback function when DRDY comes */
+	typedef void	(*callback_fp_t)( void );
+	virtual void set_DRDY_callback( callback_fp_t fnc );
 	
 	/** set callback function when DRDY comes */
 	
@@ -71,6 +74,12 @@ public:
 	/** All logical channel disable
 	 */
 	virtual void close_logical_channel( void )			= 0;
+
+	/** Logical channel enable
+	 *
+	 * @param ch logical channel number (0 ~ 15)
+	 */
+	virtual void enable_logical_channel( int ch )		= 0;
 
 	/** Start ADC
 	 *
@@ -122,8 +131,7 @@ public:
 	template<typename T>
 	inline void start_and_read( T data )
 	{
-//		double	wait_time	= cbf_DRDY ? -1.0 : total_delay * delay_accuracy;
-		double	wait_time	= total_delay * delay_accuracy;
+		double	wait_time	= cbf_DRDY ? -1.0 : total_delay * delay_accuracy;
 		
 		start();
 		wait_conversion_complete( wait_time );
@@ -131,7 +139,17 @@ public:
 		read( data );
 	};
 #endif
-	
+
+	enum LV_mux_sel : uint8_t {
+		REF2_REF2	= 0,
+		GPIO0_GPIO1,
+		REFCOARSE_REF2,
+		VADD_REF2,
+		VHDD_REF2,
+		REF2_VHSS,
+		HV_MUX,
+	};
+
 	/** Convert raw output to micro-volt
 	 *
 	 * @param ch logical channel number to select its gain coefficient
@@ -139,7 +157,34 @@ public:
 	 */
 	inline double raw2uv( int ch, raw_t value )
 	{
-		return value * coeff_uV[ ch ];
+		double	v	= value * coeff_uV[ ch ];
+
+		if ( HV_MUX != mux_setting[ ch ] )
+		{
+#if 1
+			switch ( mux_setting[ ch ] )
+			{
+				case REF2_REF2:
+				case GPIO0_GPIO1:
+					return v;
+					break;
+				case REFCOARSE_REF2:
+				case VADD_REF2:
+					return 2.00 * (v + 1.5e6);
+					break;
+				case VHDD_REF2:
+					return 32.00 * (v + 0.25e6);
+					break;
+				case REF2_VHSS:
+					return -32.00 * (v - 0.25e6);
+					break;
+			}
+#else
+			return v;
+#endif
+		}
+		
+		return v;
 	}
 	
 	/** Convert raw output to milli-volt
@@ -212,8 +257,14 @@ protected:
 	/** Number of enabled logical channels */
 	int				enabled_channels;
 	
+	/** Number of enabled logical channels */
+	uint8_t			sequence_order[ 16 ];
+	
 	/** Coefficient to convert from ADC read value to micro-volt */
 	double			coeff_uV[ 16 ];
+
+	/** Multiplexer setting */
+	int				mux_setting[ 16 ];
 
 	/** Channel delay */
 	double			ch_delay[ 16 ];
@@ -225,6 +276,8 @@ protected:
 	volatile bool	drdy_flag;
 
 	constexpr static uint32_t	timeout_limit	= 100000000;
+
+	static callback_fp_t	cbf_DRDY;
 
 	virtual void			init( void );
 	void					default_drdy_cb( void );
@@ -279,7 +332,27 @@ public:
 	 */
 	virtual void open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] );
 
-private:	
+	class LogicalChannel
+	{
+	public:
+		LogicalChannel();
+		virtual ~LogicalChannel();
+		
+		void	configure( const uint16_t (&cc)[ 4 ] );
+		void	configure( uint16_t cc0 = 0x0000, uint16_t cc1 = 0x0000, uint16_t cc2 = 0x0000, uint16_t cc3 = 0x0000 );
+		void	enable( void );
+		void	disable( void );
+		
+		template<class T> T read(void);
+		template<class T> operator T(void);
+
+		uint8_t			ch_number;
+		NAFE13388_Base	*afe_ptr;
+	};
+	
+	LogicalChannel	logical_channel[ 16 ];
+
+	private:	
 	double 	calc_delay( int ch );
 	void 	channel_info_update( uint16_t value );
 
@@ -293,6 +366,12 @@ public:
 	/** All logical channel disable
 	 */
 	virtual void close_logical_channel( void );
+
+	/** Logical channel enable
+	 *
+	 * @param ch logical channel number (0 ~ 15)
+	 */
+	void	enable_logical_channel( int ch );
 
 	/** Start ADC
 	 *
@@ -325,10 +404,27 @@ public:
 	 * @param data_ptr pointer to array to store ADC data
 	 */
 	virtual void	read( raw_t *data );
-	
+
+	/** Read ADC for all channel
+	 *
+	 * @param data_ptr pointer to array to store ADC data
+	 */
+	virtual void	read( microvolt_t *data );
+
 //	constexpr static double	pga_gain[]	= { 0.2, 0.4, 0.8, 1, 2, 4, 8, 16 };
 	static double	pga_gain[];
 
+	enum GainPGA : uint8_t {
+		G_PGA_x_0_2	= 0,
+		G_PGA_x_0_4,
+		G_PGA_x_0_8,
+		G_PGA_x_1_0,
+		G_PGA_x_2_0,
+		G_PGA_x_4_0,
+		G_PGA_x_8_0,
+		G_PGA_x16_0,
+	};
+	
 	enum class Register16 : uint16_t {
 		CH_CONFIG0				= 0x20,
 		CH_CONFIG1				= 0x21,
@@ -492,7 +588,7 @@ public:
 		CMD_CALC_CRC_COEF	= 0x2007,
 		CMD_CALC_CRC_FAC	= 0x2008,
 	};
-
+	
 	/** Command
 	 *	
 	 * @param com "Comand" type or uint16_t value
