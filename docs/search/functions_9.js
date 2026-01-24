@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['part_5fnumber_0',['part_number',['../class_n_a_f_e13388___base.html#adcd5acf1c43214088e4bd27cad530d86',1,'NAFE13388_Base']]]
+  ['open_5flogical_5fchannel_0',['open_logical_channel',['../class_a_f_e__base.html#a367693ece040da99caa352d644b8c6f5',1,'AFE_base::open_logical_channel(int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3)=0'],['../class_a_f_e__base.html#a20fe13bdd46f0ff7907f114e1bbb0734',1,'AFE_base::open_logical_channel(int ch, const uint16_t(&amp;cc)[4])=0'],['../class_n_a_f_e13388___base.html#ae30356001b22aa5e990b06e68082a67d',1,'NAFE13388_Base::open_logical_channel(int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3)'],['../class_n_a_f_e13388___base.html#a6500b34cd1f51033f34727400cd7ff84',1,'NAFE13388_Base::open_logical_channel(int ch, const uint16_t(&amp;cc)[4])']]],
+  ['operator_20t_1',['operator T',['../class_n_a_f_e13388___base_1_1_logical_channel.html#afe8d6494296015a2ab2093ce09f33a53',1,'NAFE13388_Base::LogicalChannel']]],
+  ['operator_2b_2',['operator+',['../_a_f_e___n_x_p_8h.html#a4725559b9a8ab60ebce58b4210bd94c0',1,'operator+(NAFE13388_Base::Register16 rn, int n):&#160;AFE_NXP.h'],['../_a_f_e___n_x_p_8h.html#ad08305f9b549fd32edaabe1c8cfa5f5f',1,'operator+(int n, NAFE13388_Base::Register16 rn):&#160;AFE_NXP.h'],['../_a_f_e___n_x_p_8h.html#af1c1ab8905e4890dc5fea4b777409b1c',1,'operator+(NAFE13388_Base::Register24 rn, int n):&#160;AFE_NXP.h'],['../_a_f_e___n_x_p_8h.html#a153ebfdf003ea5952ba2848e5aae2a06',1,'operator+(int n, NAFE13388_Base::Register24 rn):&#160;AFE_NXP.h']]]
 ];
