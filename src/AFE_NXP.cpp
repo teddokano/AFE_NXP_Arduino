@@ -92,16 +92,14 @@ AFE_base::~AFE_base()
 
 void AFE_base::init( void )
 {
-#if 1
-	pin_DRDY.rise( DRDY_cb );
-	
+	attachInterrupt( digitalPinToInterrupt( pin_DRDY ), DRDY_cb, RISING );
 	drdy_flag		= false;
-	set_DRDY_callback( [this](void){ default_drdy_cb(); } );
-#endif
 }
 
 void AFE_base::begin( void )
 {
+	instance	= this;
+	
 	reset();
 	boot();	
 	init();
@@ -114,8 +112,8 @@ void AFE_base::set_DRDY_callback( callback_fp_t func )
 
 void AFE_base::DRDY_cb( void )
 {
-	if ( cbf_DRDY )
-		cbf_DRDY();
+	if ( (nullptr != instance) && instance->cbf_DRDY )		
+		instance->cbf_DRDY();
 }
 
 void AFE_base::default_drdy_cb( void )
@@ -187,13 +185,14 @@ int AFE_base::wait_conversion_complete( double wait )
 void AFE_base::use_DRDY_trigger( bool use )
 {
 	if ( use )
-		set_DRDY_callback( [this](void){ default_drdy_cb(); } );
+		set_DRDY_callback( DRDY_cb );
 	else
 		set_DRDY_callback( nullptr );
 }
 
 
-AFE_base::callback_fp_t	AFE_base::cbf_DRDY		= nullptr;
+AFE_base::callback_fp_t	AFE_base::cbf_DRDY	= nullptr;
+AFE_base*				AFE_base::instance	= nullptr;
 
 /* NAFE13388_Base class ******************************************/
 
@@ -360,7 +359,7 @@ void NAFE13388_Base::open_logical_channel( int ch, uint16_t cc0, uint16_t cc1, u
 void NAFE13388_Base::enable_logical_channel( int ch )
 {	
 	const uint16_t	setbit	= 0x1 << ch;
-	const uint16_t	bits	= bit_op( CH_CONFIG4, ~setbit, setbit );
+	const uint16_t	bits	= bit_op( Register16::CH_CONFIG4, ~setbit, setbit );
 
 	channel_info_update( bits );
 }

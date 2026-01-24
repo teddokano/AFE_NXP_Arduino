@@ -271,19 +271,20 @@ protected:
 	double			total_delay;
 	static double	delay_accuracy;
 	
-
-	uint32_t		drdy_count;
-	volatile bool	drdy_flag;
-
 	constexpr static uint32_t	timeout_limit	= 100000000;
 
+	void					default_drdy_cb();
+	uint32_t				drdy_count;
+	volatile bool			drdy_flag;
 	static callback_fp_t	cbf_DRDY;
+	static void				DRDY_cb();
 
 	virtual void			init( void );
-	void					default_drdy_cb( void );
 	
-	static void				DRDY_cb( void );
 	int						wait_conversion_complete( double delay = -1.0 );
+
+public:
+	static AFE_base*		instance;
 };
 
 class NAFE13388_Base : public AFE_base
@@ -346,7 +347,7 @@ public:
 		template<class T> T read(void);
 		template<class T> operator T(void);
 
-		uint8_t			ch_number;
+		int				ch_number;
 		NAFE13388_Base	*afe_ptr;
 	};
 	
