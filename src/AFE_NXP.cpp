@@ -11,6 +11,64 @@
 
 double	AFE_base::delay_accuracy	= 1.1;
 
+
+NAFE13388_Base::LogicalChannel::LogicalChannel()
+{
+}
+
+NAFE13388_Base::LogicalChannel::~LogicalChannel()
+{
+	disable();
+}
+
+void NAFE13388_Base::LogicalChannel::configure( const uint16_t (&cc)[ 4 ] )
+{
+	afe_ptr->open_logical_channel( ch_number, cc );
+}
+
+void NAFE13388_Base::LogicalChannel::configure( uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3 )
+{
+	const ch_setting_t	tmp_ch_config	= { cc0, cc1, cc2, cc3 };
+	afe_ptr->open_logical_channel( ch_number, tmp_ch_config );
+}
+
+void NAFE13388_Base::LogicalChannel::enable( void )
+{
+	afe_ptr->enable_logical_channel( ch_number );
+}
+
+void NAFE13388_Base::LogicalChannel::disable( void )
+{
+	afe_ptr->close_logical_channel( ch_number );
+}
+
+template<>
+NAFE13388_Base::raw_t	NAFE13388_Base::LogicalChannel::read( void )
+{
+	return afe_ptr->start_and_read( ch_number );
+}
+
+template<>
+NAFE13388_Base::microvolt_t NAFE13388_Base::LogicalChannel::read( void )
+{
+	raw_t	v	= read<NAFE13388_Base::raw_t>();
+	return afe_ptr->raw2uv( ch_number, v );
+}
+
+template<>
+NAFE13388_Base::LogicalChannel::operator NAFE13388_Base::raw_t( void )
+{
+	return read<NAFE13388_Base::raw_t>();
+}
+
+template<>
+NAFE13388_Base::LogicalChannel::operator NAFE13388_Base::microvolt_t( void )
+{
+	return read<NAFE13388_Base::microvolt_t>();
+}
+
+
+
 /* AFE_base class ******************************************/
 
 AFE_base::AFE_base(  bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET ) : 
@@ -34,7 +92,7 @@ AFE_base::~AFE_base()
 
 void AFE_base::init( void )
 {
-#if 0
+#if 1
 	pin_DRDY.rise( DRDY_cb );
 	
 	drdy_flag		= false;
@@ -49,10 +107,27 @@ void AFE_base::begin( void )
 	init();
 }
 
+void AFE_base::set_DRDY_callback( callback_fp_t func )
+{
+	cbf_DRDY		= func;
+}
+
+void AFE_base::DRDY_cb( void )
+{
+	if ( cbf_DRDY )
+		cbf_DRDY();
+}
+
+void AFE_base::default_drdy_cb( void )
+{
+	drdy_count++;
+	drdy_flag		= true;
+}
+
 int32_t AFE_base::start_and_read( int ch )
 {
-//	double	wait_time	= cbf_DRDY ? -1.0 : ch_delay[ ch ] * delay_accuracy;
-	double	wait_time	= ch_delay[ ch ] * delay_accuracy;
+	double	wait_time	= cbf_DRDY ? -1.0 : ch_delay[ ch ] * delay_accuracy;
+//	double	wait_time	= ch_delay[ ch ] * delay_accuracy;
 	
 	start( ch );
 	wait_conversion_complete( wait_time );
@@ -109,11 +184,27 @@ int AFE_base::wait_conversion_complete( double wait )
 	return	0;
 }
 
+void AFE_base::use_DRDY_trigger( bool use )
+{
+	if ( use )
+		set_DRDY_callback( [this](void){ default_drdy_cb(); } );
+	else
+		set_DRDY_callback( nullptr );
+}
+
+
+AFE_base::callback_fp_t	AFE_base::cbf_DRDY		= nullptr;
+
 /* NAFE13388_Base class ******************************************/
 
 NAFE13388_Base::NAFE13388_Base( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET ) 
 	: AFE_base( spi_addr, hsv, nINT, DRDY, SYN, nRESET )
 {
+	for ( auto i = 0; i < 16; i++ )
+	{
+		logical_channel[ i ].afe_ptr	= this;
+		logical_channel[ i ].ch_number	= i;
+	}
 }
 
 NAFE13388_Base::~NAFE13388_Base()
@@ -124,9 +215,13 @@ void NAFE13388_Base::boot( void )
 {
 	command( CMD_ABORT ); 
 	delay( 1 );
-	
+
+#if 0	
 	reg( Register16::SYS_CONFIG0,  0x0010 );
 	delay( 1 );
+#else
+	DRDY_by_sequencer_done( true );
+#endif
 }
 
 void NAFE13388_Base::reset( bool hardware_reset )
@@ -162,19 +257,23 @@ void NAFE13388_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 {	
 	command( ch );
 	
+	if ( cc[ 0 ] & 0x0010 )
+	{
+		coeff_uV[ ch ]		= ((10.0 / (double)(1L << 24)) / pga_gain[ (cc[ 0 ] >> 5) & 0x7 ]) * 1e6;
+		mux_setting[ ch ]	= HV_MUX;
+	}
+	else
+	{
+		coeff_uV[ ch ]		= ((10.0 / (double)(1L << 24)) / 2.5) * 1e6;
+		mux_setting[ ch ]	= (cc[ 0 ] >> 1) & 0x7;
+	}
+	
 	for ( auto i = 0; i < 4; i++ )
 		reg( Register16::CH_CONFIG0 + i, cc[ i ] );
 	
-	const uint16_t	setbit	= 0x1 << ch;
-	const uint16_t	bits	= bit_op( Register16::CH_CONFIG4, ~setbit, setbit );
-	
-	if ( cc[ 0 ] & 0x0010 )
-		coeff_uV[ ch ]	= ((10.0 / (double)(1L << 24)) / pga_gain[ (cc[ 0 ] >> 5) & 0x7 ]) * 1e6;
-	else
-		coeff_uV[ ch ]	= (4.0 / (double)(1L << 24)) * 1e6;
+	enable_logical_channel( ch );
 	
 	ch_delay[ ch ]		= calc_delay( ch );
-	channel_info_update( bits );
 }
 
 void NAFE13388_Base::channel_info_update( uint16_t value )
@@ -182,15 +281,24 @@ void NAFE13388_Base::channel_info_update( uint16_t value )
 	constexpr auto	bit_length	= 16;
 	enabled_channels			= 0;
 	total_delay					= 0.00;
+	
+	memset( sequence_order, 0, 16 );
 		
 	for ( auto i = 0; i < bit_length; i++ )
 	{
 		if ( value & (0x1 << i) )
 		{
+			sequence_order[ enabled_channels ]	= i;
 			enabled_channels++;
 			total_delay	+= ch_delay[ i ];
 		}
 	}
+
+#if 0
+	for ( auto i = 0; i < bit_length; i++ )
+		printf( " %x", sequence_order[ i ] );
+	printf( "\r\n" );
+#endif
 }
 
 double NAFE13388_Base::calc_delay( int ch )
@@ -249,6 +357,14 @@ void NAFE13388_Base::open_logical_channel( int ch, uint16_t cc0, uint16_t cc1, u
 	open_logical_channel( ch, tmp_ch_config );
 }
 
+void NAFE13388_Base::enable_logical_channel( int ch )
+{	
+	const uint16_t	setbit	= 0x1 << ch;
+	const uint16_t	bits	= bit_op( CH_CONFIG4, ~setbit, setbit );
+
+	channel_info_update( bits );
+}
+
 void NAFE13388_Base::close_logical_channel( int ch )
 {	
 	const uint16_t	clearingbit	= 0x1 << ch;
@@ -292,6 +408,16 @@ int32_t NAFE13388_Base::read( int ch )
 void NAFE13388_Base::read( raw_t *data )
 {
 	burst( (uint32_t *)data, enabled_channels );
+}
+
+void NAFE13388_Base::read( microvolt_t *data )
+{
+	raw_t	raw_data[ 16 ];
+	
+	read( raw_data );
+	
+	for ( auto i = 0; i < enabled_channels; i++ )
+		data[ i ]	= raw2uv( sequence_order[ i ], raw_data[ i ] );
 }
 
 void NAFE13388_Base::command( uint16_t com )
