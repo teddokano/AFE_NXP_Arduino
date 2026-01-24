@@ -5,7 +5,7 @@ void table_view(NAFE13388::Register24 reg_addr, int length);
 void zprintf(const char *format, ...);
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   Serial.println("\n***** Hello, NAFE13388! *****");
 
