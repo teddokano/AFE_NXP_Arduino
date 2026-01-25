@@ -13,6 +13,7 @@ With `AFE_NXP_Arduino` library, characters can be shown by next sample code.
 
 > **Note** 
 > For proper voltage signal interfacing, connection between Arduino MCU board and NAFE13388-UIM board need to be modified. **Remove 3.3V supply pin** to let UIM to support 5V signaling.   
+> ![](images/https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_3v3_pin_lifted_at_extender.jpg)  
 > ![](images/UIM_modification.png)  
 > ![](images/ioref.png)  
 
@@ -43,11 +44,11 @@ void loop() {
 }
 ```
 
-![UIM_on_FRDM.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/UIM.jpg)  
+![UIM_on_FRDM.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r3.jpg)  
 _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
 
-![OPREF pin for UIM.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/IOREF.jpg)  
-_For the UIM board, IOREF pin need to be unconnected to avoid supply conflict_
+![OPREF pin for UIM.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_3v3_pin_lifted_at_extender.jpg)  
+_For the UIM board, 3.3V pin need to be unconnected to let the boards have correct signaling voltage level_
 
 ![Boards](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/afe.jpg)  
 _NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
