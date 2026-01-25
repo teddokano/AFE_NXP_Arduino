@@ -54,10 +54,22 @@ void loop() {
 To try this sample code, set jumper plug on J91 to short AICOM and GND.  
 The analog input terminals are available as picture below.  
 
-> ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/termianl_and_jumper.jpg)  
+![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/termianl_and_jumper.jpg)  
 
+
+Followings are pictures of UIM with UNO R3, UNO R4 Minima and UNO R4 WiFi boards.  
+On every picture, showing the hardware setting of..
+  - 3.3V are disconnected by using pin extender
+  - A jumper plug is set on J91
+  - D2 and D4 pins are shorted to enable to use DRDY signal
 
 ![uim_on_r3.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r3.jpg)  
+_NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
+
+![uim_on_r4_minima.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r4_minima.jpg)  
+_NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
+
+![uim_on_r4_wifi_.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r4_wifi_.jpg)  
 _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
 
 ![uim_3v3_pin_lifted_at_extender.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_3v3_pin_lifted_at_extender.jpg)  
