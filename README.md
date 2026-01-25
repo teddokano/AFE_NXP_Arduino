@@ -14,8 +14,13 @@ With `AFE_NXP_Arduino` library, characters can be shown by next sample code.
 > **Note** 
 > For proper voltage signal interfacing, connection between Arduino MCU board and NAFE13388-UIM board need to be modified. **Remove 3.3V supply pin** to let UIM to support 5V signaling.   
 > ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_3v3_pin_lifted_at_extender.jpg)  
+> _3.3V supply pin is lifted at pin extender_  
+> 
 > ![](images/UIM_modification.png)  
+> _Diagram of 3.3V and 5V supply rails on NAFE13388-UIM board's schematic_
+> 
 > ![](images/ioref.png)  
+> Using 5V supply on IOREF pin from Arduino board_
 
 ```cpp
 #include <NAFE13388_UIM.h>
