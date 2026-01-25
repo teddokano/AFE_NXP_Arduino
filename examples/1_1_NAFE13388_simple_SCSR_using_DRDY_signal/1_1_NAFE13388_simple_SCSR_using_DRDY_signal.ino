@@ -14,6 +14,17 @@
  * Short D4 and D2 pin to handle it
  */
 
+ /*
+  * ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION **
+  * ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION **
+  * ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION **
+  * 
+  * The NAFE13388-UIM board and Arduino mocrocontroller cannot be connected 
+  * directly on Arduino-shield socket. The 3.3V supply should be disconnected. 
+  * Visit next URL page to confirm how to do it. 
+  *   -->  https://github.com/teddokano/AFE_NXP_Arduino/blob/main/README.md
+  */
+
 #include <NAFE13388_UIM.h>
 
 NAFE13388_UIM afe;
