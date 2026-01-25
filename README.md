@@ -22,7 +22,8 @@ Include device name header file (`NAFE13388_UIM.h`) to use those class libraries
 On 3 types of Arduino UNO boards: **R3**, **R4 Minima** and **R4 WiFi** are supported.  
 Example sketches can be built and run on any of those boards.  
 
-Next is a sample of the basic operation of measureing analog voltage on 
+Next is a sample of the basic operation of measureing analog voltage on AI1P and AI1N terminal.  
+
 ```cpp
 #include <NAFE13388_UIM.h>
 
@@ -49,6 +50,12 @@ void loop() {
   Serial.println((NAFE13388_UIM::microvolt_t)afe.logical_channel[1] * 1e-6);
 }
 ```
+
+To try this sample code, set jumper plug on J91 to short AICOM and GND.  
+The analog input terminals are available as picture below.  
+
+> ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/termianl_and_jumper.jpg)  
+
 
 ![uim_on_r3.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r3.jpg)  
 _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
