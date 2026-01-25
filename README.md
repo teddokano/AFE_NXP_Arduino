@@ -66,14 +66,11 @@ On every picture, showing the hardware setting of..
 ![uim_on_r3.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r3.jpg)  
 _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
 
-![uim_on_r4_minima.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r4_minima.jpg)  
-_NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
-
 ![uim_on_r4_wifi_.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r4_wifi_.jpg)  
 _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
 
-![uim_3v3_pin_lifted_at_extender.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_3v3_pin_lifted_at_extender.jpg)  
-_For the UIM board, 3.3V pin need to be unconnected to let the boards have correct signaling voltage level_
+![uim_on_r4_minima.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r4_minima.jpg)  
+_NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
 
 ![Boards](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/afe.jpg)  
 _NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
