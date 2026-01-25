@@ -96,7 +96,7 @@ var searchData=
   ['cmd_5freset_93',['CMD_RESET',['../class_n_a_f_e13388___base.html#a93d87b82239122d04d021048a9f5060da933b7aa12f49abdd5c656385499a4e8d',1,'NAFE13388_Base']]],
   ['cmd_5fsc_94',['CMD_SC',['../class_n_a_f_e13388___base.html#a93d87b82239122d04d021048a9f5060da9519b5a6273807c899519786458dc650',1,'NAFE13388_Base']]],
   ['cmd_5fss_95',['CMD_SS',['../class_n_a_f_e13388___base.html#a93d87b82239122d04d021048a9f5060da662dcb1bb0efaf05113c272c0ea8bd11',1,'NAFE13388_Base']]],
-  ['code_96',['List of sample code',['../md__r_e_a_d_m_e.html#autotoc_md8',1,'']]],
+  ['code_96',['List of sample code',['../md__r_e_a_d_m_e.html#autotoc_md9',1,'']]],
   ['coeff_5findex_97',['coeff_index',['../struct_n_a_f_e13388___base_1_1__ref__points.html#a0113dfdfbac3ef46d49604c1f3ceff78',1,'NAFE13388_Base::_ref_points']]],
   ['coeff_5fmv_98',['coeff_mV',['../class_a_f_e__base.html#ade3f9faa7e8df4b0aaea578870da8aaf',1,'AFE_base']]],
   ['coeff_5fuv_99',['coeff_uV',['../class_a_f_e__base.html#a6814b0b5b6c98d04d2a884a9d9747848',1,'AFE_base']]],

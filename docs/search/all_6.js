@@ -29,7 +29,7 @@ var searchData=
   ['gainpga_26',['GainPGA',['../class_n_a_f_e13388___base.html#a6431f41355e322a0d5c6ceabc146a4d2',1,'NAFE13388_Base']]],
   ['get_5fdata16_27',['get_data16',['../class_s_p_i__for___a_f_e.html#ae368ac5ef6ff4c55e4d08530e89b42c9',1,'SPI_for_AFE']]],
   ['get_5fdata24_28',['get_data24',['../class_s_p_i__for___a_f_e.html#ab67418538d43e727e337c7b452a95ee8',1,'SPI_for_AFE']]],
-  ['getting_20started_29',['Getting started',['../md__r_e_a_d_m_e.html#autotoc_md4',1,'']]],
+  ['getting_20started_29',['Getting started',['../md__r_e_a_d_m_e.html#autotoc_md5',1,'']]],
   ['global_5falarm_5fenable_30',['GLOBAL_ALARM_ENABLE',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba9e84ca56918e5a5ffb786c3461eea70d',1,'NAFE13388_Base']]],
   ['global_5falarm_5finterrupt_31',['GLOBAL_ALARM_INTERRUPT',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba2637e3e722177aee586682564fd49b74',1,'NAFE13388_Base']]],
   ['gpi_5fdata_32',['GPI_DATA',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba94da22c6197ee348b891ebdad3ff2d48',1,'NAFE13388_Base']]],

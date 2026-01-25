@@ -13,9 +13,12 @@ NAFE13388_UIM afe;
 
 void setup() {
   Serial.begin(115200);
+  while (!Serial)
+    ;
   Serial.println("\n***** Hello, NAFE13388! *****");
 
   SPI.begin();
+  pinMode(SS, OUTPUT);  //  Required for UNO R4
 
   afe.begin();
   afe.blink_leds();
@@ -23,7 +26,7 @@ void setup() {
   afe.logical_channel[0].configure(0x1710, 0x00A4, 0xBC00, 0x0000);
   afe.logical_channel[1].configure(0x2710, 0x00A4, 0xBC00, 0x0000);
 
-  Serial.println("\nlogical channel 0 (AI1P-GND) and 1 (AI2P-GND) voltages are shown in ADC readout value [V]");
+  Serial.println("\nlogical channel 0 (AI1P-AICOM) and 1 (AI2P-AICOM) voltages are shown in ADC readout value [V]");
 }
 
 void loop() {

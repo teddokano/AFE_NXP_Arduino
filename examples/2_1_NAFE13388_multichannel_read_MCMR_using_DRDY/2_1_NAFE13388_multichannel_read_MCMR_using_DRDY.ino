@@ -20,10 +20,12 @@ NAFE13388_UIM afe;
 
 void setup() {
   Serial.begin(115200);
-
+  while (!Serial)
+    ;
   Serial.println("\n***** Hello, NAFE13388! *****");
 
   SPI.begin();
+  pinMode(SS, OUTPUT);  //  Required for UNO R4
 
   afe.begin();
   afe.blink_leds();
