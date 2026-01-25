@@ -16,10 +16,10 @@ With `AFE_NXP_Arduino` library, characters can be shown by next sample code.
 > ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_3v3_pin_lifted_at_extender.jpg)  
 > _3.3V supply pin is lifted at pin extender_  
 > 
-> ![](images/UIM_modification.png)  
+> ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/UIM_modification.png)  
 > _Diagram of 3.3V and 5V supply rails on NAFE13388-UIM board's schematic_
 > 
-> ![](images/ioref.png)  
+> ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/ioref.png)  
 > Using 5V supply on IOREF pin from Arduino board_
 
 ```cpp
