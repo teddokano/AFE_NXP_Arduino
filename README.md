@@ -67,10 +67,10 @@ On every picture, showing the hardware setting of..
 _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
 
 ![uim_on_r4_wifi_.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r4_wifi_.jpg)  
-_NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
+_NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R4 Minima_
 
 ![uim_on_r4_minima.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r4_minima.jpg)  
-_NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
+_NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R4 WiFi_
 
 ![Boards](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/afe.jpg)  
 _NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
