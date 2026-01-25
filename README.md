@@ -4,12 +4,7 @@ Analog Front End device operation sample code for [Arduino](https://www.arduino.
 ## What is this?
 An Arduino library for NXP Analog Front End device with sample code.  
 This library provides simple API to get analog input channels.  
-Include device name header file (`NAFE13388.h`) to use those class libraries. 
-
-With `AFE_NXP_Arduino` library, characters can be shown by next sample code. 
-
-> **Note**  
-> Current version of NAFE13388_UIM class and its sample code is supporting Arduino **UNO R3**, **UNO R4 Minima** and **UNO R4 WiFi**. 
+Include device name header file (`NAFE13388_UIM.h`) to use those class libraries. 
 
 > **Note**  
 > For proper voltage signal interfacing, connection between Arduino MCU board and NAFE13388-UIM board need to be modified. **Remove 3.3V supply pin** to let UIM to support 5V signaling.   
@@ -22,6 +17,12 @@ With `AFE_NXP_Arduino` library, characters can be shown by next sample code.
 > ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/ioref.png)  
 > Using 5V supply on IOREF pin from Arduino board_
 
+## Easy to use
+
+On 3 types of Arduino UNO boards: **R3**, **R4 Minima** and **R4 WiFi** are supported.  
+Example sketches can be built and run on any of those boards.  
+
+Next is a sample of the basic operation of measureing analog voltage on 
 ```cpp
 #include <NAFE13388_UIM.h>
 
@@ -49,10 +50,10 @@ void loop() {
 }
 ```
 
-![UIM_on_FRDM.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r3.jpg)  
+![uim_on_r3.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r3.jpg)  
 _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
 
-![OPREF pin for UIM.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_3v3_pin_lifted_at_extender.jpg)  
+![uim_3v3_pin_lifted_at_extender.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_3v3_pin_lifted_at_extender.jpg)  
 _For the UIM board, 3.3V pin need to be unconnected to let the boards have correct signaling voltage level_
 
 ![Boards](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/afe.jpg)  
