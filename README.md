@@ -8,7 +8,7 @@ Include device name header file (`NAFE13388_UIM.h`) to use those class libraries
 
 ## Easy to use
 
-On 3 types of Arduino UNO boards: **R3**, **R4 Minima** and **R4 WiFi** are supported.  
+3 types of Arduino UNO boards: **R3**, **R4 Minima** and **R4 WiFi** are supported.  
 Example sketches can be built and run on any of those boards.  
 
 Next is a sample of the basic operation of measureing analog voltage on AI1P and AI1N terminal.  
