@@ -6,17 +6,6 @@ An Arduino library for NXP Analog Front End device with sample code.
 This library provides simple API to get analog input channels.  
 Include device name header file (`NAFE13388_UIM.h`) to use those class libraries. 
 
-> **Note**  
-> For proper voltage signal interfacing, connection between Arduino MCU board and NAFE13388-UIM board need to be modified. **Remove 3.3V supply pin** to let UIM to support 5V signaling.   
-> ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_3v3_pin_lifted_at_extender.jpg)  
-> _3.3V supply pin is lifted at pin extender_  
-> 
-> ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/UIM_modification.png)  
-> _Diagram of 3.3V and 5V supply rails on NAFE13388-UIM board's schematic_
-> 
-> ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/ioref.png)  
-> Using 5V supply on IOREF pin from Arduino board_
-
 ## Easy to use
 
 On 3 types of Arduino UNO boards: **R3**, **R4 Minima** and **R4 WiFi** are supported.  
@@ -71,6 +60,19 @@ _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO 
 
 ![uim_on_r4_minima.jpg](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r4_minima.jpg)  
 _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R4 WiFi_
+
+> **Note**  
+> For proper voltage signal interfacing, connection between Arduino MCU board and NAFE13388-UIM board need to be modified. **Remove 3.3V supply pin** to let UIM to support 5V signaling.   
+> ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_3v3_pin_lifted_at_extender.jpg)  
+> _3.3V supply pin is lifted at pin extender_  
+> 
+> ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/UIM_modification.png)  
+> _Diagram of 3.3V and 5V supply rails on NAFE13388-UIM board's schematic_
+> 
+> ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/ioref.png)  
+> Using 5V supply on IOREF pin from Arduino board_
+
+
 
 ![Boards](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/afe.jpg)  
 _NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3_
