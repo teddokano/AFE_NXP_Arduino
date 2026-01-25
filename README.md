@@ -11,7 +11,7 @@ With `AFE_NXP_Arduino` library, characters can be shown by next sample code.
 > **Note**  
 > Current version of NAFE13388_UIM class and its sample code is supporting Arduino **UNO R3**, **UNO R4 Minima** and **UNO R4 WiFi**. 
 
-> **Note** 
+> **Note**  
 > For proper voltage signal interfacing, connection between Arduino MCU board and NAFE13388-UIM board need to be modified. **Remove 3.3V supply pin** to let UIM to support 5V signaling.   
 > ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_3v3_pin_lifted_at_extender.jpg)  
 > _3.3V supply pin is lifted at pin extender_  
