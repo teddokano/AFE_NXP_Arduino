@@ -9,7 +9,12 @@ Include device name header file (`NAFE13388.h`) to use those class libraries.
 With `AFE_NXP_Arduino` library, characters can be shown by next sample code. 
 
 > **Note**  
-> Current version of NAFE13388_UIM class and its sample code is supporting Arduino **UNO R3 only**. 
+> Current version of NAFE13388_UIM class and its sample code is supporting Arduino **UNO R3**, **UNO R4 Minima** and **UNO R4 WiFi**. 
+
+> **Note** 
+> For proper voltage signal interfacing, connection between Arduino MCU board and NAFE13388-UIM board need to be modified. **Remove 3.3V supply pin** to let UIM to support 5V signaling.   
+> ![](images/UIM_modification.png)  
+> ![](images/ioref.png)  
 
 ```cpp
 #include <NAFE13388_UIM.h>
