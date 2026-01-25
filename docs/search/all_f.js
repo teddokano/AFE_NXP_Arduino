@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['s_20inside_0',['What&apos;s inside?',['../md__r_e_a_d_m_e.html#autotoc_md5',1,'']]],
-  ['sample_20code_1',['List of sample code',['../md__r_e_a_d_m_e.html#autotoc_md8',1,'']]],
+  ['s_20inside_0',['What&apos;s inside?',['../md__r_e_a_d_m_e.html#autotoc_md6',1,'']]],
+  ['sample_20code_1',['List of sample code',['../md__r_e_a_d_m_e.html#autotoc_md9',1,'']]],
   ['self_5fcalibrate_2',['self_calibrate',['../class_n_a_f_e13388___base.html#a39dc852174082faeb8148162397dfe5a',1,'NAFE13388_Base']]],
   ['sequence_5forder_3',['sequence_order',['../class_a_f_e__base.html#aa65a9e117194cf0a834fbe783094a451',1,'AFE_base']]],
   ['serial0_4',['SERIAL0',['../class_n_a_f_e13388___base.html#a8da94b56680ae6228400f123970f1828ac77dd604d654fef284425f6818de16c7',1,'NAFE13388_Base']]],
@@ -14,9 +14,9 @@ var searchData=
   ['start_11',['start',['../class_a_f_e__base.html#a6dbfa3c4e8b19b8d85e769a11fe87eb0',1,'AFE_base::start(int ch)=0'],['../class_a_f_e__base.html#aae0d85f6e9c77f2cd41da599d0bd6fff',1,'AFE_base::start(void)=0'],['../class_n_a_f_e13388___base.html#af2fd478b940e38b0545df46e2b45a1fd',1,'NAFE13388_Base::start(int ch)'],['../class_n_a_f_e13388___base.html#a5ddade9b0e7880bff147f47309cb36f6',1,'NAFE13388_Base::start(void)']]],
   ['start_5fand_5fread_12',['start_and_read',['../class_a_f_e__base.html#a998fe4c702beb446d2a0c6cc3916fb7b',1,'AFE_base::start_and_read(int ch)'],['../class_a_f_e__base.html#ae5b0796d564ac335990afe9b8ce1ab77',1,'AFE_base::start_and_read(T data)']]],
   ['start_5fcontinuous_5fconversion_13',['start_continuous_conversion',['../class_a_f_e__base.html#a08deb8461e72c0109fd6f37c3d19a244',1,'AFE_base::start_continuous_conversion()'],['../class_n_a_f_e13388___base.html#a02098fb1dea51b7fef3778fa8a18a657',1,'NAFE13388_Base::start_continuous_conversion()']]],
-  ['started_14',['Getting started',['../md__r_e_a_d_m_e.html#autotoc_md4',1,'']]],
+  ['started_14',['Getting started',['../md__r_e_a_d_m_e.html#autotoc_md5',1,'']]],
   ['static_5fdefault_5fdrdy_5fcb_15',['static_default_drdy_cb',['../class_a_f_e__base.html#aa6636fd8f715bde11d74ec3897a80103',1,'AFE_base']]],
-  ['supported_20device_16',['Supported device',['../md__r_e_a_d_m_e.html#autotoc_md2',1,'']]],
+  ['supported_20device_16',['Supported device',['../md__r_e_a_d_m_e.html#autotoc_md3',1,'']]],
   ['sys_5fconfig0_17',['SYS_CONFIG0',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fbaf953ecb7d0562fc4f19616c2c74c9763',1,'NAFE13388_Base']]],
   ['sys_5fstatus0_18',['SYS_STATUS0',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba8723cffab5a065726f376c6c2052af09',1,'NAFE13388_Base']]]
 ];
