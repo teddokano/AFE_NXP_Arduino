@@ -90,7 +90,6 @@ double get_rtd_temp(void)
   //  get logical channel voltage in microvolt and convert to volt
   double v_rtd = afe.logical_channel[logical_channel_for_on_board_rtd] * 1e-6;
 
-  Serial.println(v_rtd, 8);
   //  calcurate resistance by deviding excitation current
   double r_rtd_gpio = (r_series * v_rtd) / (vref_buf - v_rtd);
 
