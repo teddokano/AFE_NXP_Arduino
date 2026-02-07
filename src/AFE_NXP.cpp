@@ -55,19 +55,15 @@ NAFE13388_Base::microvolt_t NAFE13388_Base::LogicalChannel::read( void )
 	return afe_ptr->raw2uv( ch_number, v );
 }
 
-template<>
 NAFE13388_Base::LogicalChannel::operator NAFE13388_Base::raw_t( void )
 {
 	return read<NAFE13388_Base::raw_t>();
 }
 
-template<>
 NAFE13388_Base::LogicalChannel::operator NAFE13388_Base::microvolt_t( void )
 {
 	return read<NAFE13388_Base::microvolt_t>();
 }
-
-
 
 /* AFE_base class ******************************************/
 

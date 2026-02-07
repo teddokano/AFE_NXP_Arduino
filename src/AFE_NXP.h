@@ -353,8 +353,13 @@ public:
 		void	disable( void );
 		
 		template<class T> T read(void);
-		template<class T> operator T(void);
+		operator raw_t(void);
+		operator microvolt_t(void);
 
+		double	operator*( double v ) {
+			return	(double)(*this) * v;
+		}
+		
 		int				ch_number;
 		NAFE13388_Base	*afe_ptr;
 	};
