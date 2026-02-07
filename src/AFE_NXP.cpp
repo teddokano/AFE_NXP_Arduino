@@ -11,8 +11,40 @@
 
 double	AFE_base::delay_accuracy	= 1.2;
 
+void LogicalChannel_Base::enable( void )
+{
+	afe_ptr->enable_logical_channel( ch_number );
+}
 
-NAFE13388_Base::LogicalChannel::LogicalChannel()
+void LogicalChannel_Base::disable( void )
+{
+	afe_ptr->close_logical_channel( ch_number );
+}
+
+template<>
+AFE_base::raw_t	LogicalChannel_Base::read( void )
+{
+	return afe_ptr->start_and_read( ch_number );
+}
+
+template<>
+AFE_base::microvolt_t LogicalChannel_Base::read( void )
+{
+	AFE_base::raw_t	v	= read<AFE_base::raw_t>();
+	return afe_ptr->raw2uv( ch_number, v );
+}
+
+LogicalChannel_Base::operator AFE_base::raw_t( void )
+{
+	return read<AFE_base::raw_t>();
+}
+
+LogicalChannel_Base::operator AFE_base::microvolt_t( void )
+{
+	return read<AFE_base::microvolt_t>();
+}
+
+NAFE13388_Base::LogicalChannel::LogicalChannel() : LogicalChannel_Base()
 {
 }
 
@@ -31,42 +63,6 @@ void NAFE13388_Base::LogicalChannel::configure( uint16_t cc0, uint16_t cc1, uint
 	const ch_setting_t	tmp_ch_config	= { cc0, cc1, cc2, cc3 };
 	afe_ptr->open_logical_channel( ch_number, tmp_ch_config );
 }
-
-void NAFE13388_Base::LogicalChannel::enable( void )
-{
-	afe_ptr->enable_logical_channel( ch_number );
-}
-
-void NAFE13388_Base::LogicalChannel::disable( void )
-{
-	afe_ptr->close_logical_channel( ch_number );
-}
-
-template<>
-NAFE13388_Base::raw_t	NAFE13388_Base::LogicalChannel::read( void )
-{
-	return afe_ptr->start_and_read( ch_number );
-}
-
-template<>
-NAFE13388_Base::microvolt_t NAFE13388_Base::LogicalChannel::read( void )
-{
-	raw_t	v	= read<NAFE13388_Base::raw_t>();
-	return afe_ptr->raw2uv( ch_number, v );
-}
-
-template<>
-NAFE13388_Base::LogicalChannel::operator NAFE13388_Base::raw_t( void )
-{
-	return read<NAFE13388_Base::raw_t>();
-}
-
-template<>
-NAFE13388_Base::LogicalChannel::operator NAFE13388_Base::microvolt_t( void )
-{
-	return read<NAFE13388_Base::microvolt_t>();
-}
-
 
 
 /* AFE_base class ******************************************/
@@ -210,7 +206,7 @@ NAFE13388_Base::NAFE13388_Base( bool spi_addr, bool hsv, int nINT, int DRDY, int
 	{
 		logical_channel[ i ].afe_ptr	= this;
 		logical_channel[ i ].ch_number	= i;
-	}
+	}	
 }
 
 NAFE13388_Base::~NAFE13388_Base()
