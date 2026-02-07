@@ -5,6 +5,13 @@
  *  Released under the MIT license
  *
  * Sample of using MCMR(Multi Channel Continuous Read) command for 8 channels
+ *
+ * *****************************
+ * ** BEFORE TRYING THIS CODE **
+ * *****************************
+ * This sample code shows operation with **DRDY** signal (at D4 pin) from AFE 
+ * Since the DRDY signal is very short pulse, it will be captured by interrupt on D2 pin
+ * Short D4 and D2 pin to handle it
  */
 
 /*
