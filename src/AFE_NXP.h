@@ -295,6 +295,33 @@ public:
 	static AFE_base*		instance;
 };
 
+#if 0
+class LogicalChannel_Base
+{
+public:
+	LogicalChannel_Base();
+	virtual ~LogicalChannel_Base();
+	
+	virtual void	enable( void )	= 0;
+	virtual void	disable( void )	= 0;
+	
+	operator AFE_base::raw_t(void);
+	operator AFE_base::microvolt_t(void);
+
+	template<class T> double operator+( T v ) { return (double)(*this) + (double)v; }
+	template<class T> double operator-( T v ) { return (double)(*this) - (double)v; }
+	template<class T> double operator*( T v ) { return (double)(*this) * (double)v; }
+	template<class T> double operator/( T v ) { return (double)(*this) / (double)v; }
+	template<class T> friend double operator+( T v, LogicalChannel lc ) { return (double)v + (double)lc; }
+	template<class T> friend double operator-( T v, LogicalChannel lc ) { return (double)v - (double)lc; }
+	template<class T> friend double operator*( T v, LogicalChannel lc ) { return (double)v * (double)lc; }
+	template<class T> friend double operator/( T v, LogicalChannel lc ) { return (double)v / (double)lc; }
+	
+	int			ch_number;
+	AFE_base	*afe_ptr;
+};
+#endif
+
 class NAFE13388_Base : public AFE_base
 {
 public:
@@ -356,9 +383,14 @@ public:
 		operator raw_t(void);
 		operator microvolt_t(void);
 
-		double	operator*( double v ) {
-			return	(double)(*this) * v;
-		}
+		template<class T> double operator+( T v ) { return (double)(*this) + (double)v; }
+		template<class T> double operator-( T v ) { return (double)(*this) - (double)v; }
+		template<class T> double operator*( T v ) { return (double)(*this) * (double)v; }
+		template<class T> double operator/( T v ) { return (double)(*this) / (double)v; }
+		template<class T> friend double operator+( T v, LogicalChannel lc ) { return (double)v + (double)lc; }
+		template<class T> friend double operator-( T v, LogicalChannel lc ) { return (double)v - (double)lc; }
+		template<class T> friend double operator*( T v, LogicalChannel lc ) { return (double)v * (double)lc; }
+		template<class T> friend double operator/( T v, LogicalChannel lc ) { return (double)v / (double)lc; }
 		
 		int				ch_number;
 		NAFE13388_Base	*afe_ptr;

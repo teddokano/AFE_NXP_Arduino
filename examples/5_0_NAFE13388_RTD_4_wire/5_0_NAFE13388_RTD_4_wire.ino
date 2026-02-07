@@ -80,14 +80,14 @@ double get_temp(int logical_channel_num) {
   static constexpr auto coef_pt100 = 0.385;
 
   //  get logical channel voltage in microvolt
-  NAFE13388_UIM::microvolt_t lc_voltage = afe.logical_channel[logical_channel_num];
+  double volt = afe.logical_channel[logical_channel_num] / 1000000;
 
-  //  convert microvolt to volt
-  lc_voltage *= 1e-6;
+  Serial.print(volt, 8);
+
 
   //  calcurate resistance by deviding excitation current
-  double r_rtd_lc = lc_voltage / 250e-6;
+  double resistance = volt / 250e-6;
 
   //  convert from resistance to tempoerature (degree Celsius)
-  return (r_rtd_lc - 100) / coef_pt100;
+  return (resistance - 100) / coef_pt100;
 }
