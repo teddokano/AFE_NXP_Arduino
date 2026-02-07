@@ -79,11 +79,8 @@ void loop() {
 double get_temp(int logical_channel_num) {
   static constexpr auto coef_pt100 = 0.385;
 
-  //  get logical channel voltage in microvolt
-  double volt = afe.logical_channel[logical_channel_num] / 1000000;
-
-  Serial.print(volt, 8);
-
+  //  get logical channel voltage in microvolt and convert to volt
+  double volt = afe.logical_channel[logical_channel_num] * 1e-6;
 
   //  calcurate resistance by deviding excitation current
   double resistance = volt / 250e-6;
