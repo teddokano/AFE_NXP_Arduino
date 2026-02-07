@@ -20,7 +20,7 @@
 
 #include <NAFE13388_UIM.h>
 
-double resistance2temp_pt100(double);
+double get_temp(int logical_channel_num);
 
 NAFE13388_UIM afe;
 
@@ -67,26 +67,27 @@ void setup() {
 }
 
 void loop() {
-  for (auto i = 0; i < 2; i++) {
-    NAFE13388_UIM::microvolt_t lc_voltage = afe.logical_channel[i];  //  get logical channel voltage in microvolt
-    lc_voltage *= 1e-6;                                              //  convert microvolt to volt
-    double r_rtd_lc = lc_voltage / 250e-6;
-    double t_rtd_lc = resistance2temp_pt100(r_rtd_lc);
+  double temp0 = get_temp(0);
+  double temp1 = get_temp(1);
 
-    Serial.print("  lc_voltage = ");
-    Serial.print(lc_voltage, 8);
-    Serial.print("  r_rtd_lc = ");
-    Serial.print(r_rtd_lc, 8);
-    Serial.print("  t_rtd_lc = ");
-    Serial.print(t_rtd_lc, 8);
-
-    Serial.println("");
-  }
+  Serial.print(temp0, 8);
+  Serial.print(", ");
+  Serial.print(temp1, 8);
   Serial.println("");
 }
 
-double resistance2temp_pt100(double r) {
+double get_temp(int logical_channel_num) {
   static constexpr auto coef_pt100 = 0.385;
 
-  return (r - 100) / coef_pt100;
+  //  get logical channel voltage in microvolt
+  NAFE13388_UIM::microvolt_t lc_voltage = afe.logical_channel[logical_channel_num];
+
+  //  convert microvolt to volt
+  lc_voltage *= 1e-6;
+
+  //  calcurate resistance by deviding excitation current
+  double r_rtd_lc = lc_voltage / 250e-6;
+
+  //  convert from resistance to tempoerature (degree Celsius)
+  return (r_rtd_lc - 100) / coef_pt100;
 }
