@@ -24,11 +24,6 @@ double get_temp(int logical_channel_num);
 
 NAFE13388_UIM afe;
 
-constexpr auto r_32 = 2940.00;
-constexpr auto r_34 = 2940.00;
-constexpr auto r_series = r_32 + r_34;
-constexpr auto vref_buf = 2.50;
-
 void setup() {
   Serial.begin(115200);
   while (!Serial)
@@ -50,6 +45,7 @@ void setup() {
   afe.logical_channel[0].configure(0x22F8, 0x80C4, 0x8480, 0xA608);
 
   //  Logical-channel for RTD measurement by 4 wire method
+  //
   //  measureing RTD voltage between AI4P and AI4N pins
   //  using 250uA excitation current from AI3P pin
   //  PGA gain = x16, coefficient set slot = 8,
@@ -59,6 +55,10 @@ void setup() {
   //  Set factory calibrated coefficients for PGA gain=x16, with excitation current = 250uA
   //  using coefficient slot on 8
   //  reference : AN14539, Table 3
+  //
+  //  With these factory-calibrated coefficients,
+  //  the resistance can be get by simple calcuration: "R_rtd = V_measured / 250uA"
+  //
   afe.reg(NAFE13388_UIM::Register24::OFFSET_COEFF8, afe.reg(NAFE13388_UIM::Register24::OPT_COEF3));
   afe.reg(NAFE13388_UIM::Register24::GAIN_COEFF8, afe.reg(NAFE13388_UIM::Register24::OPT_COEF4));
 
