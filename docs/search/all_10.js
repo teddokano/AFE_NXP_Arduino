@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['tbd_0',['TBD',['../class_n_a_f_e13388___base.html#a93d87b82239122d04d021048a9f5060dad159f0b550140e5392f805bb70582803',1,'NAFE13388_Base']]],
-  ['temperature_1',['temperature',['../class_n_a_f_e13388___base.html#af22fdbf78a0ee02146ef67c367439694',1,'NAFE13388_Base']]],
-  ['this_2',['What is this?',['../md__r_e_a_d_m_e.html#autotoc_md1',1,'']]],
-  ['thrs_5ftemp_3',['THRS_TEMP',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba8969a19acd94300990e216f67c0a5e22',1,'NAFE13388_Base']]],
-  ['timeout_5flimit_4',['timeout_limit',['../class_a_f_e__base.html#a308b9039a3221a2b13f6ebcd1f6605b3',1,'AFE_base']]],
-  ['to_20use_5',['to use',['../md__r_e_a_d_m_e.html#autotoc_md2',1,'Easy to use'],['../md__r_e_a_d_m_e.html#autotoc_md8',1,'How to use?']]],
-  ['total_5fdelay_6',['total_delay',['../class_a_f_e__base.html#afebe805e43da330337776aca5fe9cbba',1,'AFE_base']]],
-  ['txrx_7',['txrx',['../class_s_p_i__for___a_f_e.html#a3063f4bf133088e6c239a446310686f5',1,'SPI_for_AFE']]]
+  ['nafe13388_0',['NAFE13388',['../class_n_a_f_e13388.html',1,'NAFE13388'],['../class_n_a_f_e13388.html#ae5dcb3f9575a84f81a494ba6044cf957',1,'NAFE13388::NAFE13388()']]],
+  ['nafe13388_2eh_1',['NAFE13388.h',['../_n_a_f_e13388_8h.html',1,'']]],
+  ['nafe13388_5fbase_2',['NAFE13388_Base',['../class_n_a_f_e13388___base.html',1,'NAFE13388_Base'],['../class_n_a_f_e13388___base.html#a09d66cbb2549f233944090132a003eb4',1,'NAFE13388_Base::NAFE13388_Base()']]],
+  ['nafe13388_5fuim_3',['NAFE13388_UIM',['../class_n_a_f_e13388___u_i_m.html',1,'NAFE13388_UIM'],['../class_n_a_f_e13388___u_i_m.html#a63da23aee8cdc4e1f1d06e69aa7831c8',1,'NAFE13388_UIM::NAFE13388_UIM()']]],
+  ['nafe13388_5fuim_2eh_4',['NAFE13388_UIM.h',['../_n_a_f_e13388___u_i_m_8h.html',1,'']]],
+  ['noerror_5',['NoError',['../class_n_a_f_e13388___base.html#affb3c442ff082599f9a189493399345fa7164ea05e49580e5c3b305ea38119c4d',1,'NAFE13388_Base']]]
 ];

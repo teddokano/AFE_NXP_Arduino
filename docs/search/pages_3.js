@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['device_0',['Supported device',['../md__r_e_a_d_m_e.html#autotoc_md3',1,'']]],
-  ['document_1',['Document',['../md__r_e_a_d_m_e.html#autotoc_md10',1,'']]]
+  ['6_5f0_5fnafe13388_5fthermocouple_0',['6_0_NAFE13388_Thermocouple',['../dir_e442168b1f320a5c0ec8efaf8f5d703e.html#autotoc_md4',1,'']]]
 ];
