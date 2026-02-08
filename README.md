@@ -6,7 +6,10 @@ An Arduino library for NXP Analog Front End device with sample code.
 This library provides simple API to get analog input channels.  
 Include device name header file (`NAFE13388_UIM.h`) to use those class libraries.   
 
-This repo shoiws some basic operations of AFE as well as practical samples to work with [RTD](examples/5_0_NAFE13388_RTD_4_wire/README.md), [thermocouple](examples/6_0_NAFE13388_Thermocouple/README.md) and [loadcell](examples/7_0_NAFE13388_LoadCell/README.md). 
+This repo shoiws some basic operations of AFE as well as practical samples to work 
+with [RTD](examples/5_0_NAFE13388_RTD_4_wire/README.md), 
+[thermocouple](examples/6_0_NAFE13388_Thermocouple/README.md) and 
+[loadcell](examples/7_0_NAFE13388_LoadCell/README.md). 
 
 ## Easy to use
 
@@ -119,11 +122,12 @@ Sketch|Target|Feature|NOTE
 2_1_NAFE13388_multichannel_read_MCMR_using_DRDY|NAFE13388-UIM		|Get 8ch inputs using Multi-Channel Multi-Read command| Need to short pins between D2 and D4
 3_0_NAFE13388_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM	|Get 8ch inputs using Multi-Channel **Continuous**-Read command| Need to short pins between D2 and D4
 4_0_NAFE13388_LVMUX_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM	|Get 8ch inputs and LVMUX inputs (supply voltage, etc)|Need to short pins between D2 and D4
-5_0_NAFE13388_RTD_4_wire|NAFE13388-UIM	|Practical sample to measure temperature by 2 RTDs using internal current excitation source|Need to short pins between D2 and D4
-6_0_NAFE13388_Thermocouple|NAFE13388-UIM	|Practical sample to measure temperature by thermocouple with on-board RTD |Need to short pins between D2 and D4
-7_0_NAFE13388_LoadCell|NAFE13388-UIM	|Practical sample to measure loadcell output using internal voltage excitation source |Need to short pins between D2 and D4
+[5_0_NAFE13388_RTD_4_wire](examples/5_0_NAFE13388_RTD_4_wire/README.md)|NAFE13388-UIM	|Practical sample to measure temperature by 2 RTDs using internal current excitation source|Need to short pins between D2 and D4
+[6_0_NAFE13388_Thermocouple](examples/6_0_NAFE13388_Thermocouple/README.md)|NAFE13388-UIM	|Practical sample to measure temperature by thermocouple with on-board RTD |Need to short pins between D2 and D4
+[7_0_NAFE13388_LoadCell](examples/7_0_NAFE13388_LoadCell/README.md)|NAFE13388-UIM	|Practical sample to measure loadcell output using internal voltage excitation source |Need to short pins between D2 and D4
 9_0_NAFE13388_UIM_self_calibration	|NAFE13388-UIM	|A sample of performing **self calibration** on UIM board
 
 
 # Document
 For details of the library, please find descriptions in [this document](https://teddokano.github.io/AFE_NXP_Arduino/annotated.html).
+
