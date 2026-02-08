@@ -4,7 +4,9 @@ Analog Front End device operation sample code for [Arduino](https://www.arduino.
 ## What is this?
 An Arduino library for NXP Analog Front End device with sample code.  
 This library provides simple API to get analog input channels.  
-Include device name header file (`NAFE13388_UIM.h`) to use those class libraries. 
+Include device name header file (`NAFE13388_UIM.h`) to use those class libraries.   
+
+This repo shoiws some basic operations of AFE as well as practical samples to work with [RTD](examples/5_0_NAFE13388_RTD_4_wire/README.md), [thermocouple](examples/6_0_NAFE13388_Thermocouple/README.md) and [loadcell](examples/7_0_NAFE13388_LoadCell/README.md). 
 
 ## Easy to use
 
