@@ -23,7 +23,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">AFE_NXP_Arduino<span id="projectnumber">&#160;1.0.1</span>
+   <div id="projectname">AFE_NXP_Arduino<span id="projectnumber">&#160;1.0.3</span>
    </div>
    <div id="projectbrief">Analog Front-End (AFE) device operation sample code for Arduino</div>
   </td>
@@ -75,27 +75,18 @@ $(function() {
   <div class="headertitle"><div class="title">AFE_NXP_Arduino </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md0"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md11"></a></p>
 <p>Analog Front End device operation sample code for <a href="https://www.arduino.cc">Arduino</a></p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
 What is this?</h1>
 <p>An Arduino library for NXP Analog Front End device with sample code. <br  />
  This library provides simple API to get analog input channels. <br  />
- Include device name header file (<span class="tt"><a class="el" href="_n_a_f_e13388___u_i_m_8h.html">NAFE13388_UIM.h</a></span>) to use those class libraries.</p>
-<blockquote class="doxtable">
-<p><b>Note</b> <br  />
- For proper voltage signal interfacing, connection between Arduino MCU board and NAFE13388-UIM board need to be modified. <b>Remove 3.3V supply pin</b> to let UIM to support 5V signaling. <br  />
- <img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_3v3_pin_lifted_at_extender.jpg" alt="" class="inline"/> <br  />
- <em>3.3V supply pin is lifted at pin extender</em> <br  />
+ Include device name header file (<span class="tt"><a class="el" href="_n_a_f_e13388___u_i_m_8h.html">NAFE13388_UIM.h</a></span>) to use those class libraries. <br  />
 </p>
-<p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/UIM_modification.png" alt="" class="inline"/> <br  />
- <em>Diagram of 3.3V and 5V supply rails on NAFE13388-UIM board's schematic</em></p>
-<p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/ioref.png" alt="" class="inline"/> <br  />
- Using 5V supply on IOREF pin from Arduino board_ </p>
-</blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
+<p>This repo shoiws some basic operations of AFE as well as practical samples to work with <a class="el" href="dir_ab3d631e31fd5110b037eb3fd6b79410.html" title="/Users/tedd/dev/Arduino/AFE_NXP_Arduino/examples/5_0_NAFE13388_RTD_4_wire/README.md">RTD</a>, <a class="el" href="dir_e442168b1f320a5c0ec8efaf8f5d703e.html" title="/Users/tedd/dev/Arduino/AFE_NXP_Arduino/examples/6_0_NAFE13388_Thermocouple/README.md">thermocouple</a> and <a class="el" href="dir_028c6ec880267288ed73a106f4117993.html" title="/Users/tedd/dev/Arduino/AFE_NXP_Arduino/examples/7_0_NAFE13388_LoadCell/README.md">loadcell</a>.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
 Easy to use</h1>
-<p>On 3 types of Arduino UNO boards: <b>R3</b>, <b>R4 Minima</b> and <b>R4 WiFi</b> are supported. <br  />
+<p>3 types of Arduino UNO boards: <b>R3</b>, <b>R4 Minima</b> and <b>R4 WiFi</b> are supported. <br  />
  Example sketches can be built and run on any of those boards. <br  />
 </p>
 <p>Next is a sample of the basic operation of measureing analog voltage on AI1P and AI1N terminal. <br  />
@@ -126,11 +117,11 @@ Easy to use</h1>
 <div class="line">}</div>
 <div class="ttc" id="a_n_a_f_e13388___u_i_m_8h_html"><div class="ttname"><a href="_n_a_f_e13388___u_i_m_8h.html">NAFE13388_UIM.h</a></div></div>
 <div class="ttc" id="aclass_a_f_e__base_html_a1b989cf95653ebd96e4a1cebc27a1133"><div class="ttname"><a href="class_a_f_e__base.html#a1b989cf95653ebd96e4a1cebc27a1133">AFE_base::microvolt_t</a></div><div class="ttdeci">double microvolt_t</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8h_source.html#l00023">AFE_NXP.h:23</a></div></div>
-<div class="ttc" id="aclass_a_f_e__base_html_a33584cc8f4bcf9455a4ee06dfa65cbd8"><div class="ttname"><a href="class_a_f_e__base.html#a33584cc8f4bcf9455a4ee06dfa65cbd8">AFE_base::begin</a></div><div class="ttdeci">virtual void begin(void)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00101">AFE_NXP.cpp:101</a></div></div>
-<div class="ttc" id="aclass_n_a_f_e13388___base_1_1_logical_channel_html_ae67df7c639793273465d726284f6424b"><div class="ttname"><a href="class_n_a_f_e13388___base_1_1_logical_channel.html#ae67df7c639793273465d726284f6424b">NAFE13388_Base::LogicalChannel::configure</a></div><div class="ttdeci">void configure(const uint16_t(&amp;cc)[4])</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00024">AFE_NXP.cpp:24</a></div></div>
-<div class="ttc" id="aclass_n_a_f_e13388___base_html_a34f578474b1f74e4d5f71f3bc29a2502"><div class="ttname"><a href="class_n_a_f_e13388___base.html#a34f578474b1f74e4d5f71f3bc29a2502">NAFE13388_Base::logical_channel</a></div><div class="ttdeci">LogicalChannel logical_channel[16]</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8h_source.html#l00362">AFE_NXP.h:362</a></div></div>
-<div class="ttc" id="aclass_n_a_f_e13388___u_i_m_html"><div class="ttname"><a href="class_n_a_f_e13388___u_i_m.html">NAFE13388_UIM</a></div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8h_source.html#l00721">AFE_NXP.h:722</a></div></div>
-<div class="ttc" id="aclass_n_a_f_e13388___u_i_m_html_a8914b71fffbf47cfbdb022e24476211c"><div class="ttname"><a href="class_n_a_f_e13388___u_i_m.html#a8914b71fffbf47cfbdb022e24476211c">NAFE13388_UIM::blink_leds</a></div><div class="ttdeci">void blink_leds(void)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00636">AFE_NXP.cpp:636</a></div></div>
+<div class="ttc" id="aclass_a_f_e__base_html_a33584cc8f4bcf9455a4ee06dfa65cbd8"><div class="ttname"><a href="class_a_f_e__base.html#a33584cc8f4bcf9455a4ee06dfa65cbd8">AFE_base::begin</a></div><div class="ttdeci">virtual void begin(void)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00097">AFE_NXP.cpp:97</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e13388___base_1_1_logical_channel_html_ae67df7c639793273465d726284f6424b"><div class="ttname"><a href="class_n_a_f_e13388___base_1_1_logical_channel.html#ae67df7c639793273465d726284f6424b">NAFE13388_Base::LogicalChannel::configure</a></div><div class="ttdeci">void configure(const uint16_t(&amp;cc)[4])</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00056">AFE_NXP.cpp:56</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e13388___base_html_a34f578474b1f74e4d5f71f3bc29a2502"><div class="ttname"><a href="class_n_a_f_e13388___base.html#a34f578474b1f74e4d5f71f3bc29a2502">NAFE13388_Base::logical_channel</a></div><div class="ttdeci">LogicalChannel logical_channel[16]</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8h_source.html#l00381">AFE_NXP.h:381</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e13388___u_i_m_html"><div class="ttname"><a href="class_n_a_f_e13388___u_i_m.html">NAFE13388_UIM</a></div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8h_source.html#l00740">AFE_NXP.h:741</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e13388___u_i_m_html_a8914b71fffbf47cfbdb022e24476211c"><div class="ttname"><a href="class_n_a_f_e13388___u_i_m.html#a8914b71fffbf47cfbdb022e24476211c">NAFE13388_UIM::blink_leds</a></div><div class="ttdeci">void blink_leds(void)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00632">AFE_NXP.cpp:632</a></div></div>
 </div><!-- fragment --><p>To try this sample code, set jumper plug on J91 to short AICOM and GND. <br  />
  The analog input terminals are available as picture below. <br  />
 </p>
@@ -148,10 +139,21 @@ Easy to use</h1>
  <em>NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R4 Minima</em></p>
 <p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_on_r4_minima.jpg" alt="uim_on_r4_minima.jpg" class="inline"/> <br  />
  <em>NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R4 WiFi</em></p>
+<blockquote class="doxtable">
+<p><b>Note</b> <br  />
+ For proper voltage signal interfacing, connection between Arduino MCU board and NAFE13388-UIM board need to be modified. <b>Remove 3.3V supply pin</b> to let UIM to support 5V signaling. <br  />
+ <img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/uim_3v3_pin_lifted_at_extender.jpg" alt="" class="inline"/> <br  />
+ <em>3.3V supply pin is lifted at pin extender</em> <br  />
+</p>
+<p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/UIM_modification.png" alt="" class="inline"/> <br  />
+ <em>Diagram of 3.3V and 5V supply rails on NAFE13388-UIM board's schematic</em></p>
+<p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/ioref.png" alt="" class="inline"/> <br  />
+ Using 5V supply on IOREF pin from Arduino board_ </p>
+</blockquote>
 <p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/afe.jpg" alt="Boards" class="inline"/> <br  />
  <em>NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3</em></p>
 <p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/NAFE13388.jpg" alt="NAFE13388.jpg" class="inline"/> <em>Analog-Front-End chip: <a class="el" href="class_n_a_f_e13388.html">NAFE13388</a></em></p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
 Supported device</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -161,7 +163,7 @@ Supported device</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><a href="https://www.nxp.com/products/peripherals-and-logic/signal-chain/analog-front-end/highly-configurable-8-channel-25-v-universal-input-low-power-analog-front-end:NAFEx1388">NAFE73388</a>  </td><td class="markdownTableBodyNone">Highly Configurable 8 Channel ±25 V Universal Input Low Power Analog Front-End  </td><td class="markdownTableBodyNone">SPI (mode1)  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
 Evaluation boards</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -171,22 +173,22 @@ Evaluation boards</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><a href="https://www.nxp.com/products/peripherals-and-logic/signal-chain/analog-front-end/highly-configurable-8-channel-25-v-universal-input-low-power-analog-front-end:NAFEx1388">NAFE13388_UIM</a>  </td><td class="markdownTableBodyNone"><span class="tt"><a class="el" href="_n_a_f_e13388___u_i_m_8h.html">NAFE13388_UIM.h</a></span>  </td><td class="markdownTableBodyNone">AFE Arduino shield type evaluation board  </td><td class="markdownTableBodyNone">SPI (mode1)  </td><td class="markdownTableBodyNone"><a href="https://www.nxp.com/design/design-center/development-boards-and-designs/NAFE13388-UIM">NAFE13388-UIM 8-Channel Universal Input AFE Arduino® Shield Board</a>  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
 Getting started</h1>
 <p>How to setup? --&gt; <a href="https://youtu.be/UEOFC0TwA6c">https://youtu.be/UEOFC0TwA6c</a> <br  />
  <img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/demo_video.png" alt="Boards" class="inline"/></p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
 What's inside?</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
 Examples</h2>
 <p>Examples are provided as scketch files.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
 How to use?</h3>
 <p>After library install, Choose menu on Arduino-IDE: <span class="tt">File</span>→<span class="tt">Examples</span>→<span class="tt">AFE_NXP_Arduino</span>→ <b>sketch for your try</b></p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
 List of sample code</h3>
-<p>Sketch|Target|Feature|NOTE &mdash;|&mdash;|&mdash;|&mdash; 1_0_NAFE13388_simple_SCSR |NAFE13388-UIM |**Simple** sample to get 2ch inputs| 1_1_NAFE13388_simple_SCSR_using_DRDY_signal|NAFE13388-UIM |**Simple** sample to get 2ch inputs using DRDY signal|Need to short pins between D2 and D4 2_0_NAFE13388_multichannel_read_MCMR|NAFE13388-UIM |Get 8ch inputs using Multi-Channel Multi-Read command| 2_1_NAFE13388_multichannel_read_MCMR_using_DRDY|NAFE13388-UIM |Get 8ch inputs using Multi-Channel Multi-Read command| Need to short pins between D2 and D4 3_0_NAFE13388_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM |Get 8ch inputs using Multi-Channel <b>Continuous</b>-Read command| Need to short pins between D2 and D4 4_0_NAFE13388_LVMUX_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM |Get 8ch inputs and LVMUX inputs (supply voltage, etc)|Need to short pins between D2 and D4 9_0_NAFE13388_UIM_self_calibration |NAFE13388-UIM |A sample of performing <b>self calibration</b> on UIM board</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+<p>Sketch|Target|Feature|NOTE &mdash;|&mdash;|&mdash;|&mdash; 1_0_NAFE13388_simple_SCSR |NAFE13388-UIM |**Simple** sample to get 2ch inputs| 1_1_NAFE13388_simple_SCSR_using_DRDY_signal|NAFE13388-UIM |**Simple** sample to get 2ch inputs using DRDY signal|Need to short pins between D2 and D4 2_0_NAFE13388_multichannel_read_MCMR|NAFE13388-UIM |Get 8ch inputs using Multi-Channel Multi-Read command| 2_1_NAFE13388_multichannel_read_MCMR_using_DRDY|NAFE13388-UIM |Get 8ch inputs using Multi-Channel Multi-Read command| Need to short pins between D2 and D4 3_0_NAFE13388_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM |Get 8ch inputs using Multi-Channel <b>Continuous</b>-Read command| Need to short pins between D2 and D4 4_0_NAFE13388_LVMUX_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM |Get 8ch inputs and LVMUX inputs (supply voltage, etc)|Need to short pins between D2 and D4 <a class="el" href="dir_ab3d631e31fd5110b037eb3fd6b79410.html" title="/Users/tedd/dev/Arduino/AFE_NXP_Arduino/examples/5_0_NAFE13388_RTD_4_wire/README.md">5_0_NAFE13388_RTD_4_wire</a>|NAFE13388-UIM |Practical sample to measure temperature by 2 RTDs using internal current excitation source|Need to short pins between D2 and D4 <a class="el" href="dir_e442168b1f320a5c0ec8efaf8f5d703e.html" title="/Users/tedd/dev/Arduino/AFE_NXP_Arduino/examples/6_0_NAFE13388_Thermocouple/README.md">6_0_NAFE13388_Thermocouple</a>|NAFE13388-UIM |Practical sample to measure temperature by thermocouple with on-board RTD |Need to short pins between D2 and D4 <a class="el" href="dir_028c6ec880267288ed73a106f4117993.html" title="/Users/tedd/dev/Arduino/AFE_NXP_Arduino/examples/7_0_NAFE13388_LoadCell/README.md">7_0_NAFE13388_LoadCell</a>|NAFE13388-UIM |Practical sample to measure loadcell output using internal voltage excitation source |Need to short pins between D2 and D4 9_0_NAFE13388_UIM_self_calibration |NAFE13388-UIM |A sample of performing <b>self calibration</b> on UIM board</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
 Document</h1>
 <p>For details of the library, please find descriptions in <a href="https://teddokano.github.io/AFE_NXP_Arduino/annotated.html">this document</a>. </p>
 </div></div><!-- contents -->

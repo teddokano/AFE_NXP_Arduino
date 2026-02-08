@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['code_0',['List of sample code',['../md__r_e_a_d_m_e.html#autotoc_md9',1,'']]]
+  ['5_5f0_5fnafe13388_5frtd_5f4_5fwire_0',['5_0_NAFE13388_RTD_4_wire',['../dir_ab3d631e31fd5110b037eb3fd6b79410.html#autotoc_md0',1,'']]]
 ];

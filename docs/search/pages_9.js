@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['of_20sample_20code_0',['List of sample code',['../md__r_e_a_d_m_e.html#autotoc_md9',1,'']]]
+  ['easy_20to_20use_0',['Easy to use',['../md__r_e_a_d_m_e.html#autotoc_md13',1,'']]],
+  ['evaluation_20boards_1',['Evaluation boards',['../md__r_e_a_d_m_e.html#autotoc_md15',1,'']]],
+  ['examples_2',['Examples',['../md__r_e_a_d_m_e.html#autotoc_md18',1,'']]]
 ];

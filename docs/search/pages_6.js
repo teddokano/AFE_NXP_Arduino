@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['how_20to_20use_0',['How to use?',['../md__r_e_a_d_m_e.html#autotoc_md8',1,'']]]
+  ['boards_0',['Evaluation boards',['../md__r_e_a_d_m_e.html#autotoc_md15',1,'']]]
 ];
