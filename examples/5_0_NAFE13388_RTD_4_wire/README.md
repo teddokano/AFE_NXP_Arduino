@@ -1,5 +1,7 @@
 # 5_0_NAFE13388_RTD_4_wire
 
+https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/5_0_NAFE13388_RTD_4_wire
+
 Practical sample to measure temperature by 2 RTDs using internal current excitation source.  
 These RTD measurements are done in 4 wire method.  
 

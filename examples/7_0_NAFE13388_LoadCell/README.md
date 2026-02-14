@@ -1,5 +1,7 @@
 # 7_0_NAFE13388_LoadCell
 
+https://github.com/teddokano/AFE_NXP_Arduino/blob/main/examples/7_0_NAFE13388_LoadCell
+
 Practical sample to measure loadcell output using internal voltage excitation source.   
 
 This sample uses 1 logical channel.  
