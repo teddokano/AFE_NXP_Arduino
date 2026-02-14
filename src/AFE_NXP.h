@@ -371,11 +371,226 @@ public:
 	class LogicalChannel : public LogicalChannel_Base
 	{
 	public:
+		enum class HV_AIP : uint8_t {
+			internal_GND	= 0,
+			AI1P,
+			AI2P,
+			AI3P,
+			AI4P,
+			REFH,
+			REFL,
+			AICOM
+		};
+
+		enum class HV_AIN : uint8_t {
+			internal_GND	= 0,
+			AI1N,
+			AI2N,
+			AI3N,
+			AI4N,
+			REFH,
+			REFL,
+			AICOM
+		};
+
+		enum class CH_GAIN : uint8_t {
+			x0_2	= 0,
+			x0_4,
+			x0_8,
+			x1,
+			x2,
+			x4,
+			x8,
+			x16
+		};
+
+		enum class HV_SEL : bool {
+			LVSIG_IN		= 0,
+			HV_ AIP-HV_AIN
+		};
+
+		enum class LVSIG_IN : uint8_t {
+			REF2_REF2	= 0,
+			GPIO0_GPIO1,
+			REFcoarse_REF2,
+			VADD_REF/2,
+			VHDD_REF/2,
+			REF2_VHSS
+		};
+
+		enum class TCC_OFF : bool {
+			On	= 0,
+			Off
+		};
+
+		enum class ADC_SINC : uint8_t {
+			bypass	= 0,
+			SINC1,
+			SINC2,
+			SINC3,
+			SINC4
+		};
+
+		enum class CH_DELAY : uint8_t {
+			_0	= 0,
+			_2,
+			_4,
+			_6,
+			_8,
+			_10,
+			_12,
+			_14,
+			_16,
+			_18,
+			_20,
+			_28,
+			_38,
+			_40,
+			_42,
+			_56,
+			_64,
+			_76,
+			_90,
+			_128,
+			_154,
+			_178,
+			_204,
+			_224,
+			_256,
+			_358,
+			_512,
+			_716,
+			_1024,
+			_1664,
+			_3276,
+			_7680,
+			_19200,
+			_23040,
+		};
+
+		enum class ADC_NORMAL_SETTLING : bool {
+			Single	= 0,
+			Normal
+		};
+
+		enum class ADC_FILTER_RESET : bool {
+			Hold	= 0,
+			Reset
+		};
+
+		enum class CH_CHOP : bool {
+			Normal	= 0,
+			Precision
+		};
+
+		enum class VIEX_VI : bool {
+			Voltage	= 0,
+			Current
+		};
+
+
+		enum class VIEX_POL : bool {
+			Positive	= 0,
+			Negative
+		};
+
+		enum class VIEX_MAG : uint8_t {
+			_0V		= 0,
+			_6mV,
+			_12mV,
+			_23mV,
+			_47mV,
+			_94mV,
+			_188mV,
+			_375mA,
+			_750mA,
+			_1_5V,
+			_2_25V,
+			_3V,
+			_4_5V,
+			_6V,
+			_9V,
+			_12V,
+			_0A		= 0,
+			_977nA,
+			_2uA,
+			_3_9uA,
+			_7_8uA,
+			_15_6uA,
+			_31_3uA,
+			_62_5uA,
+			_125uA,
+			_250uA,
+			_375uA,
+			_500uA,
+			_750uA,
+			_1mA,
+			_1_5mA,
+			_2mA,
+		};
+
+		enum class VEXC_EN : uint16_t {
+			Disable	= 0,
+			Enable
+		};
+
+		enum class OPEN_DET_CURRENT : uint16_t {
+			Off	= 0,
+			On
+		};
+
+
+		enum class VIEX_CHOP : uint16_t {
+			Normal	= 0,
+			2_conversions_with_polarity_chopping
+		};
+
+
+		enum class VIEX_AIP_EN : uint16_t {
+			none	= 0,
+			AI1P,
+			AI2P,
+			AI3P,
+			AI4P
+		};
+
+
+		enum class VIEX_AIN_EN : uint16_t {
+			none	= 0,
+			AI1N,
+			AI2N,
+			AI3N,
+			AI4N
+		};
+		
 		LogicalChannel();
 		virtual ~LogicalChannel();
 		
 		void	configure( const uint16_t (&cc)[ 4 ] );
 		void	configure( uint16_t cc0 = 0x0000, uint16_t cc1 = 0x0000, uint16_t cc2 = 0x0000, uint16_t cc3 = 0x0000 );
+		
+		HV_AIP				hv_aip;
+		HV_AIN				hv_ain;
+		CH_GAIN				ch_gain;
+		HV_SEL				hv_sel;
+		LVSIG_IN			lvsig_in;
+		TCC_OFF				tcc_off;
+		ADC_SINC			ch_cal_gain_offset;
+		CH_THRS 			ch_thrs;
+		ADC_DATA_RATE		adc_data_rate;
+		ADC_SINC			adc_sinc;
+		CH_DELAY			ch_delay;
+		ADC_NORMAL_SETTLING	adc_normal_settling;
+		ADC_FILTER_RESET	adc_filter_reset;
+		CH_CHOP				ch_chop;
+		VIEX_VI				viex_vi;
+		VIEX_POL			viex_pol;
+		VIEX_MAG			viex_mag;
+		VEXC_EN 			vexc_en;
+		OPEN_DET_CURRENT	open_det_current;
+		VIEX_CHOP			viex_chop;
+		VIEX_AIP_EN			viex_aip_en;
+		VIEX_AIN_EN			viex_ain_en;
 	};
 	
 	LogicalChannel	logical_channel[ 16 ];
