@@ -64,6 +64,66 @@ void NAFE13388_Base::LogicalChannel::configure( uint16_t cc0, uint16_t cc1, uint
 	afe_ptr->open_logical_channel( ch_number, tmp_ch_config );
 }
 
+void NAFE13388_Base::LogicalChannel::encode( void )
+{
+	uint16_t cc[ 4 ];
+
+	cc[ 0 ]	= 	  (((uint16_t)hv_aip				& 0x000F) << 12) 
+				| (((uint16_t)hv_ain				& 0x000F) <<  8) 
+				| (((uint16_t)ch_gain				& 0x0007) <<  5) 
+				| (((uint16_t)hv_sel				& 0x0001) <<  4) 
+				| (((uint16_t)lvsig_in				& 0x0007) <<  1) 
+				| (((uint16_t)tcc_off				& 0x0001) <<  0);
+	cc[ 1 ]	= 	  (((uint16_t)ch_cal_gain_offset	& 0x000F) << 12) 
+				| (((uint16_t)ch_thrs 				& 0x000F) <<  8) 
+				| (((uint16_t)adc_data_rate			& 0x001F) <<  3) 
+				| (((uint16_t)adc_sinc				& 0x0007) <<  0);
+	cc[ 2 ]	=	  (((uint16_t)ch_delay				& 0x003F) << 10) 
+				| (((uint16_t)adc_normal_settling	& 0x0001) <<  9) 
+				| (((uint16_t)adc_filter_reset		& 0x0001) <<  8) 
+				| (((uint16_t)ch_chop				& 0x0001) <<  7);
+	cc[ 3 ]	= 	  (((uint16_t)viex_vi				& 0x0001) << 15) 
+				| (((uint16_t)viex_pol				& 0x0001) << 14) 
+				| (((uint16_t)viex_mag				& 0x000F) << 10) 
+				| (((uint16_t)vexc_en				& 0x0001) <<  9) 
+				| (((uint16_t)open_det_current		& 0x0001) <<  8) 
+				| (((uint16_t)viex_chop				& 0x0001) <<  6) 
+				| (((uint16_t)viex_aip_en			& 0x0007) <<  3) 
+				| (((uint16_t)viex_ain_en			& 0x0007) <<  0);
+}
+
+void NAFE13388_Base::LogicalChannel::decode( void )
+{
+	uint16_t cc[ 4 ];
+
+	
+	hv_aip					= (cc[ 0 ] >> 12) & 0x0F;
+	hv_ain					= (cc[ 0 ] >>  8) & 0x0F;
+	ch_gain					= (cc[ 0 ] >>  5) & 0x07;
+	hv_sel					= (cc[ 0 ] >>  4) & 0x01;
+	lvsig_in				= (cc[ 0 ] >>  1) & 0x07;
+	tcc_off					= (cc[ 0 ] >>  0) & 0x01;
+	
+	ch_cal_gain_offset		= (cc[ 1 ] >> 12) & 0x0F;
+	ch_thrs					= (cc[ 1 ] >>  8) & 0x0F;
+	adc_data_rate			= (cc[ 1 ] >>  3) & 0x1F;
+	adc_sinc				= (cc[ 1 ] >>  0) & 0x07;
+	
+	ch_delay				= (cc[ 2 ] >> 10) & 0x0F;
+	adc_normal_settling		= (cc[ 2 ] >>  8) & 0x0F;
+	adc_filter_reset		= (cc[ 2 ] >>  8) & 0x0F;
+	ch_chop					= (cc[ 2 ] >>  8) & 0x0F;
+	
+	viex_vi					= (cc[ 3 ] >>  8) & 0x0F;
+	viex_pol				= (cc[ 3 ] >>  8) & 0x0F;
+	viex_mag				= (cc[ 3 ] >>  8) & 0x0F;
+	vexc_en					= (cc[ 3 ] >>  8) & 0x0F;
+	open_det_current		= (cc[ 3 ] >>  8) & 0x0F;
+	viex_chop				= (cc[ 3 ] >>  8) & 0x0F;
+	viex_aip_en				= (cc[ 3 ] >>  8) & 0x0F;
+	viex_ain_en				= (cc[ 3 ] >>  8) & 0x0F;
+}
+
 
 /* AFE_base class ******************************************/
 

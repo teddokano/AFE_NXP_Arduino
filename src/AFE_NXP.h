@@ -406,15 +406,15 @@ public:
 
 		enum class HV_SEL : bool {
 			LVSIG_IN		= 0,
-			HV_ AIP-HV_AIN
+			HV_AIP_HV_AIN
 		};
 
 		enum class LVSIG_IN : uint8_t {
 			REF2_REF2	= 0,
 			GPIO0_GPIO1,
 			REFcoarse_REF2,
-			VADD_REF/2,
-			VHDD_REF/2,
+			VADD_REF2,
+			VHDD_REF2,
 			REF2_VHSS
 		};
 
@@ -542,7 +542,7 @@ public:
 
 		enum class VIEX_CHOP : uint16_t {
 			Normal	= 0,
-			2_conversions_with_polarity_chopping
+			_2_conversions_with_polarity_chopping
 		};
 
 
@@ -568,6 +568,11 @@ public:
 		
 		void	configure( const uint16_t (&cc)[ 4 ] );
 		void	configure( uint16_t cc0 = 0x0000, uint16_t cc1 = 0x0000, uint16_t cc2 = 0x0000, uint16_t cc3 = 0x0000 );
+		void	encode( void );
+		void	decode( void );
+		
+		using	CH_THRS			= uint8_t;
+		using	ADC_DATA_RATE	= uint8_t;
 		
 		HV_AIP				hv_aip;
 		HV_AIN				hv_ain;
@@ -595,7 +600,7 @@ public:
 	
 	LogicalChannel	logical_channel[ 16 ];
 
-	private:	
+private:
 	double 	calc_delay( int ch );
 	void 	channel_info_update( uint16_t value );
 
