@@ -29,9 +29,6 @@
 
 NAFE13388_UIM afe;
 
-
-//using enum NAFE13388_UIM::LogicalChannel::HV_AIP;
-
 void setup() {
   Serial.begin(115200);
   while (!Serial)
@@ -44,25 +41,27 @@ void setup() {
   afe.begin();
   afe.blink_leds();
 
-  afe.logical_channel[0].setting.hv_aip = NAFE13388_UIM::LogicalChannel::HV_AIP::AI1P;
-  afe.logical_channel[0].setting.hv_ain = NAFE13388_UIM::LogicalChannel::HV_AIN::AICOM;
-  afe.logical_channel[0].setting.ch_gain = NAFE13388_UIM::LogicalChannel::CH_GAIN::x0_2;
-  afe.logical_channel[0].setting.hv_sel = NAFE13388_UIM::LogicalChannel::HV_SEL::HV_AIP_HV_AIN;
-  afe.logical_channel[0].setting.tcc_off = NAFE13388_UIM::LogicalChannel::TCC_OFF::On;
-  afe.logical_channel[0].setting.adc_data_rate = 20;
-  afe.logical_channel[0].setting.adc_sinc = NAFE13388_UIM::LogicalChannel::ADC_SINC::SINC4;
-  afe.logical_channel[0].setting.ch_delay = NAFE13388_UIM::LogicalChannel::CH_DELAY::_23040;
-  afe.logical_channel[0].setting.adc_normal_settling = NAFE13388_UIM::LogicalChannel::ADC_NORMAL_SETTLING::Single;
+  using LC = NAFE13388_UIM::LogicalChannel;
 
-  afe.logical_channel[0].setting.hv_aip = NAFE13388_UIM::LogicalChannel::HV_AIP::AICOM;
-  afe.logical_channel[0].setting.hv_ain = NAFE13388_UIM::LogicalChannel::HV_AIN::AI1N;
-  afe.logical_channel[1].setting.ch_gain = NAFE13388_UIM::LogicalChannel::CH_GAIN::x0_2;
-  afe.logical_channel[1].setting.hv_sel = NAFE13388_UIM::LogicalChannel::HV_SEL::HV_AIP_HV_AIN;
-  afe.logical_channel[1].setting.tcc_off = NAFE13388_UIM::LogicalChannel::TCC_OFF::On;
+  afe.logical_channel[0].setting.hv_aip = LC::HV_AIP::AI1P;
+  afe.logical_channel[0].setting.hv_ain = LC::HV_AIN::AICOM;
+  afe.logical_channel[0].setting.ch_gain = LC::CH_GAIN::x0_2;
+  afe.logical_channel[0].setting.hv_sel = LC::HV_SEL::HV_AIP_HV_AIN;
+  afe.logical_channel[0].setting.tcc_off = LC::TCC_OFF::On;
+  afe.logical_channel[0].setting.adc_data_rate = 20;
+  afe.logical_channel[0].setting.adc_sinc = LC::ADC_SINC::SINC4;
+  afe.logical_channel[0].setting.ch_delay = LC::CH_DELAY::_23040;
+  afe.logical_channel[0].setting.adc_normal_settling = LC::ADC_NORMAL_SETTLING::Single;
+
+  afe.logical_channel[1].setting.hv_aip = LC::HV_AIP::AICOM;
+  afe.logical_channel[1].setting.hv_ain = LC::HV_AIN::AI1N;
+  afe.logical_channel[1].setting.ch_gain = LC::CH_GAIN::x0_2;
+  afe.logical_channel[1].setting.hv_sel = LC::HV_SEL::HV_AIP_HV_AIN;
+  afe.logical_channel[1].setting.tcc_off = LC::TCC_OFF::On;
   afe.logical_channel[1].setting.adc_data_rate = 20;
-  afe.logical_channel[1].setting.adc_sinc = NAFE13388_UIM::LogicalChannel::ADC_SINC::SINC4;
-  afe.logical_channel[1].setting.ch_delay = NAFE13388_UIM::LogicalChannel::CH_DELAY::_23040;
-  afe.logical_channel[1].setting.adc_normal_settling = NAFE13388_UIM::LogicalChannel::ADC_NORMAL_SETTLING::Single;
+  afe.logical_channel[1].setting.adc_sinc = LC::ADC_SINC::SINC4;
+  afe.logical_channel[1].setting.ch_delay = LC::CH_DELAY::_23040;
+  afe.logical_channel[1].setting.adc_normal_settling = LC::ADC_NORMAL_SETTLING::Single;
 
   afe.logical_channel[0].configure();
   afe.logical_channel[1].configure();
