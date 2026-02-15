@@ -64,24 +64,34 @@ void NAFE13388_Base::LogicalChannel::configure( uint16_t cc0, uint16_t cc1, uint
 	afe_ptr->open_logical_channel( ch_number, tmp_ch_config );
 }
 
-void NAFE13388_Base::LogicalChannel::encode( void )
+void NAFE13388_Base::LogicalChannel::configure( void )
 {
-	uint16_t cc[ 4 ];
+	ch_setting_t	tmp_ch_config	= { 0 };
+	
+	encode( tmp_ch_config );
+	configure( tmp_ch_config );
+}
 
+
+void NAFE13388_Base::LogicalChannel::encode( uint16_t cc[ 4 ] )
+{
 	cc[ 0 ]	= 	  (((uint16_t)hv_aip				& 0x000F) << 12) 
 				| (((uint16_t)hv_ain				& 0x000F) <<  8) 
 				| (((uint16_t)ch_gain				& 0x0007) <<  5) 
 				| (((uint16_t)hv_sel				& 0x0001) <<  4) 
 				| (((uint16_t)lvsig_in				& 0x0007) <<  1) 
 				| (((uint16_t)tcc_off				& 0x0001) <<  0);
+	
 	cc[ 1 ]	= 	  (((uint16_t)ch_cal_gain_offset	& 0x000F) << 12) 
 				| (((uint16_t)ch_thrs 				& 0x000F) <<  8) 
 				| (((uint16_t)adc_data_rate			& 0x001F) <<  3) 
 				| (((uint16_t)adc_sinc				& 0x0007) <<  0);
+	
 	cc[ 2 ]	=	  (((uint16_t)ch_delay				& 0x003F) << 10) 
 				| (((uint16_t)adc_normal_settling	& 0x0001) <<  9) 
 				| (((uint16_t)adc_filter_reset		& 0x0001) <<  8) 
 				| (((uint16_t)ch_chop				& 0x0001) <<  7);
+	
 	cc[ 3 ]	= 	  (((uint16_t)viex_vi				& 0x0001) << 15) 
 				| (((uint16_t)viex_pol				& 0x0001) << 14) 
 				| (((uint16_t)viex_mag				& 0x000F) << 10) 
@@ -92,36 +102,33 @@ void NAFE13388_Base::LogicalChannel::encode( void )
 				| (((uint16_t)viex_ain_en			& 0x0007) <<  0);
 }
 
-void NAFE13388_Base::LogicalChannel::decode( void )
+void NAFE13388_Base::LogicalChannel::decode( const uint16_t cc[ 4 ] )
 {
-	uint16_t cc[ 4 ];
-
+	hv_aip					= (HV_AIP  )((cc[ 0 ] >> 12) & 0x0F);
+	hv_ain					= (HV_AIN  )((cc[ 0 ] >>  8) & 0x0F);
+	ch_gain					= (CH_GAIN )((cc[ 0 ] >>  5) & 0x07);
+	hv_sel					= (HV_SEL  )((cc[ 0 ] >>  4) & 0x01);
+	lvsig_in				= (LVSIG_IN)((cc[ 0 ] >>  1) & 0x07);
+	tcc_off					= (TCC_OFF )((cc[ 0 ] >>  0) & 0x01);
 	
-	hv_aip					= (cc[ 0 ] >> 12) & 0x0F;
-	hv_ain					= (cc[ 0 ] >>  8) & 0x0F;
-	ch_gain					= (cc[ 0 ] >>  5) & 0x07;
-	hv_sel					= (cc[ 0 ] >>  4) & 0x01;
-	lvsig_in				= (cc[ 0 ] >>  1) & 0x07;
-	tcc_off					= (cc[ 0 ] >>  0) & 0x01;
+	ch_cal_gain_offset		= (CH_CAL_GAIN_OFSET)((cc[ 1 ] >> 12) & 0x0F);
+	ch_thrs					= (CH_THRS          )((cc[ 1 ] >>  8) & 0x0F);
+	adc_data_rate			= (ADC_DATA_RATE    )((cc[ 1 ] >>  3) & 0x1F);
+	adc_sinc				= (ADC_SINC         )((cc[ 1 ] >>  0) & 0x07);
 	
-	ch_cal_gain_offset		= (cc[ 1 ] >> 12) & 0x0F;
-	ch_thrs					= (cc[ 1 ] >>  8) & 0x0F;
-	adc_data_rate			= (cc[ 1 ] >>  3) & 0x1F;
-	adc_sinc				= (cc[ 1 ] >>  0) & 0x07;
+	ch_delay				= (CH_DELAY           )((cc[ 2 ] >> 10) & 0x3F);
+	adc_normal_settling		= (ADC_NORMAL_SETTLING)((cc[ 2 ] >>  9) & 0x01);
+	adc_filter_reset		= (ADC_FILTER_RESET   )((cc[ 2 ] >>  8) & 0x01);
+	ch_chop					= (CH_CHOP            )((cc[ 2 ] >>  7) & 0x01);
 	
-	ch_delay				= (cc[ 2 ] >> 10) & 0x0F;
-	adc_normal_settling		= (cc[ 2 ] >>  8) & 0x0F;
-	adc_filter_reset		= (cc[ 2 ] >>  8) & 0x0F;
-	ch_chop					= (cc[ 2 ] >>  8) & 0x0F;
-	
-	viex_vi					= (cc[ 3 ] >>  8) & 0x0F;
-	viex_pol				= (cc[ 3 ] >>  8) & 0x0F;
-	viex_mag				= (cc[ 3 ] >>  8) & 0x0F;
-	vexc_en					= (cc[ 3 ] >>  8) & 0x0F;
-	open_det_current		= (cc[ 3 ] >>  8) & 0x0F;
-	viex_chop				= (cc[ 3 ] >>  8) & 0x0F;
-	viex_aip_en				= (cc[ 3 ] >>  8) & 0x0F;
-	viex_ain_en				= (cc[ 3 ] >>  8) & 0x0F;
+	viex_vi					= (VIEX_VI         )((cc[ 3 ] >> 15) & 0x01);
+	viex_pol				= (VIEX_POL        )((cc[ 3 ] >> 14) & 0x01);
+	viex_mag				= (VIEX_MAG        )((cc[ 3 ] >> 10) & 0x0F);
+	vexc_en					= (VEXC_EN         )((cc[ 3 ] >>  9) & 0x01);
+	open_det_current		= (OPEN_DET_CURRENT)((cc[ 3 ] >>  8) & 0x01);
+	viex_chop				= (VIEX_CHOP       )((cc[ 3 ] >>  6) & 0x01);
+	viex_aip_en				= (VIEX_AIP_EN     )((cc[ 3 ] >>  3) & 0x07);
+	viex_ain_en				= (VIEX_AIN_EN     )((cc[ 3 ] >>  0) & 0x07);
 }
 
 

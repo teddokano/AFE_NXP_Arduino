@@ -568,11 +568,14 @@ public:
 		
 		void	configure( const uint16_t (&cc)[ 4 ] );
 		void	configure( uint16_t cc0 = 0x0000, uint16_t cc1 = 0x0000, uint16_t cc2 = 0x0000, uint16_t cc3 = 0x0000 );
-		void	encode( void );
-		void	decode( void );
+		void	configure( void );
+
+		void	encode( uint16_t cc[ 4 ] );
+		void	decode( const uint16_t cc[ 4 ] );
 		
-		using	CH_THRS			= uint8_t;
-		using	ADC_DATA_RATE	= uint8_t;
+		using	CH_CAL_GAIN_OFSET	= uint8_t;
+		using	CH_THRS				= uint8_t;
+		using	ADC_DATA_RATE		= uint8_t;
 		
 		HV_AIP				hv_aip;
 		HV_AIN				hv_ain;
@@ -580,7 +583,7 @@ public:
 		HV_SEL				hv_sel;
 		LVSIG_IN			lvsig_in;
 		TCC_OFF				tcc_off;
-		ADC_SINC			ch_cal_gain_offset;
+		CH_CAL_GAIN_OFSET	ch_cal_gain_offset;
 		CH_THRS 			ch_thrs;
 		ADC_DATA_RATE		adc_data_rate;
 		ADC_SINC			adc_sinc;
