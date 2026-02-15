@@ -75,60 +75,60 @@ void NAFE13388_Base::LogicalChannel::configure( void )
 
 void NAFE13388_Base::LogicalChannel::encode( uint16_t cc[ 4 ] )
 {
-	cc[ 0 ]	= 	  (((uint16_t)hv_aip				& 0x000F) << 12) 
-				| (((uint16_t)hv_ain				& 0x000F) <<  8) 
-				| (((uint16_t)ch_gain				& 0x0007) <<  5) 
-				| (((uint16_t)hv_sel				& 0x0001) <<  4) 
-				| (((uint16_t)lvsig_in				& 0x0007) <<  1) 
-				| (((uint16_t)tcc_off				& 0x0001) <<  0);
+	cc[ 0 ]	= 	  (((uint16_t)setting.hv_aip				& 0x000F) << 12) 
+				| (((uint16_t)setting.hv_ain				& 0x000F) <<  8) 
+				| (((uint16_t)setting.ch_gain				& 0x0007) <<  5) 
+				| (((uint16_t)setting.hv_sel				& 0x0001) <<  4) 
+				| (((uint16_t)setting.lvsig_in				& 0x0007) <<  1) 
+				| (((uint16_t)setting.tcc_off				& 0x0001) <<  0);
 	
-	cc[ 1 ]	= 	  (((uint16_t)ch_cal_gain_offset	& 0x000F) << 12) 
-				| (((uint16_t)ch_thrs 				& 0x000F) <<  8) 
-				| (((uint16_t)adc_data_rate			& 0x001F) <<  3) 
-				| (((uint16_t)adc_sinc				& 0x0007) <<  0);
+	cc[ 1 ]	= 	  (((uint16_t)setting.ch_cal_gain_offset	& 0x000F) << 12) 
+				| (((uint16_t)setting.ch_thrs 				& 0x000F) <<  8) 
+				| (((uint16_t)setting.adc_data_rate			& 0x001F) <<  3) 
+				| (((uint16_t)setting.adc_sinc				& 0x0007) <<  0);
 	
-	cc[ 2 ]	=	  (((uint16_t)ch_delay				& 0x003F) << 10) 
-				| (((uint16_t)adc_normal_settling	& 0x0001) <<  9) 
-				| (((uint16_t)adc_filter_reset		& 0x0001) <<  8) 
-				| (((uint16_t)ch_chop				& 0x0001) <<  7);
+	cc[ 2 ]	=	  (((uint16_t)setting.ch_delay				& 0x003F) << 10) 
+				| (((uint16_t)setting.adc_normal_settling	& 0x0001) <<  9) 
+				| (((uint16_t)setting.adc_filter_reset		& 0x0001) <<  8) 
+				| (((uint16_t)setting.ch_chop				& 0x0001) <<  7);
 	
-	cc[ 3 ]	= 	  (((uint16_t)viex_vi				& 0x0001) << 15) 
-				| (((uint16_t)viex_pol				& 0x0001) << 14) 
-				| (((uint16_t)viex_mag				& 0x000F) << 10) 
-				| (((uint16_t)vexc_en				& 0x0001) <<  9) 
-				| (((uint16_t)open_det_current		& 0x0001) <<  8) 
-				| (((uint16_t)viex_chop				& 0x0001) <<  6) 
-				| (((uint16_t)viex_aip_en			& 0x0007) <<  3) 
-				| (((uint16_t)viex_ain_en			& 0x0007) <<  0);
+	cc[ 3 ]	= 	  (((uint16_t)setting.viex_vi				& 0x0001) << 15) 
+				| (((uint16_t)setting.viex_pol				& 0x0001) << 14) 
+				| (((uint16_t)setting.viex_mag				& 0x000F) << 10) 
+				| (((uint16_t)setting.vexc_en				& 0x0001) <<  9) 
+				| (((uint16_t)setting.open_det_current		& 0x0001) <<  8) 
+				| (((uint16_t)setting.viex_chop				& 0x0001) <<  6) 
+				| (((uint16_t)setting.viex_aip_en			& 0x0007) <<  3) 
+				| (((uint16_t)setting.viex_ain_en			& 0x0007) <<  0);
 }
 
 void NAFE13388_Base::LogicalChannel::decode( const uint16_t cc[ 4 ] )
 {
-	hv_aip					= (HV_AIP  )((cc[ 0 ] >> 12) & 0x0F);
-	hv_ain					= (HV_AIN  )((cc[ 0 ] >>  8) & 0x0F);
-	ch_gain					= (CH_GAIN )((cc[ 0 ] >>  5) & 0x07);
-	hv_sel					= (HV_SEL  )((cc[ 0 ] >>  4) & 0x01);
-	lvsig_in				= (LVSIG_IN)((cc[ 0 ] >>  1) & 0x07);
-	tcc_off					= (TCC_OFF )((cc[ 0 ] >>  0) & 0x01);
+	setting.hv_aip					= (HV_AIP  )((cc[ 0 ] >> 12) & 0x0F);
+	setting.hv_ain					= (HV_AIN  )((cc[ 0 ] >>  8) & 0x0F);
+	setting.ch_gain					= (CH_GAIN )((cc[ 0 ] >>  5) & 0x07);
+	setting.hv_sel					= (HV_SEL  )((cc[ 0 ] >>  4) & 0x01);
+	setting.lvsig_in				= (LVSIG_IN)((cc[ 0 ] >>  1) & 0x07);
+	setting.tcc_off					= (TCC_OFF )((cc[ 0 ] >>  0) & 0x01);
 	
-	ch_cal_gain_offset		= (CH_CAL_GAIN_OFSET)((cc[ 1 ] >> 12) & 0x0F);
-	ch_thrs					= (CH_THRS          )((cc[ 1 ] >>  8) & 0x0F);
-	adc_data_rate			= (ADC_DATA_RATE    )((cc[ 1 ] >>  3) & 0x1F);
-	adc_sinc				= (ADC_SINC         )((cc[ 1 ] >>  0) & 0x07);
+	setting.ch_cal_gain_offset		= (CH_CAL_GAIN_OFSET)((cc[ 1 ] >> 12) & 0x0F);
+	setting.ch_thrs					= (CH_THRS          )((cc[ 1 ] >>  8) & 0x0F);
+	setting.adc_data_rate			= (ADC_DATA_RATE    )((cc[ 1 ] >>  3) & 0x1F);
+	setting.adc_sinc				= (ADC_SINC         )((cc[ 1 ] >>  0) & 0x07);
 	
-	ch_delay				= (CH_DELAY           )((cc[ 2 ] >> 10) & 0x3F);
-	adc_normal_settling		= (ADC_NORMAL_SETTLING)((cc[ 2 ] >>  9) & 0x01);
-	adc_filter_reset		= (ADC_FILTER_RESET   )((cc[ 2 ] >>  8) & 0x01);
-	ch_chop					= (CH_CHOP            )((cc[ 2 ] >>  7) & 0x01);
+	setting.ch_delay				= (CH_DELAY           )((cc[ 2 ] >> 10) & 0x3F);
+	setting.adc_normal_settling		= (ADC_NORMAL_SETTLING)((cc[ 2 ] >>  9) & 0x01);
+	setting.adc_filter_reset		= (ADC_FILTER_RESET   )((cc[ 2 ] >>  8) & 0x01);
+	setting.ch_chop					= (CH_CHOP            )((cc[ 2 ] >>  7) & 0x01);
 	
-	viex_vi					= (VIEX_VI         )((cc[ 3 ] >> 15) & 0x01);
-	viex_pol				= (VIEX_POL        )((cc[ 3 ] >> 14) & 0x01);
-	viex_mag				= (VIEX_MAG        )((cc[ 3 ] >> 10) & 0x0F);
-	vexc_en					= (VEXC_EN         )((cc[ 3 ] >>  9) & 0x01);
-	open_det_current		= (OPEN_DET_CURRENT)((cc[ 3 ] >>  8) & 0x01);
-	viex_chop				= (VIEX_CHOP       )((cc[ 3 ] >>  6) & 0x01);
-	viex_aip_en				= (VIEX_AIP_EN     )((cc[ 3 ] >>  3) & 0x07);
-	viex_ain_en				= (VIEX_AIN_EN     )((cc[ 3 ] >>  0) & 0x07);
+	setting.viex_vi					= (VIEX_VI         )((cc[ 3 ] >> 15) & 0x01);
+	setting.viex_pol				= (VIEX_POL        )((cc[ 3 ] >> 14) & 0x01);
+	setting.viex_mag				= (VIEX_MAG        )((cc[ 3 ] >> 10) & 0x0F);
+	setting.vexc_en					= (VEXC_EN         )((cc[ 3 ] >>  9) & 0x01);
+	setting.open_det_current		= (OPEN_DET_CURRENT)((cc[ 3 ] >>  8) & 0x01);
+	setting.viex_chop				= (VIEX_CHOP       )((cc[ 3 ] >>  6) & 0x01);
+	setting.viex_aip_en				= (VIEX_AIP_EN     )((cc[ 3 ] >>  3) & 0x07);
+	setting.viex_ain_en				= (VIEX_AIN_EN     )((cc[ 3 ] >>  0) & 0x07);
 }
 
 

@@ -567,7 +567,7 @@ public:
 		virtual ~LogicalChannel();
 		
 		void	configure( const uint16_t (&cc)[ 4 ] );
-		void	configure( uint16_t cc0 = 0x0000, uint16_t cc1 = 0x0000, uint16_t cc2 = 0x0000, uint16_t cc3 = 0x0000 );
+		void	configure( uint16_t cc0, uint16_t cc1 = 0x0000, uint16_t cc2 = 0x0000, uint16_t cc3 = 0x0000 );
 		void	configure( void );
 
 		void	encode( uint16_t cc[ 4 ] );
@@ -577,28 +577,32 @@ public:
 		using	CH_THRS				= uint8_t;
 		using	ADC_DATA_RATE		= uint8_t;
 		
-		HV_AIP				hv_aip;
-		HV_AIN				hv_ain;
-		CH_GAIN				ch_gain;
-		HV_SEL				hv_sel;
-		LVSIG_IN			lvsig_in;
-		TCC_OFF				tcc_off;
-		CH_CAL_GAIN_OFSET	ch_cal_gain_offset;
-		CH_THRS 			ch_thrs;
-		ADC_DATA_RATE		adc_data_rate;
-		ADC_SINC			adc_sinc;
-		CH_DELAY			ch_delay;
-		ADC_NORMAL_SETTLING	adc_normal_settling;
-		ADC_FILTER_RESET	adc_filter_reset;
-		CH_CHOP				ch_chop;
-		VIEX_VI				viex_vi;
-		VIEX_POL			viex_pol;
-		VIEX_MAG			viex_mag;
-		VEXC_EN 			vexc_en;
-		OPEN_DET_CURRENT	open_det_current;
-		VIEX_CHOP			viex_chop;
-		VIEX_AIP_EN			viex_aip_en;
-		VIEX_AIN_EN			viex_ain_en;
+		typedef struct _setting {
+			HV_AIP				hv_aip;
+			HV_AIN				hv_ain;
+			CH_GAIN				ch_gain;
+			HV_SEL				hv_sel;
+			LVSIG_IN			lvsig_in;
+			TCC_OFF				tcc_off;
+			CH_CAL_GAIN_OFSET	ch_cal_gain_offset;
+			CH_THRS 			ch_thrs;
+			ADC_DATA_RATE		adc_data_rate;
+			ADC_SINC			adc_sinc;
+			CH_DELAY			ch_delay;
+			ADC_NORMAL_SETTLING	adc_normal_settling;
+			ADC_FILTER_RESET	adc_filter_reset;
+			CH_CHOP				ch_chop;
+			VIEX_VI				viex_vi;
+			VIEX_POL			viex_pol;
+			VIEX_MAG			viex_mag;
+			VEXC_EN 			vexc_en;
+			OPEN_DET_CURRENT	open_det_current;
+			VIEX_CHOP			viex_chop;
+			VIEX_AIP_EN			viex_aip_en;
+			VIEX_AIN_EN			viex_ain_en;
+		} setting_t;
+
+		setting_t	setting;
 	};
 	
 	LogicalChannel	logical_channel[ 16 ];
