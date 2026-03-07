@@ -56,8 +56,6 @@ void setup() {
   shasta.logical_channel[2].configure(0x0088, 0x5064, 0x5000);
   shasta.logical_channel[3].configure(0x0038, 0x2064, 0x5000);
   shasta.logical_channel[4].configure(0x0030, 0x3064, 0x5000);
-
-  Serial.println("\nlogical channel 0 (AI1P-AICOM) and 1 (AI2P-AICOM) voltages are shown in ADC readout value [V]");
 }
 
 void loop() {
