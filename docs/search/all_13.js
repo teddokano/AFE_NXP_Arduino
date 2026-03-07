@@ -1,21 +1,15 @@
 var searchData=
 [
-  ['raw2mv_0',['raw2mv',['../class_a_f_e__base.html#a49c7fef30ca6dbd3b555c19d60c4067e',1,'AFE_base']]],
-  ['raw2uv_1',['raw2uv',['../class_a_f_e__base.html#a7d028082189af278c333a285aa69e2b7',1,'AFE_base']]],
-  ['raw2v_2',['raw2v',['../class_a_f_e__base.html#af93ea5ad0230566c526f943b0f081cb6',1,'AFE_base']]],
-  ['raw_5ft_3',['raw_t',['../class_a_f_e__base.html#a0e377e6c706372ba44bdf6382eac6244',1,'AFE_base']]],
-  ['read_4',['read',['../class_a_f_e__base.html#aef3acd6ea2f801fd32f4041662d67fc4',1,'AFE_base::read(int ch)=0'],['../class_a_f_e__base.html#a6a45b294c4eb10fba0720494de982e45',1,'AFE_base::read(raw_t *data_ptr)=0'],['../class_a_f_e__base.html#a025ee520bcf39a7ef89d137833209a56',1,'AFE_base::read(microvolt_t *data_ptr)=0'],['../class_logical_channel___base.html#a309d979b2166ee6aee7ad9b96576f262',1,'LogicalChannel_Base::read()'],['../class_n_a_f_e13388___base.html#a2dece813f0f0bfa71f75266c2a3609e2',1,'NAFE13388_Base::read(int ch)'],['../class_n_a_f_e13388___base.html#ac9b65f80f08709fc6c498897a476ae34',1,'NAFE13388_Base::read(raw_t *data)'],['../class_n_a_f_e13388___base.html#a0b23ee506fa038db9c1deb1e762e2656',1,'NAFE13388_Base::read(microvolt_t *data)'],['../class_logical_channel___base.html#a338439e3d949a41916a7c66f134d57cb',1,'LogicalChannel_Base::read(void)'],['../class_logical_channel___base.html#ade4b3fa1f3cc4e3396db8d78a0aa9587',1,'LogicalChannel_Base::read(void)']]],
-  ['read_5fr16_5',['read_r16',['../class_s_p_i__for___a_f_e.html#a615896216d6ed8e74ff4ddba188a0541',1,'SPI_for_AFE']]],
-  ['read_5fr24_6',['read_r24',['../class_s_p_i__for___a_f_e.html#a25aa79d7c6d233ae9a55626a1b3de5be',1,'SPI_for_AFE']]],
-  ['readme_2emd_7',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
-  ['ref2_5fref2_8',['REF2_REF2',['../class_a_f_e__base.html#a4ac5e1c23c1bd907c835027ca1f33b4ca8116634e74f3a1636faeeda0ff27a4b9',1,'AFE_base']]],
-  ['ref2_5fvhss_9',['REF2_VHSS',['../class_a_f_e__base.html#a4ac5e1c23c1bd907c835027ca1f33b4ca599ed9ad54af576a48a6bc7eeb03d63b',1,'AFE_base']]],
-  ['ref_5fpoints_10',['ref_points',['../class_n_a_f_e13388___base.html#a3e3e7332b8d54a8cbcf17951ac8282cd',1,'NAFE13388_Base']]],
-  ['refcoarse_5fref2_11',['REFCOARSE_REF2',['../class_a_f_e__base.html#a4ac5e1c23c1bd907c835027ca1f33b4caa6646842d010ba926ac80706e78b4ff9',1,'AFE_base']]],
-  ['reference_5fpoint_12',['reference_point',['../class_n_a_f_e13388___base.html#a690e9702629378a0f5422fae06156d26',1,'NAFE13388_Base']]],
-  ['reg_13',['reg',['../class_n_a_f_e13388___base.html#a606cd23de868686c41d54cbc40587b23',1,'NAFE13388_Base::reg(Register16 r, uint16_t value)'],['../class_n_a_f_e13388___base.html#a97668c9324c85bf2b52c5ab210fe618f',1,'NAFE13388_Base::reg(Register24 r, uint32_t value)'],['../class_n_a_f_e13388___base.html#ad2e281b803f3fe43bfe1ed6efb69f989',1,'NAFE13388_Base::reg(Register16 r)'],['../class_n_a_f_e13388___base.html#ae4916ed8e8a689e481266c235efed7e8',1,'NAFE13388_Base::reg(Register24 r)']]],
-  ['register16_14',['Register16',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fb',1,'NAFE13388_Base']]],
-  ['register24_15',['Register24',['../class_n_a_f_e13388___base.html#a8da94b56680ae6228400f123970f1828',1,'NAFE13388_Base']]],
-  ['reset_16',['reset',['../class_a_f_e__base.html#a57bc38b19a6cddca0fa7209ba2450a5f',1,'AFE_base::reset()'],['../class_n_a_f_e13388___base.html#adbb1b31987f78c4c449883a2fb006185',1,'NAFE13388_Base::reset(bool hardware_reset=false)']]],
-  ['revision_5fnumber_17',['revision_number',['../class_n_a_f_e13388___base.html#a786a25371c240115283be6e9f8e68b35',1,'NAFE13388_Base']]]
+  ['part_5fnumber_0',['part_number',['../class_n_a_f_e13388___base.html#adcd5acf1c43214088e4bd27cad530d86',1,'NAFE13388_Base::part_number()'],['../class_n_a_f_e33352___base.html#a0ef75c6667fc680148e1ed9543350135',1,'NAFE33352_Base::part_number()']]],
+  ['pga_5fgain_1',['pga_gain',['../class_n_a_f_e13388___base.html#a3785511458bdf4e826deebb67cd9dbf5',1,'NAFE13388_Base::pga_gain'],['../class_n_a_f_e33352___base.html#a5c428500ae9e465b561f62c6a14430b0',1,'NAFE33352_Base::pga_gain']]],
+  ['pin_5fdrdy_2',['pin_DRDY',['../class_a_f_e__base.html#afbcf033f4f5c916c9c89223457b8094d',1,'AFE_base']]],
+  ['pin_5fdrdy_5finput_3',['pin_DRDY_input',['../class_a_f_e__base.html#a3003d35503a5704df7ee74b825739be6',1,'AFE_base']]],
+  ['pin_5fnint_4',['pin_nINT',['../class_a_f_e__base.html#a294c99f36ab92927bc853541b9a7e8ab',1,'AFE_base']]],
+  ['pin_5fnreset_5',['pin_nRESET',['../class_a_f_e__base.html#add4121ad23553f304fa35ada98493b13',1,'AFE_base']]],
+  ['pin_5fsyn_6',['pin_SYN',['../class_a_f_e__base.html#acd2376abf929d103596b657e654383d1',1,'AFE_base']]],
+  ['pin_5fsyncdac_7',['pin_SYNCDAC',['../class_a_f_e__base.html#a61c4aad19b7052dfef4f4a35d342d5a5',1,'AFE_base']]],
+  ['pn0_8',['PN0',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba8c29345a6bc6ba77fb5131d8407083b0',1,'NAFE13388_Base']]],
+  ['pn0_5frev_9',['PN0_REV',['../class_n_a_f_e33352___base.html#a1852162ffd62ea90b54532e038fc9a21a7f3a29f4cf5715d698654a43e93b1a1d',1,'NAFE33352_Base']]],
+  ['pn1_10',['PN1',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba6082558ae494cf357968a0d2e9abe353',1,'NAFE13388_Base::PN1'],['../class_n_a_f_e33352___base.html#a1852162ffd62ea90b54532e038fc9a21a6082558ae494cf357968a0d2e9abe353',1,'NAFE33352_Base::PN1']]],
+  ['pn2_11',['PN2',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fbae61004cd2af33ac22bd87eb5b6716274',1,'NAFE13388_Base::PN2'],['../class_n_a_f_e33352___base.html#a1852162ffd62ea90b54532e038fc9a21ae61004cd2af33ac22bd87eb5b6716274',1,'NAFE33352_Base::PN2']]]
 ];

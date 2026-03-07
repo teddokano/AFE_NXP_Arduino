@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['vadd_5fref2_0',['VADD_REF2',['../class_a_f_e__base.html#a4ac5e1c23c1bd907c835027ca1f33b4ca2ce76401811937fcdb3a74d7fb9b5456',1,'AFE_base']]],
-  ['vhdd_5fref2_1',['VHDD_REF2',['../class_a_f_e__base.html#a4ac5e1c23c1bd907c835027ca1f33b4caf7dabbc5a0301b520b620b4e701eaea2',1,'AFE_base']]],
-  ['voltage_2',['voltage',['../struct_n_a_f_e13388___base_1_1__reference__point.html#a49a6dac19f36fc3165da40f8045d0dd6',1,'NAFE13388_Base::_reference_point']]]
+  ['use_0',['use',['../md__r_e_a_d_m_e.html#autotoc_md13',1,'Easy to use'],['../md__r_e_a_d_m_e.html#autotoc_md19',1,'How to use?']]],
+  ['use_5fdrdy_5ftrigger_1',['use_DRDY_trigger',['../class_a_f_e__base.html#a1d71f6c7bb622b720fd3baacc4a69421',1,'AFE_base']]]
 ];

@@ -402,6 +402,11 @@ public:
 	 */
 	virtual void	read( volt_t *data );
 
+	/** Convert raw output to volt
+	 *
+	 * @param ch logical channel number to select its gain coefficient
+	 * @param value ADC read value
+	 */
 	inline double raw2v( int ch, raw_t value )
 	{
 		double	v	= value * coeff_V[ ch ];

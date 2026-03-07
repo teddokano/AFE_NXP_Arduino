@@ -1,0 +1,15 @@
+total 88
+-rw-r--r--@ 1 tedd  staff  40964 Mar  7 15:17 .DS_Store
+drwxr-xr-x@ 4 tedd  staff    128 Mar  7 13:19 NAFE13388_1_0_simple_SCSR/
+drwxr-xr-x@ 3 tedd  staff     96 Mar  7 13:19 NAFE13388_1_1_simple_SCSR_using_DRDY_signal/
+drwxr-xr-x@ 3 tedd  staff     96 Mar  7 13:19 NAFE13388_2_0_multichannel_read_MCMR/
+drwxr-xr-x@ 3 tedd  staff     96 Mar  7 13:19 NAFE13388_2_1_multichannel_read_MCMR_using_DRDY/
+drwxr-xr-x@ 3 tedd  staff     96 Mar  7 13:19 NAFE13388_3_0_multichannel_read_MCCR_using_DRDY/
+drwxr-xr-x@ 3 tedd  staff     96 Mar  7 13:20 NAFE13388_4_0_LVMUX_multichannel_read_MCCR_using_DRDY/
+drwxr-xr-x@ 6 tedd  staff    192 Mar  7 13:20 NAFE13388_5_0_RTD_4_wire/
+drwxr-xr-x@ 6 tedd  staff    192 Mar  7 13:20 NAFE13388_6_0_Thermocouple/
+drwxr-xr-x@ 6 tedd  staff    192 Mar  7 13:20 NAFE13388_7_0_LoadCell/
+drwxr-xr-x@ 3 tedd  staff     96 Mar  7 13:20 NAFE13388_9_0_UIM_self_calibration/
+drwxr-xr-x@ 4 tedd  staff    128 Mar  7 15:14 NAFE33352_1_0_ADC_and_DAC/
+drwxr-xr-x@ 4 tedd  staff    128 Mar  7 15:15 NAFE33352_2_0_AIO_input/
+-rw-r--r--@ 1 tedd  staff      0 Mar  7 15:31 text.txt
