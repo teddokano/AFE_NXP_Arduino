@@ -19,8 +19,8 @@ class AFE_base : public SPI_for_AFE
 public:
 
 	/** ADC readout types */
-	using raw_t								= int32_t;
-	using microvolt_t						= double;
+	using raw_t		= int32_t;
+	using volt_t	= double;
 
 	/** Constructor to create a AFE_base instance */
 	AFE_base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input = 2 );
@@ -117,7 +117,7 @@ public:
 	 *
 	 * @param data_ptr pointer to array to store ADC data
 	 */
-	virtual void	read( microvolt_t *data_ptr )			= 0;
+	virtual void	read( volt_t *data_ptr )			= 0;
 
 	/** Start and read ADC for single  channel
 	 *
@@ -163,34 +163,7 @@ public:
 	 */
 	inline double raw2uv( int ch, raw_t value )
 	{
-		double	v	= value * coeff_uV[ ch ];
-
-		if ( HV_MUX != mux_setting[ ch ] )
-		{
-#if 1
-			switch ( mux_setting[ ch ] )
-			{
-				case REF2_REF2:
-				case GPIO0_GPIO1:
-					return v;
-					break;
-				case REFCOARSE_REF2:
-				case VADD_REF2:
-					return 2.00 * (v + 1.5e6);
-					break;
-				case VHDD_REF2:
-					return 32.00 * (v + 0.25e6);
-					break;
-				case REF2_VHSS:
-					return -32.00 * (v - 0.25e6);
-					break;
-			}
-#else
-			return v;
-#endif
-		}
-		
-		return v;
+		return raw2v( ch, value ) * 1e6;
 	}
 	
 	/** Convert raw output to milli-volt
@@ -200,7 +173,7 @@ public:
 	 */
 	inline double raw2mv( int ch, raw_t value )
 	{
-		return value * coeff_uV[ ch ] * 1e-3;
+		return raw2v( ch, value ) * 1e3;
 	}
 	
 	/** Convert raw output to volt
@@ -210,16 +183,30 @@ public:
 	 */
 	inline double raw2v( int ch, raw_t value )
 	{
-		return value * coeff_uV[ ch ] * 1e-6;
-	}
-	
-	/** Coefficient to convert from ADC read value to micro-volt
-	 *
-	 * @param ch logical channel number
-	 */
-	inline double coeff_mV( int ch )
-	{
-		return coeff_uV[ ch ];
+		double	v	= value * coeff_V[ ch ];
+
+		if ( HV_MUX != mux_setting[ ch ] )
+		{
+			switch ( mux_setting[ ch ] )
+			{
+				case REF2_REF2:
+				case GPIO0_GPIO1:
+					return v;
+					break;
+				case REFCOARSE_REF2:
+				case VADD_REF2:
+					return 2.00 * (v + 1.5);
+					break;
+				case VHDD_REF2:
+					return 32.00 * (v + 0.25);
+					break;
+				case REF2_VHSS:
+					return -32.00 * (v - 0.25);
+					break;
+			}
+		}
+		
+		return v;
 	}
 	
 	/** Caliculated delay from logical channel setting (for single channel)
@@ -268,7 +255,7 @@ protected:
 	uint8_t			sequence_order[ 16 ];
 	
 	/** Coefficient to convert from ADC read value to micro-volt */
-	double			coeff_uV[ 16 ];
+	double			coeff_V[ 16 ];
 
 	/** Multiplexer setting */
 	int				mux_setting[ 16 ];
@@ -307,7 +294,7 @@ public:
 	template<class T> T read(void);
 		
 	operator AFE_base::raw_t(void);
-	operator AFE_base::microvolt_t(void);
+	operator AFE_base::volt_t(void);
 
 	template<class T> double operator+( T v ) { return (double)(*this) + (double)v; }
 	template<class T> double operator-( T v ) { return (double)(*this) - (double)v; }
@@ -437,8 +424,36 @@ public:
 	 *
 	 * @param data_ptr pointer to array to store ADC data
 	 */
-	virtual void	read( microvolt_t *data );
+	virtual void	read( volt_t *data );
 
+	inline double raw2v( int ch, raw_t value )
+	{
+		double	v	= value * coeff_V[ ch ];
+
+		if ( HV_MUX != mux_setting[ ch ] )
+		{
+			switch ( mux_setting[ ch ] )
+			{
+				case REF2_REF2:
+				case GPIO0_GPIO1:
+					return v;
+					break;
+				case REFCOARSE_REF2:
+				case VADD_REF2:
+					return 2.00 * (v + 1.50);
+					break;
+				case VHDD_REF2:
+					return 32.00 * (v + 0.25);
+					break;
+				case REF2_VHSS:
+					return -32.00 * (v - 0.25);
+					break;
+			}
+		}		
+		return v;
+	}
+
+	
 //	constexpr static double	pga_gain[]	= { 0.2, 0.4, 0.8, 1, 2, 4, 8, 16 };
 	static double	pga_gain[];
 

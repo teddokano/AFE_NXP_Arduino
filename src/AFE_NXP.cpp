@@ -28,7 +28,7 @@ AFE_base::raw_t	LogicalChannel_Base::read( void )
 }
 
 template<>
-AFE_base::microvolt_t LogicalChannel_Base::read( void )
+AFE_base::volt_t LogicalChannel_Base::read( void )
 {
 	AFE_base::raw_t	v	= read<AFE_base::raw_t>();
 	return afe_ptr->raw2uv( ch_number, v );
@@ -39,9 +39,9 @@ LogicalChannel_Base::operator AFE_base::raw_t( void )
 	return read<AFE_base::raw_t>();
 }
 
-LogicalChannel_Base::operator AFE_base::microvolt_t( void )
+LogicalChannel_Base::operator AFE_base::volt_t( void )
 {
-	return read<AFE_base::microvolt_t>();
+	return read<AFE_base::volt_t>();
 }
 
 NAFE13388_Base::LogicalChannel::LogicalChannel() : LogicalChannel_Base()
@@ -256,12 +256,12 @@ void NAFE13388_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 	
 	if ( cc[ 0 ] & 0x0010 )
 	{
-		coeff_uV[ ch ]		= ((10.0 / (double)(1L << 24)) / pga_gain[ (cc[ 0 ] >> 5) & 0x7 ]) * 1e6;
+		coeff_V[ ch ]		= ((10.0 / (double)(1L << 24)) / pga_gain[ (cc[ 0 ] >> 5) & 0x7 ]) * 1e6;
 		mux_setting[ ch ]	= HV_MUX;
 	}
 	else
 	{
-		coeff_uV[ ch ]		= ((10.0 / (double)(1L << 24)) / 2.5) * 1e6;
+		coeff_V[ ch ]		= ((10.0 / (double)(1L << 24)) / 2.5) * 1e6;
 		mux_setting[ ch ]	= (cc[ 0 ] >> 1) & 0x7;
 	}
 	
@@ -407,7 +407,7 @@ void NAFE13388_Base::read( raw_t *data )
 	burst( (uint32_t *)data, enabled_channels );
 }
 
-void NAFE13388_Base::read( microvolt_t *data )
+void NAFE13388_Base::read( volt_t *data )
 {
 	raw_t	raw_data[ 16 ];
 	
