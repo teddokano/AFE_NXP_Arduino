@@ -112,8 +112,8 @@ NAFE33352_Base::DAC& NAFE33352_Base::DAC::operator=( double value )
 
 /* NAFE33352_Base class ******************************************/
 
-NAFE33352_Base::NAFE33352_Base( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int SYNCDAC )
-	: AFE_base( spi_addr, hsv, nINT, DRDY, SYN, nRESET, SYNCDAC )
+NAFE33352_Base::NAFE33352_Base( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC )
+	: AFE_base( spi_addr, hsv, nINT, DRDY, SYN, nRESET, DRDY_input, SYNCDAC )
 {
 	for ( auto i = 0; i < 16; i++ )
 	{
@@ -472,8 +472,8 @@ float NAFE33352_Base::temperature( void )
 
 /* NAFE33352 class ******************************************/
 
-NAFE33352::NAFE33352( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int SYNCDAC )
-	: NAFE33352_Base( spi_addr, hsv, nINT, DRDY, SYN, nRESET, SYNCDAC )
+NAFE33352::NAFE33352( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC )
+	: NAFE33352_Base( spi_addr, hsv, nINT, DRDY, SYN, nRESET, DRDY_input, SYNCDAC )
 {
 }
 
@@ -483,8 +483,8 @@ NAFE33352::~NAFE33352()
 
 /* NAFE33352 class ******************************************/
 
-NAFE33352_UIOM::NAFE33352_UIOM( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int SYNCDAC )
-	: NAFE33352_Base( spi_addr, hsv, nINT, DRDY, SYN, nRESET, SYNCDAC )
+NAFE33352_UIOM::NAFE33352_UIOM( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC )
+	: NAFE33352_Base( spi_addr, hsv, nINT, DRDY, SYN, nRESET, DRDY_input, SYNCDAC )
 {
 }
 

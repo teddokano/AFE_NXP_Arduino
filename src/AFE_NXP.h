@@ -23,7 +23,7 @@ public:
 	using volt_t	= double;
 
 	/** Constructor to create a AFE_base instance */
-	AFE_base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input = 2 );
+	AFE_base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC );
 
 	/** Destractor */
 	virtual ~AFE_base();
@@ -181,33 +181,7 @@ public:
 	 * @param ch logical channel number to select its gain coefficient
 	 * @param value ADC read value
 	 */
-	inline double raw2v( int ch, raw_t value )
-	{
-		double	v	= value * coeff_V[ ch ];
-
-		if ( HV_MUX != mux_setting[ ch ] )
-		{
-			switch ( mux_setting[ ch ] )
-			{
-				case REF2_REF2:
-				case GPIO0_GPIO1:
-					return v;
-					break;
-				case REFCOARSE_REF2:
-				case VADD_REF2:
-					return 2.00 * (v + 1.5);
-					break;
-				case VHDD_REF2:
-					return 32.00 * (v + 0.25);
-					break;
-				case REF2_VHSS:
-					return -32.00 * (v - 0.25);
-					break;
-			}
-		}
-		
-		return v;
-	}
+	virtual double raw2v( int ch, raw_t value )	= 0;
 	
 	/** Caliculated delay from logical channel setting (for single channel)
 	 *
@@ -245,6 +219,8 @@ protected:
 	int		pin_SYN;
 	int		pin_nRESET;
 	int		pin_DRDY_input;
+	int		pin_SYNCDAC;
+	
 
 	int 			bit_count( uint32_t value );
 
@@ -327,7 +303,7 @@ public:
 	} ref_points;
 	
 	/** Constructor to create a AFE_base instance */
-	NAFE13388_Base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET );
+	NAFE13388_Base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC );
 
 	/** Destractor */
 	virtual ~NAFE13388_Base();
@@ -746,7 +722,7 @@ class NAFE13388 : public NAFE13388_Base
 {
 public:	
 	/** Constructor to create a NAFE13388 instance */
-	NAFE13388( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 2, int DRDY = 3, int SYN = 5, int nRESET = 6 );
+	NAFE13388( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 2, int DRDY = 3, int SYN = 5, int nRESET = 6, int DRDY_input = A0, int SYNCDAC = A1 );
 
 	/** Destractor */
 	virtual ~NAFE13388();
@@ -756,7 +732,7 @@ class NAFE13388_UIM : public NAFE13388_Base
 {
 public:	
 	/** Constructor to create a NAFE13388 instance */
-	NAFE13388_UIM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 3, int DRDY = 3, int SYN = 6, int nRESET = 7 );
+	NAFE13388_UIM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 3, int DRDY = 3, int SYN = 6, int nRESET = 7, int DRDY_input = A0, int SYNCDAC = A1 );
 
 	/** Destractor */
 	virtual ~NAFE13388_UIM();

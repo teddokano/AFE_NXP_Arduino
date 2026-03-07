@@ -20,7 +20,7 @@ public:
 	static constexpr double	on_board_shunt_resister	= 50.00;
 	
 	/** Constructor to create a NAFE33352_Base instance */
-	NAFE33352_Base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int SYNCDAC );
+	NAFE33352_Base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC );
 
 	/** Destractor */
 	virtual ~NAFE33352_Base();
@@ -207,7 +207,7 @@ public:
 	inline double raw2v( int ch, raw_t value )
 	{
 		if ( mux_setting[ ch ] == ISNS )
-			return	value * coeff_V[ ch ] / on_board_shunt_resister;			
+			return	value * coeff_V[ ch ] / on_board_shunt_resister;				
 		else if ( mux_setting[ ch ] == BG )
 			return	value - (double)(1L << 24) * 20.00 * 2.50 / (12.50 * (double)(1L << 24)) -1.50;
 		else
@@ -468,7 +468,7 @@ class NAFE33352 : public NAFE33352_Base
 {
 public:	
 	/** Constructor to create a NAFE33352 instance */
-	NAFE33352( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 7, int DRDY = 4, int SYN = 2, int nRESET = 5, int SYNCDAC = 3 );
+	NAFE33352( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 7, int DRDY = 4, int SYN = 2, int nRESET = 5, int DRDY_input = A0, int SYNCDAC = A1 );
 
 	/** Destractor */
 	virtual ~NAFE33352();
@@ -478,7 +478,7 @@ class NAFE33352_UIOM : public NAFE33352_Base
 {
 public:	
 	/** Constructor to create a NAFE33352 instance */
-	NAFE33352_UIOM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 7, int DRDY = 4, int SYN = 2, int nRESET = 6, int SYNCDAC = 3 );
+	NAFE33352_UIOM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 7, int DRDY = 4, int SYN = 2, int nRESET = 6, int DRDY_input = A0, int SYNCDAC = A1 );
 
 	/** Destractor */
 	virtual ~NAFE33352_UIOM();
