@@ -4,14 +4,7 @@
  *  Copyright: 2023 - 2026 Tedd OKANO
  *  Released under the MIT license
  *
- * Sample of using MCMR(Multi Channel Continuous Read) command for 8 channels
- *
- * *****************************
- * ** BEFORE TRYING THIS CODE **
- * *****************************
- * This sample code shows operation with **DRDY** signal (at D4 pin) from AFE 
- * Since the DRDY signal is very short pulse, it will be captured by interrupt on D2 pin
- * Short D4 and D2 pin to handle it
+ * Sample of using MCMR(Multi Channel Multi Read) command for 8 channels
  */
 
  /*
@@ -28,12 +21,6 @@
 #include <NAFE13388_UIM.h>
 
 NAFE13388_UIM afe;
-
-volatile bool conversion_done = false;
-
-void drdy_callback(void) {
-  conversion_done = true;
-}
 
 void setup() {
   Serial.begin(115200);
@@ -67,27 +54,17 @@ void setup() {
   Serial.println("logical channel 7 = (AI4N-AICOM)");
 
   Serial.print("\r\nenabled logical channel(s) = ");
-  Serial.println(afe.enabled_logical_channels());
-
-  afe.set_DRDY_callback(drdy_callback);  //	set callback function for when DRDY detected
-  afe.DRDY_by_sequencer_done(true);      //	generate DRDY at all logical channel conversions are done
-
-  afe.start_continuous_conversion();  //	measurement start as MCCR (Multi-Channel Continuous-Reading)
+	Serial.println( afe.enabled_logical_channels() );
 }
 
 void loop() {
-  NAFE13388_UIM::microvolt_t data[8];
+  NAFE13388_UIM::volt_t data[8];
+  afe.start_and_read(data);
 
-  if (conversion_done) {
-    conversion_done = false;
-
-    afe.read(data);  //	read data from all enabled channels
-
-    for (auto i = 0; i < 8; i++) {
-      Serial.print(data[i] * 1e-6);
-      Serial.print(",  ");
-    }
-
-    Serial.println("");
+  for (auto i = 0; i < 8; i++) {
+    Serial.print(data[i]);
+    Serial.print(",  ");
   }
+
+  Serial.println("");
 }

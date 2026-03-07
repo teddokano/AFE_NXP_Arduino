@@ -76,7 +76,7 @@ void setup() {
 }
 
 void loop() {
-  NAFE13388_UIM::microvolt_t data[monitor_lc];
+  NAFE13388_UIM::volt_t data[monitor_lc];
 
   if (conversion_done) {
     conversion_done = false;
@@ -84,7 +84,7 @@ void loop() {
     afe.read(data);  //	read data from all enabled channels
 
     for (auto i = 0; i < monitor_lc; i++) {
-      Serial.print(data[i] * 1e-6);
+      Serial.print(data[i]);
       Serial.print(",  ");
     }
 

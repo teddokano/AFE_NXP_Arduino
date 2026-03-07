@@ -41,7 +41,7 @@ void setup() {
 }
 
 void loop() {
-  Serial.print((NAFE13388_UIM::microvolt_t)afe.logical_channel[0] * 1e-6);
+  Serial.print((NAFE13388_UIM::volt_t)afe.logical_channel[0]);
   Serial.print(",  ");
-  Serial.println((NAFE13388_UIM::microvolt_t)afe.logical_channel[1] * 1e-6);
+  Serial.println((NAFE13388_UIM::volt_t)afe.logical_channel[1]);
 }

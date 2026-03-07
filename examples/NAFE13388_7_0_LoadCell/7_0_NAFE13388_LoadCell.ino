@@ -64,6 +64,6 @@ void setup() {
 }
 
 void loop() {
-  double  microvolt = afe.logical_channel[logical_channel_for_loadcell];
-  Serial.println(microvolt, 8);
+  double  volt = afe.logical_channel[logical_channel_for_loadcell];
+  Serial.println(volt, 8);
 }

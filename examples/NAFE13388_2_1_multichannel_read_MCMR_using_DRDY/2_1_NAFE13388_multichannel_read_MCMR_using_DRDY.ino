@@ -68,11 +68,11 @@ void setup() {
 }
 
 void loop() {
-  NAFE13388_UIM::microvolt_t data[8];
+  NAFE13388_UIM::volt_t data[8];
   afe.start_and_read(data);
 
   for (auto i = 0; i < 8; i++) {
-    Serial.print(data[i] * 1e-6);
+    Serial.print(data[i]);
     Serial.print(",  ");
   }
 
