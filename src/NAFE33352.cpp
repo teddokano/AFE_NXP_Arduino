@@ -147,16 +147,9 @@ void NAFE33352_Base::boot( void )
 void NAFE33352_Base::reset( bool hardware_reset )
 {
 	if ( hardware_reset )
-	{
 		printf( "warning: UIOM doesn't have hardware RESET pin on the board. This reset will be ignored\r\n" );
-		pin_nRESET	= 0;
-		delay( 1 );
-		pin_nRESET	= 1;
-	}
-	else
-	{
-		command( NAFE33352_Base::Command::CMD_RESET ); 
-	}
+
+	command( NAFE33352_Base::Command::CMD_RESET ); 
 	
 	constexpr uint16_t	CHIP_READY	= 1 << 13;
 	constexpr auto		RETRY		= 10;
