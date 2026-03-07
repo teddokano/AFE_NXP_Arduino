@@ -473,7 +473,7 @@ class NAFE33352 : public NAFE33352_Base
 {
 public:	
 	/** Constructor to create a NAFE33352 instance */
-	NAFE33352( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 7, int DRDY = 4, int SYN = 2, int nRESET = 5, int DRDY_input = A0, int SYNCDAC = A1 );
+	NAFE33352( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 7, int DRDY = 4, int SYN = 14, int nRESET = 14, int DRDY_input = 2, int SYNCDAC = 14 );
 
 	/** Destractor */
 	virtual ~NAFE33352();
@@ -483,7 +483,7 @@ class NAFE33352_UIOM : public NAFE33352_Base
 {
 public:	
 	/** Constructor to create a NAFE33352 instance */
-	NAFE33352_UIOM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 7, int DRDY = 4, int SYN = 2, int nRESET = 6, int DRDY_input = A0, int SYNCDAC = A1 );
+	NAFE33352_UIOM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 7, int DRDY = 4, int SYN = 14, int nRESET = 14, int DRDY_input = 2, int SYNCDAC = 14 );
 
 	/** Destractor */
 	virtual ~NAFE33352_UIOM();
