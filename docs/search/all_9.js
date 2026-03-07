@@ -14,7 +14,7 @@ var searchData=
   ['device_11',['Supported device',['../md__r_e_a_d_m_e.html#autotoc_md14',1,'']]],
   ['die_5ftemp_12',['DIE_TEMP',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fbaacb02bf4b0ae2a60d243aeef93f3fabe',1,'NAFE13388_Base::DIE_TEMP'],['../class_n_a_f_e33352___base.html#a1852162ffd62ea90b54532e038fc9a21aacb02bf4b0ae2a60d243aeef93f3fabe',1,'NAFE33352_Base::DIE_TEMP']]],
   ['disable_13',['disable',['../class_logical_channel___base.html#adb0d0d2c4522146bb948e58e2048ff66',1,'LogicalChannel_Base']]],
-  ['document_14',['Document',['../md__r_e_a_d_m_e.html#autotoc_md21',1,'']]],
+  ['document_14',['Document',['../md__r_e_a_d_m_e.html#autotoc_md23',1,'']]],
   ['drdy_5fby_5fsequencer_5fdone_15',['DRDY_by_sequencer_done',['../class_a_f_e__base.html#afb8f89980f53f2c2d638fb879ef73904',1,'AFE_base::DRDY_by_sequencer_done()'],['../class_n_a_f_e13388___base.html#a9b7138ba4a0e2735a868aced27d07fbd',1,'NAFE13388_Base::DRDY_by_sequencer_done()'],['../class_n_a_f_e33352___base.html#acfccb0699bf8327969920ec09659b7ee',1,'NAFE33352_Base::DRDY_by_sequencer_done()']]],
   ['drdy_5fcb_16',['DRDY_cb',['../class_a_f_e__base.html#a22da93110b34efe41cb537817ae9e97a',1,'AFE_base']]],
   ['drdy_5fcount_17',['drdy_count',['../class_a_f_e__base.html#a5ef54554ca2b5b80b084612c8372a025',1,'AFE_base']]],

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['inside_0',['What&apos;s inside?',['../md__r_e_a_d_m_e.html#autotoc_md17',1,'']]],
-  ['is_20this_1',['What is this?',['../md__r_e_a_d_m_e.html#autotoc_md12',1,'']]]
+  ['how_20to_20use_0',['How to use?',['../md__r_e_a_d_m_e.html#autotoc_md19',1,'']]]
 ];
