@@ -28,10 +28,10 @@ AFE_base::raw_t	LogicalChannel_Base::read( void )
 }
 
 template<>
-AFE_base::microvolt_t LogicalChannel_Base::read( void )
+AFE_base::volt_t LogicalChannel_Base::read( void )
 {
 	AFE_base::raw_t	v	= read<AFE_base::raw_t>();
-	return afe_ptr->raw2uv( ch_number, v );
+	return afe_ptr->raw2v( ch_number, v );
 }
 
 LogicalChannel_Base::operator AFE_base::raw_t( void )
@@ -39,9 +39,9 @@ LogicalChannel_Base::operator AFE_base::raw_t( void )
 	return read<AFE_base::raw_t>();
 }
 
-LogicalChannel_Base::operator AFE_base::microvolt_t( void )
+LogicalChannel_Base::operator AFE_base::volt_t( void )
 {
-	return read<AFE_base::microvolt_t>();
+	return read<AFE_base::volt_t>();
 }
 
 NAFE13388_Base::LogicalChannel::LogicalChannel() : LogicalChannel_Base()
@@ -67,15 +67,16 @@ void NAFE13388_Base::LogicalChannel::configure( uint16_t cc0, uint16_t cc1, uint
 
 /* AFE_base class ******************************************/
 
-AFE_base::AFE_base(  bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input ) : 
-	dev_add( spi_addr ), highspeed_variant( hsv ), pin_nINT( nINT ), pin_DRDY( DRDY ), pin_SYN( SYN ), pin_nRESET( nRESET ), pin_DRDY_input( DRDY_input ), enabled_channels( 0 )
+AFE_base::AFE_base(  bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC ) : 
+	dev_add( spi_addr ), highspeed_variant( hsv ), pin_nINT( nINT ), pin_DRDY( DRDY ), pin_SYN( SYN ), pin_nRESET( nRESET ), pin_DRDY_input( DRDY_input ), pin_SYNCDAC( SYNCDAC ), enabled_channels( 0 )
 {
 	pinMode( pin_nINT,		INPUT );
 	pinMode( pin_DRDY,		INPUT );
 	pinMode( pin_DRDY_input,INPUT_PULLUP );
 	pinMode( pin_SYN,		OUTPUT );
 	pinMode( pin_nRESET,	OUTPUT );
-
+	pinMode( pin_SYNCDAC,	OUTPUT );
+	
 	digitalWrite( pin_SYN,		1 );
 	digitalWrite( pin_nRESET,	1 );
 }
@@ -199,8 +200,8 @@ AFE_base::callback_fp_t	AFE_base::cbf_DRDY	= nullptr;
 
 /* NAFE13388_Base class ******************************************/
 
-NAFE13388_Base::NAFE13388_Base( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET ) 
-	: AFE_base( spi_addr, hsv, nINT, DRDY, SYN, nRESET )
+NAFE13388_Base::NAFE13388_Base( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC ) 
+	: AFE_base( spi_addr, hsv, nINT, DRDY, SYN, nRESET, DRDY_input, SYNCDAC )
 {
 	for ( auto i = 0; i < 16; i++ )
 	{
@@ -256,12 +257,12 @@ void NAFE13388_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 	
 	if ( cc[ 0 ] & 0x0010 )
 	{
-		coeff_uV[ ch ]		= ((10.0 / (double)(1L << 24)) / pga_gain[ (cc[ 0 ] >> 5) & 0x7 ]) * 1e6;
+		coeff_V[ ch ]		= ((10.0 / (double)(1L << 24)) / pga_gain[ (cc[ 0 ] >> 5) & 0x7 ]);
 		mux_setting[ ch ]	= HV_MUX;
 	}
 	else
 	{
-		coeff_uV[ ch ]		= ((10.0 / (double)(1L << 24)) / 2.5) * 1e6;
+		coeff_V[ ch ]		= ((10.0 / (double)(1L << 24)) / 2.5);
 		mux_setting[ ch ]	= (cc[ 0 ] >> 1) & 0x7;
 	}
 	
@@ -407,14 +408,14 @@ void NAFE13388_Base::read( raw_t *data )
 	burst( (uint32_t *)data, enabled_channels );
 }
 
-void NAFE13388_Base::read( microvolt_t *data )
+void NAFE13388_Base::read( volt_t *data )
 {
 	raw_t	raw_data[ 16 ];
 	
 	read( raw_data );
 	
 	for ( auto i = 0; i < enabled_channels; i++ )
-		data[ i ]	= raw2uv( sequence_order[ i ], raw_data[ i ] );
+		data[ i ]	= raw2v( sequence_order[ i ], raw_data[ i ] );
 }
 
 void NAFE13388_Base::command( uint16_t com )
@@ -609,8 +610,8 @@ void NAFE13388_Base::blink_leds( void )
 
 /* NAFE13388 class ******************************************/
 
-NAFE13388::NAFE13388( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET ) 
-	: NAFE13388_Base( spi_addr, hsv, nINT, DRDY, SYN, nRESET )
+NAFE13388::NAFE13388( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC ) 
+	: NAFE13388_Base( spi_addr, hsv, nINT, DRDY, SYN, nRESET, DRDY_input, SYNCDAC )
 {
 }
 
@@ -620,8 +621,8 @@ NAFE13388::~NAFE13388()
 
 /* NAFE13388_UIM class ******************************************/
 
-NAFE13388_UIM::NAFE13388_UIM( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET ) 
-	: NAFE13388_Base( spi_addr, hsv, nINT, DRDY, SYN, nRESET )
+NAFE13388_UIM::NAFE13388_UIM( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC ) 
+	: NAFE13388_Base( spi_addr, hsv, nINT, DRDY, SYN, nRESET, DRDY_input, SYNCDAC )
 {
 }
 

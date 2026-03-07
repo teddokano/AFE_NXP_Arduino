@@ -92,12 +92,16 @@ Type#|Features|Interface
 ---|---|---
 [NAFE13388](https://www.nxp.com/products/peripherals-and-logic/signal-chain/analog-front-end/highly-configurable-8-channel-25-v-universal-input-low-power-analog-front-end:NAFEx1388)	|Highly Configurable 8 Channel ±25 V Universal Input Low Power Analog Front-End	|SPI (mode1)
 [NAFE73388](https://www.nxp.com/products/peripherals-and-logic/signal-chain/analog-front-end/highly-configurable-8-channel-25-v-universal-input-low-power-analog-front-end:NAFEx1388)	|Highly Configurable 8 Channel ±25 V Universal Input Low Power Analog Front-End	|SPI (mode1)
+[NAFE33352](https://www.nxp.com/products/NAFEx3352)	|Software Configurable Input and Output Analog Front End|SPI (mode1)
+[NAFE93352](https://www.nxp.com/products/NAFEx3352)	|Software Configurable Input and Output Analog Front End|SPI (mode1)
 
 ## Evaluation boards
 Name|Header file|Features|Interface|Evaluation board
 ---|---|---|---|---
 [NAFExx388-EVB](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFExx388-EVB)	|`NAFE13388.h`	|	General purpose evaluation board for NAFE13388 |SPI (mode1)	|[NAFE13388-UIM 8-Channel Universal Input AFE Arduino® Shield Board](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFExx388-EVB)
-[NAFE13388_UIM](https://www.nxp.com/products/peripherals-and-logic/signal-chain/analog-front-end/highly-configurable-8-channel-25-v-universal-input-low-power-analog-front-end:NAFEx1388)	|`NAFE13388_UIM.h`	|AFE Arduino shield type evaluation board |SPI (mode1)	|[NAFE13388-UIM 8-Channel Universal Input AFE Arduino® Shield Board](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFE13388-UIM)
+[NAFE13388-UIM](https://www.nxp.com/products/peripherals-and-logic/signal-chain/analog-front-end/highly-configurable-8-channel-25-v-universal-input-low-power-analog-front-end:NAFEx1388)	|`NAFE13388_UIM.h`	|AFE Arduino shield type evaluation board |SPI (mode1)	|[NAFE13388-UIM 8-Channel Universal Input AFE Arduino® Shield Board](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFE13388-UIM)
+[NAFE33352-EVB](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFE33352-EVB)	|`NAFE13388_UIM.h`	|AFE Arduino shield type evaluation board |SPI (mode1)	|[Software Configurable Universal AIO-AFE Evaluation Board](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFE33352-EVB)
+[NAFE33352-UIOM]()	|`NAFE13388_UIM.h`	|AFE Arduino shield type evaluation board |SPI (mode1)	|[NAFE33352-UIOM Universal Input/OUTPUT AFE Arduino® Shield Board]()
 
 # Getting started
 How to setup? --> [https://youtu.be/UEOFC0TwA6c](https://youtu.be/UEOFC0TwA6c)  
@@ -114,19 +118,24 @@ After library install, Choose menu on Arduino-IDE: `File`→`Examples`→`AFE_NX
 
 ### List of sample code
 
+#### examples for NAFE13388
 Sketch|Target|Feature|NOTE
 ---|---|---|---
-1_0_NAFE13388_simple_SCSR				                  |NAFE13388-UIM	|**Simple** sample to get 2ch inputs|
-1_1_NAFE13388_simple_SCSR_using_DRDY_signal|NAFE13388-UIM	|**Simple** sample to get 2ch inputs using DRDY signal|Need to short pins between D2 and D4
-2_0_NAFE13388_multichannel_read_MCMR|NAFE13388-UIM	|Get 8ch inputs using Multi-Channel Multi-Read command| 
-2_1_NAFE13388_multichannel_read_MCMR_using_DRDY|NAFE13388-UIM		|Get 8ch inputs using Multi-Channel Multi-Read command| Need to short pins between D2 and D4
-3_0_NAFE13388_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM	|Get 8ch inputs using Multi-Channel **Continuous**-Read command| Need to short pins between D2 and D4
-4_0_NAFE13388_LVMUX_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM	|Get 8ch inputs and LVMUX inputs (supply voltage, etc)|Need to short pins between D2 and D4
-[5_0_NAFE13388_RTD_4_wire](examples/5_0_NAFE13388_RTD_4_wire/README.md)|NAFE13388-UIM	|Practical sample to measure temperature by 2 RTDs using internal current excitation source|Need to short pins between D2 and D4
-[6_0_NAFE13388_Thermocouple](examples/6_0_NAFE13388_Thermocouple/README.md)|NAFE13388-UIM	|Practical sample to measure temperature by thermocouple with on-board RTD |Need to short pins between D2 and D4
-[7_0_NAFE13388_LoadCell](examples/7_0_NAFE13388_LoadCell/README.md)|NAFE13388-UIM	|Practical sample to measure loadcell output using internal voltage excitation source |Need to short pins between D2 and D4
-9_0_NAFE13388_UIM_self_calibration	|NAFE13388-UIM	|A sample of performing **self calibration** on UIM board
+NAFE13388_1_0_simple_SCSR|NAFE13388-UIM	|**Simple** sample to get 2ch inputs|
+NAFE13388_1_1_simple_SCSR_using_DRDY_signal|NAFE13388-UIM	|**Simple** sample to get 2ch inputs using DRDY signal|Need to short pins between D2 and D4
+NAFE13388_2_0_multichannel_read_MCMR|NAFE13388-UIM	|Get 8ch inputs using Multi-Channel Multi-Read command| 
+NAFE13388_2_1_multichannel_read_MCMR_using_DRDY|NAFE13388-UIM		|Get 8ch inputs using Multi-Channel Multi-Read command| Need to short pins between D2 and D4
+NAFE13388_3_0_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM	|Get 8ch inputs using Multi-Channel **Continuous**-Read command| Need to short pins between D2 and D4
+NAFE13388_4_0_LVMUX_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM	|Get 8ch inputs and LVMUX inputs (supply voltage, etc)|Need to short pins between D2 and D4
+[NAFE13388_5_0_RTD_4_wire](examples/5_0_NAFE13388_RTD_4_wire/README.md)|NAFE13388-UIM	|Practical sample to measure temperature by 2 RTDs using internal current excitation source|Need to short pins between D2 and D4
+[NAFE13388_6_0_Thermocouple](examples/6_0_NAFE13388_Thermocouple/README.md)|NAFE13388-UIM	|Practical sample to measure temperature by thermocouple with on-board RTD |Need to short pins between D2 and D4
+[NAFE13388_7_0_LoadCell](examples/7_0_NAFE13388_LoadCell/README.md)|NAFE13388-UIM	|Practical sample to measure loadcell output using internal voltage excitation source |Need to short pins between D2 and D4
 
+#### examples for NAFE33352
+Sketch|Target|Feature|NOTE
+---|---|---|---
+NAFE33352_1_0_ADC_and_DAC	|NAFE33352-UIOM	|A sample of ADC and DAC operation|Need to short pins between D2 and D4
+NAFE33352_2_0_AIO_input|NAFE33352-UIOM	|A sample of AIO (Analog Input/Output) channel used as an input|Need to short pins between D2 and D4
 
 # Document
 For details of the library, please find descriptions in [this document](https://teddokano.github.io/AFE_NXP_Arduino/annotated.html).

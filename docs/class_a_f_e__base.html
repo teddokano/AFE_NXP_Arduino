@@ -23,7 +23,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">AFE_NXP_Arduino<span id="projectnumber">&#160;1.0.3</span>
+   <div id="projectname">AFE_NXP_Arduino<span id="projectnumber">&#160;2.0.0</span>
    </div>
    <div id="projectbrief">Analog Front-End (AFE) device operation sample code for Arduino</div>
   </td>
@@ -92,10 +92,13 @@ Inheritance diagram for AFE_base:</div>
  <div class="center">
   <img src="class_a_f_e__base.png" usemap="#AFE_5Fbase_map" alt=""/>
   <map id="AFE_5Fbase_map" name="AFE_5Fbase_map">
-<area href="class_s_p_i__for___a_f_e.html" alt="SPI_for_AFE" shape="rect" coords="63,0,179,24"/>
-<area href="class_n_a_f_e13388___base.html" alt="NAFE13388_Base" shape="rect" coords="63,112,179,136"/>
-<area href="class_n_a_f_e13388.html" alt="NAFE13388" shape="rect" coords="0,168,116,192"/>
-<area href="class_n_a_f_e13388___u_i_m.html" alt="NAFE13388_UIM" shape="rect" coords="126,168,242,192"/>
+<area href="class_s_p_i__for___a_f_e.html" alt="SPI_for_AFE" shape="rect" coords="195,0,315,24"/>
+<area href="class_n_a_f_e13388___base.html" alt="NAFE13388_Base" shape="rect" coords="65,112,185,136"/>
+<area href="class_n_a_f_e33352___base.html" alt="NAFE33352_Base" shape="rect" coords="325,112,445,136"/>
+<area href="class_n_a_f_e13388.html" alt="NAFE13388" shape="rect" coords="0,168,120,192"/>
+<area href="class_n_a_f_e13388___u_i_m.html" alt="NAFE13388_UIM" shape="rect" coords="130,168,250,192"/>
+<area href="class_n_a_f_e33352.html" alt="NAFE33352" shape="rect" coords="260,168,380,192"/>
+<area href="class_n_a_f_e33352___u_i_o_m.html" alt="NAFE33352_UIOM" shape="rect" coords="390,168,510,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -113,12 +116,12 @@ Public Types</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memitem:a0e377e6c706372ba44bdf6382eac6244" id="r_a0e377e6c706372ba44bdf6382eac6244"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a0e377e6c706372ba44bdf6382eac6244">raw_t</a> = int32_t</td></tr>
-<tr class="memitem:a1b989cf95653ebd96e4a1cebc27a1133" id="r_a1b989cf95653ebd96e4a1cebc27a1133"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a1b989cf95653ebd96e4a1cebc27a1133">microvolt_t</a> = double</td></tr>
+<tr class="memitem:a1a413cdd7697383236211ca23ccf3756" id="r_a1a413cdd7697383236211ca23ccf3756"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a1a413cdd7697383236211ca23ccf3756">volt_t</a> = double</td></tr>
 <tr class="memitem:a8ae7f693b1e08cddda4f4a5928e68d02" id="r_a8ae7f693b1e08cddda4f4a5928e68d02"><td class="memItemLeft">typedef void(*&#160;</td><td class="memItemRight"><a class="el" href="#a8ae7f693b1e08cddda4f4a5928e68d02">callback_fp_t</a>) (void)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0ef1522b37578335ba98111fc54a0c60" id="r_a0ef1522b37578335ba98111fc54a0c60"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a0ef1522b37578335ba98111fc54a0c60">AFE_base</a> (bool spi_addr, bool <a class="el" href="#a4b9360b3a7d6adba2793fa0ff2f02490">highspeed_variant</a>, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input=2)</td></tr>
+<tr class="memitem:ab7efce2b63597ccafc60486b19db1467" id="r_ab7efce2b63597ccafc60486b19db1467"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab7efce2b63597ccafc60486b19db1467">AFE_base</a> (bool spi_addr, bool <a class="el" href="#a4b9360b3a7d6adba2793fa0ff2f02490">highspeed_variant</a>, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC)</td></tr>
 <tr class="memitem:a1eb09caa23b3a25d50f3f8af502a6827" id="r_a1eb09caa23b3a25d50f3f8af502a6827"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="#a1eb09caa23b3a25d50f3f8af502a6827">~AFE_base</a> ()</td></tr>
 <tr class="memitem:a33584cc8f4bcf9455a4ee06dfa65cbd8" id="r_a33584cc8f4bcf9455a4ee06dfa65cbd8"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a33584cc8f4bcf9455a4ee06dfa65cbd8">begin</a> (void)</td></tr>
 <tr class="memitem:ad59e7d5701a57c1e1b0a29e8c521a572" id="r_ad59e7d5701a57c1e1b0a29e8c521a572"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#ad59e7d5701a57c1e1b0a29e8c521a572">boot</a> (void)=0</td></tr>
@@ -135,14 +138,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afb8f89980f53f2c2d638fb879ef73904" id="r_afb8f89980f53f2c2d638fb879ef73904"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#afb8f89980f53f2c2d638fb879ef73904">DRDY_by_sequencer_done</a> (bool flag=true)=0</td></tr>
 <tr class="memitem:aef3acd6ea2f801fd32f4041662d67fc4" id="r_aef3acd6ea2f801fd32f4041662d67fc4"><td class="memItemLeft">virtual <a class="el" href="#a0e377e6c706372ba44bdf6382eac6244">raw_t</a>&#160;</td><td class="memItemRight"><a class="el" href="#aef3acd6ea2f801fd32f4041662d67fc4">read</a> (int ch)=0</td></tr>
 <tr class="memitem:a6a45b294c4eb10fba0720494de982e45" id="r_a6a45b294c4eb10fba0720494de982e45"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a6a45b294c4eb10fba0720494de982e45">read</a> (<a class="el" href="#a0e377e6c706372ba44bdf6382eac6244">raw_t</a> *data_ptr)=0</td></tr>
-<tr class="memitem:a025ee520bcf39a7ef89d137833209a56" id="r_a025ee520bcf39a7ef89d137833209a56"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a025ee520bcf39a7ef89d137833209a56">read</a> (<a class="el" href="#a1b989cf95653ebd96e4a1cebc27a1133">microvolt_t</a> *data_ptr)=0</td></tr>
+<tr class="memitem:a262adb0c5ec1bf787c8d51de9e780861" id="r_a262adb0c5ec1bf787c8d51de9e780861"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a262adb0c5ec1bf787c8d51de9e780861">read</a> (<a class="el" href="#a1a413cdd7697383236211ca23ccf3756">volt_t</a> *data_ptr)=0</td></tr>
 <tr class="memitem:a998fe4c702beb446d2a0c6cc3916fb7b" id="r_a998fe4c702beb446d2a0c6cc3916fb7b"><td class="memItemLeft">virtual <a class="el" href="#a0e377e6c706372ba44bdf6382eac6244">raw_t</a>&#160;</td><td class="memItemRight"><a class="el" href="#a998fe4c702beb446d2a0c6cc3916fb7b">start_and_read</a> (int ch)</td></tr>
 <tr class="memitem:ae5b0796d564ac335990afe9b8ce1ab77" id="r_ae5b0796d564ac335990afe9b8ce1ab77"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:ae5b0796d564ac335990afe9b8ce1ab77 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae5b0796d564ac335990afe9b8ce1ab77">start_and_read</a> (T data)</td></tr>
 <tr class="memitem:a7d028082189af278c333a285aa69e2b7" id="r_a7d028082189af278c333a285aa69e2b7"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a7d028082189af278c333a285aa69e2b7">raw2uv</a> (int ch, <a class="el" href="#a0e377e6c706372ba44bdf6382eac6244">raw_t</a> value)</td></tr>
 <tr class="memitem:a49c7fef30ca6dbd3b555c19d60c4067e" id="r_a49c7fef30ca6dbd3b555c19d60c4067e"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a49c7fef30ca6dbd3b555c19d60c4067e">raw2mv</a> (int ch, <a class="el" href="#a0e377e6c706372ba44bdf6382eac6244">raw_t</a> value)</td></tr>
-<tr class="memitem:af93ea5ad0230566c526f943b0f081cb6" id="r_af93ea5ad0230566c526f943b0f081cb6"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#af93ea5ad0230566c526f943b0f081cb6">raw2v</a> (int ch, <a class="el" href="#a0e377e6c706372ba44bdf6382eac6244">raw_t</a> value)</td></tr>
-<tr class="memitem:ade3f9faa7e8df4b0aaea578870da8aaf" id="r_ade3f9faa7e8df4b0aaea578870da8aaf"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#ade3f9faa7e8df4b0aaea578870da8aaf">coeff_mV</a> (int ch)</td></tr>
+<tr class="memitem:a254c03014f63e20fef97d33ce735fcef" id="r_a254c03014f63e20fef97d33ce735fcef"><td class="memItemLeft">virtual double&#160;</td><td class="memItemRight"><a class="el" href="#a254c03014f63e20fef97d33ce735fcef">raw2v</a> (int ch, <a class="el" href="#a0e377e6c706372ba44bdf6382eac6244">raw_t</a> value)=0</td></tr>
 <tr class="memitem:a4532d65069cc745c3e4589aac8294e2c" id="r_a4532d65069cc745c3e4589aac8294e2c"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a4532d65069cc745c3e4589aac8294e2c">drdy_delay</a> (int ch)</td></tr>
 <tr class="memitem:aea5557492d4a9282429f8e6f90f336ce" id="r_aea5557492d4a9282429f8e6f90f336ce"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#aea5557492d4a9282429f8e6f90f336ce">drdy_delay</a> (void)</td></tr>
 <tr class="memitem:a569d7ed4a4b14ee280b801468d2987bd" id="r_a569d7ed4a4b14ee280b801468d2987bd"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a569d7ed4a4b14ee280b801468d2987bd">enabled_logical_channels</a> (void)</td></tr>
@@ -181,9 +183,10 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:acd2376abf929d103596b657e654383d1" id="r_acd2376abf929d103596b657e654383d1"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#acd2376abf929d103596b657e654383d1">pin_SYN</a></td></tr>
 <tr class="memitem:add4121ad23553f304fa35ada98493b13" id="r_add4121ad23553f304fa35ada98493b13"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#add4121ad23553f304fa35ada98493b13">pin_nRESET</a></td></tr>
 <tr class="memitem:a3003d35503a5704df7ee74b825739be6" id="r_a3003d35503a5704df7ee74b825739be6"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a3003d35503a5704df7ee74b825739be6">pin_DRDY_input</a></td></tr>
+<tr class="memitem:a61c4aad19b7052dfef4f4a35d342d5a5" id="r_a61c4aad19b7052dfef4f4a35d342d5a5"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a61c4aad19b7052dfef4f4a35d342d5a5">pin_SYNCDAC</a></td></tr>
 <tr class="memitem:a9d1951634bb2fe0a08d330309982c103" id="r_a9d1951634bb2fe0a08d330309982c103"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a9d1951634bb2fe0a08d330309982c103">enabled_channels</a></td></tr>
 <tr class="memitem:aa65a9e117194cf0a834fbe783094a451" id="r_aa65a9e117194cf0a834fbe783094a451"><td class="memItemLeft">uint8_t&#160;</td><td class="memItemRight"><a class="el" href="#aa65a9e117194cf0a834fbe783094a451">sequence_order</a> [16]</td></tr>
-<tr class="memitem:a6814b0b5b6c98d04d2a884a9d9747848" id="r_a6814b0b5b6c98d04d2a884a9d9747848"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a6814b0b5b6c98d04d2a884a9d9747848">coeff_uV</a> [16]</td></tr>
+<tr class="memitem:a8b48a815db11e4725e4ee3be52dcc7c9" id="r_a8b48a815db11e4725e4ee3be52dcc7c9"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a8b48a815db11e4725e4ee3be52dcc7c9">coeff_V</a> [16]</td></tr>
 <tr class="memitem:ad38605e2a8847007f3b9307845a5aa97" id="r_ad38605e2a8847007f3b9307845a5aa97"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ad38605e2a8847007f3b9307845a5aa97">mux_setting</a> [16]</td></tr>
 <tr class="memitem:ad07d4008dee06260b258735657978110" id="r_ad07d4008dee06260b258735657978110"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#ad07d4008dee06260b258735657978110">ch_delay</a> [16]</td></tr>
 <tr class="memitem:afebe805e43da330337776aca5fe9cbba" id="r_afebe805e43da330337776aca5fe9cbba"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#afebe805e43da330337776aca5fe9cbba">total_delay</a></td></tr>
@@ -220,22 +223,6 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1b989cf95653ebd96e4a1cebc27a1133" name="a1b989cf95653ebd96e4a1cebc27a1133"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1b989cf95653ebd96e4a1cebc27a1133">&#9670;&#160;</a></span>microvolt_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#a1b989cf95653ebd96e4a1cebc27a1133">AFE_base::microvolt_t</a> = double</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00023">23</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
-
-</div>
-</div>
 <a id="a0e377e6c706372ba44bdf6382eac6244" name="a0e377e6c706372ba44bdf6382eac6244"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0e377e6c706372ba44bdf6382eac6244">&#9670;&#160;</a></span>raw_t</h2>
 
@@ -250,6 +237,22 @@ Static Protected Attributes</h2></td></tr>
 <p>ADC readout types </p>
 
 <p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00022">22</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+
+</div>
+</div>
+<a id="a1a413cdd7697383236211ca23ccf3756" name="a1a413cdd7697383236211ca23ccf3756"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a413cdd7697383236211ca23ccf3756">&#9670;&#160;</a></span>volt_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a1a413cdd7697383236211ca23ccf3756">AFE_base::volt_t</a> = double</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00023">23</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
 </div>
 </div>
@@ -280,8 +283,8 @@ Static Protected Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a0ef1522b37578335ba98111fc54a0c60" name="a0ef1522b37578335ba98111fc54a0c60"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ef1522b37578335ba98111fc54a0c60">&#9670;&#160;</a></span>AFE_base()</h2>
+<a id="ab7efce2b63597ccafc60486b19db1467" name="ab7efce2b63597ccafc60486b19db1467"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7efce2b63597ccafc60486b19db1467">&#9670;&#160;</a></span>AFE_base()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -319,7 +322,12 @@ Static Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>DRDY_input</em></span><span class="paramdefsep"> = </span><span class="paramdefval">2</span>&#160;)</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>DRDY_input</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>SYNCDAC</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -327,7 +335,7 @@ Static Protected Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">70</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00202">NAFE13388_Base::NAFE13388_Base()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00203">NAFE13388_Base::NAFE13388_Base()</a>, and <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00115">NAFE33352_Base::NAFE33352_Base()</a>.</p>
 
 </div>
 </div>
@@ -355,7 +363,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Destractor </p>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00083">83</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00084">84</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
 
 </div>
 </div>
@@ -385,7 +393,7 @@ Static Protected Attributes</h2></td></tr>
 <p>Begin the device operation</p>
 <p><a class="el" href="class_n_a_f_e13388.html">NAFE13388</a> initialization. It does following steps (1) Call <a class="el" href="#a57bc38b19a6cddca0fa7209ba2450a5f">reset()</a> (2) Call <a class="el" href="#ad59e7d5701a57c1e1b0a29e8c521a572">boot()</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00097">97</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00098">98</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
 
 </div>
 </div>
@@ -412,7 +420,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00152">152</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00153">153</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
 
 </div>
 </div>
@@ -440,9 +448,9 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Set system-level config registers </p>
 
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a10cb8251da90d5052c6e9ee69c7c7444">NAFE13388_Base</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a10cb8251da90d5052c6e9ee69c7c7444">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#a1fc6f2994602b14bd1a5d422d0e2cda4">NAFE33352_Base</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00097">begin()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00098">begin()</a>.</p>
 
 </div>
 </div>
@@ -476,7 +484,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a1e5fa05a6631f098ca7245be0e4c7af6">NAFE13388_Base</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a1e5fa05a6631f098ca7245be0e4c7af6">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#a104e21e77a1177a3a2033e7ed7e01ccc">NAFE33352_Base</a>.</p>
 
 </div>
 </div>
@@ -504,41 +512,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>All logical channel disable </p>
 
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a8ad881e85cec364f771c96c2425f5e72">NAFE13388_Base</a>.</p>
-
-</div>
-</div>
-<a id="ade3f9faa7e8df4b0aaea578870da8aaf" name="ade3f9faa7e8df4b0aaea578870da8aaf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade3f9faa7e8df4b0aaea578870da8aaf">&#9670;&#160;</a></span>coeff_mV()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double AFE_base::coeff_mV </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ch</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Coefficient to convert from ADC read value to micro-volt</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ch</td><td>logical channel number </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00220">220</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a8ad881e85cec364f771c96c2425f5e72">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#a53092e02897632912cf1e4342e37e4f7">NAFE33352_Base</a>.</p>
 
 </div>
 </div>
@@ -565,7 +539,7 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00123">123</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00124">124</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
 
 </div>
 </div>
@@ -599,7 +573,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a9b7138ba4a0e2735a868aced27d07fbd">NAFE13388_Base</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a9b7138ba4a0e2735a868aced27d07fbd">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#acfccb0699bf8327969920ec09659b7ee">NAFE33352_Base</a>.</p>
 
 </div>
 </div>
@@ -626,9 +600,9 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00111">111</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00112">112</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00087">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00088">init()</a>.</p>
 
 </div>
 </div>
@@ -662,7 +636,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00229">229</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00190">190</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
 </div>
 </div>
@@ -690,7 +664,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Caliculated delay from logical channel setting (for all channels) </p>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00236">236</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00197">197</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
 </div>
 </div>
@@ -724,7 +698,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#ace89ed25b4dc41b197a75728ec64249e">NAFE13388_Base</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#ace89ed25b4dc41b197a75728ec64249e">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#a174073474d67ec0a8a90424111fdbc3b">NAFE33352_Base</a>.</p>
 
 </div>
 </div>
@@ -752,7 +726,7 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Number of enabled logical channels </p>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00242">242</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00203">203</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
 </div>
 </div>
@@ -779,9 +753,9 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00087">87</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00088">88</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00097">begin()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00098">begin()</a>.</p>
 
 </div>
 </div>
@@ -820,7 +794,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a6500b34cd1f51033f34727400cd7ff84">NAFE13388_Base</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a6500b34cd1f51033f34727400cd7ff84">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#a2d01ef0d159484b39e5d84f2877cc10c">NAFE33352_Base</a>.</p>
 
 </div>
 </div>
@@ -877,7 +851,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#ae30356001b22aa5e990b06e68082a67d">NAFE13388_Base</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#ae30356001b22aa5e990b06e68082a67d">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#a25adc21162221a15ef57fa78b313dab6">NAFE33352_Base</a>.</p>
 
 </div>
 </div>
@@ -916,9 +890,9 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00201">201</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00174">174</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00501">NAFE13388_Base::self_calibrate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00502">NAFE13388_Base::self_calibrate()</a>.</p>
 
 </div>
 </div>
@@ -959,12 +933,12 @@ Static Protected Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00164">164</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00410">NAFE13388_Base::read()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00397">NAFE33352_Base::read()</a>.</p>
 
 </div>
 </div>
-<a id="af93ea5ad0230566c526f943b0f081cb6" name="af93ea5ad0230566c526f943b0f081cb6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af93ea5ad0230566c526f943b0f081cb6">&#9670;&#160;</a></span>raw2v()</h2>
+<a id="a254c03014f63e20fef97d33ce735fcef" name="a254c03014f63e20fef97d33ce735fcef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a254c03014f63e20fef97d33ce735fcef">&#9670;&#160;</a></span>raw2v()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -973,7 +947,7 @@ Static Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double AFE_base::raw2v </td>
+          <td class="memname">virtual double AFE_base::raw2v </td>
           <td>(</td>
           <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
         </tr>
@@ -985,7 +959,7 @@ Static Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -998,9 +972,9 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00211">211</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a109b0c5b5d52cf244b9ae266fd20e3e2">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#ac1f4e8ab2157e0f71adf96a3487bb227">NAFE33352_Base</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00501">NAFE13388_Base::self_calibrate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00174">raw2mv()</a>, and <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00164">raw2uv()</a>.</p>
 
 </div>
 </div>
@@ -1034,48 +1008,14 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a2dece813f0f0bfa71f75266c2a3609e2">NAFE13388_Base</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a2dece813f0f0bfa71f75266c2a3609e2">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#a13f3bfa43b30457b3957d232722c7fb3">NAFE33352_Base</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00042">LogicalChannel_Base::operator AFE_base::microvolt_t()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00037">LogicalChannel_Base::operator AFE_base::raw_t()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00129">start_and_read()</a>, and <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00138">start_and_read()</a>.</p>
-
-</div>
-</div>
-<a id="a025ee520bcf39a7ef89d137833209a56" name="a025ee520bcf39a7ef89d137833209a56"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a025ee520bcf39a7ef89d137833209a56">&#9670;&#160;</a></span>read() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void AFE_base::read </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#a1b989cf95653ebd96e4a1cebc27a1133">microvolt_t</a> *</td>          <td class="paramname"><span class="paramname"><em>data_ptr</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Read ADC for all channel</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data_ptr</td><td>pointer to array to store ADC data </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a0b23ee506fa038db9c1deb1e762e2656">NAFE13388_Base</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00037">LogicalChannel_Base::operator AFE_base::raw_t()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00042">LogicalChannel_Base::operator AFE_base::volt_t()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00130">start_and_read()</a>, and <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00138">start_and_read()</a>.</p>
 
 </div>
 </div>
 <a id="a6a45b294c4eb10fba0720494de982e45" name="a6a45b294c4eb10fba0720494de982e45"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a45b294c4eb10fba0720494de982e45">&#9670;&#160;</a></span>read() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a45b294c4eb10fba0720494de982e45">&#9670;&#160;</a></span>read() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1104,7 +1044,41 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#ac9b65f80f08709fc6c498897a476ae34">NAFE13388_Base</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#ac9b65f80f08709fc6c498897a476ae34">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#a595f6adb4966f7865a11fbccb879eb1f">NAFE33352_Base</a>.</p>
+
+</div>
+</div>
+<a id="a262adb0c5ec1bf787c8d51de9e780861" name="a262adb0c5ec1bf787c8d51de9e780861"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a262adb0c5ec1bf787c8d51de9e780861">&#9670;&#160;</a></span>read() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void AFE_base::read </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a1a413cdd7697383236211ca23ccf3756">volt_t</a> *</td>          <td class="paramname"><span class="paramname"><em>data_ptr</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Read ADC for all channel</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data_ptr</td><td>pointer to array to store ADC data </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a1202385e2c68d543e851bbe91c40c5a4">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#af23df32f335b0d0ae035834edaa7b72c">NAFE33352_Base</a>.</p>
 
 </div>
 </div>
@@ -1132,9 +1106,9 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Issue RESET command </p>
 
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#adbb1b31987f78c4c449883a2fb006185">NAFE13388_Base</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#adbb1b31987f78c4c449883a2fb006185">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#a74a4c4a8fcd47eb99cc9fd61315eb452">NAFE33352_Base</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00097">begin()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00098">begin()</a>.</p>
 
 </div>
 </div>
@@ -1161,9 +1135,9 @@ Static Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00106">106</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00107">107</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00087">init()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00188">use_DRDY_trigger()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00088">init()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00189">use_DRDY_trigger()</a>.</p>
 
 </div>
 </div>
@@ -1197,7 +1171,7 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#af2fd478b940e38b0545df46e2b45a1fd">NAFE13388_Base</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#af2fd478b940e38b0545df46e2b45a1fd">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#ab7c1cc8b5f424c8209db0e619fd71388">NAFE33352_Base</a>.</p>
 
 </div>
 </div>
@@ -1225,9 +1199,9 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Start ADC on all logical channel </p>
 
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a5ddade9b0e7880bff147f47309cb36f6">NAFE13388_Base</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a5ddade9b0e7880bff147f47309cb36f6">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#a80dabc78938b563baad5220b38b701b4">NAFE33352_Base</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00129">start_and_read()</a>, and <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00138">start_and_read()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00130">start_and_read()</a>, and <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00138">start_and_read()</a>.</p>
 
 </div>
 </div>
@@ -1261,9 +1235,9 @@ Static Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00129">129</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00130">130</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00501">NAFE13388_Base::self_calibrate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00502">NAFE13388_Base::self_calibrate()</a>.</p>
 
 </div>
 </div>
@@ -1320,7 +1294,7 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Start continuous AD conversion </p>
 
-<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a02098fb1dea51b7fef3778fa8a18a657">NAFE13388_Base</a>.</p>
+<p>Implemented in <a class="el" href="class_n_a_f_e13388___base.html#a02098fb1dea51b7fef3778fa8a18a657">NAFE13388_Base</a>, and <a class="el" href="class_n_a_f_e33352___base.html#abcbddd06ffa073f7e44169ec8c228c5f">NAFE33352_Base</a>.</p>
 
 </div>
 </div>
@@ -1347,9 +1321,9 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00117">117</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00118">118</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00087">init()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00188">use_DRDY_trigger()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00088">init()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00189">use_DRDY_trigger()</a>.</p>
 
 </div>
 </div>
@@ -1375,9 +1349,9 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00188">188</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00189">189</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00087">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00088">init()</a>.</p>
 
 </div>
 </div>
@@ -1404,9 +1378,9 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00165">165</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00166">166</a> of file <a class="el" href="_a_f_e___n_x_p_8cpp_source.html">AFE_NXP.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00129">start_and_read()</a>, and <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00138">start_and_read()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00130">start_and_read()</a>, and <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00138">start_and_read()</a>.</p>
 
 </div>
 </div>
@@ -1431,9 +1405,9 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00287">287</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00250">250</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00111">DRDY_cb()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00106">set_DRDY_callback()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00129">start_and_read()</a>, and <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00138">start_and_read()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00112">DRDY_cb()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00107">set_DRDY_callback()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00130">start_and_read()</a>, and <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00138">start_and_read()</a>.</p>
 
 </div>
 </div>
@@ -1458,14 +1432,14 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Channel delay </p>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00277">277</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00240">240</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00301">NAFE13388_Base::calc_delay()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00276">NAFE13388_Base::channel_info_update()</a>, <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00229">drdy_delay()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00253">NAFE13388_Base::open_logical_channel()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00129">start_and_read()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00302">NAFE13388_Base::calc_delay()</a>, <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00285">NAFE33352_Base::calc_delay()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00277">NAFE13388_Base::channel_info_update()</a>, <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00260">NAFE33352_Base::channel_info_update()</a>, <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00190">drdy_delay()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00254">NAFE13388_Base::open_logical_channel()</a>, <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00185">NAFE33352_Base::open_logical_channel()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00130">start_and_read()</a>.</p>
 
 </div>
 </div>
-<a id="a6814b0b5b6c98d04d2a884a9d9747848" name="a6814b0b5b6c98d04d2a884a9d9747848"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6814b0b5b6c98d04d2a884a9d9747848">&#9670;&#160;</a></span>coeff_uV</h2>
+<a id="a8b48a815db11e4725e4ee3be52dcc7c9" name="a8b48a815db11e4725e4ee3be52dcc7c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b48a815db11e4725e4ee3be52dcc7c9">&#9670;&#160;</a></span>coeff_V</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1474,7 +1448,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double AFE_base::coeff_uV[16]</td>
+          <td class="memname">double AFE_base::coeff_V[16]</td>
         </tr>
       </table>
   </td>
@@ -1485,9 +1459,9 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Coefficient to convert from ADC read value to micro-volt </p>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00271">271</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00234">234</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00220">coeff_mV()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00253">NAFE13388_Base::open_logical_channel()</a>, <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00201">raw2mv()</a>, <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00164">raw2uv()</a>, and <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00211">raw2v()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00254">NAFE13388_Base::open_logical_channel()</a>, <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00185">NAFE33352_Base::open_logical_channel()</a>, <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00410">NAFE13388_Base::raw2v()</a>, and <a class="el" href="_n_a_f_e33352_8h_source.html#l00212">NAFE33352_Base::raw2v()</a>.</p>
 
 </div>
 </div>
@@ -1514,9 +1488,9 @@ template&lt;typename T&gt; </div>
 <dl class="section author"><dt>Author</dt><dd>Tedd OKANO</dd></dl>
 <p>Copyright: 2023 - 2025 Tedd OKANO Released under the MIT license </p>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00279">279</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00242">242</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00129">start_and_read()</a>, <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00138">start_and_read()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00165">wait_conversion_complete()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00130">start_and_read()</a>, <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00138">start_and_read()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00166">wait_conversion_complete()</a>.</p>
 
 </div>
 </div>
@@ -1540,7 +1514,7 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00254">254</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00215">215</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">AFE_base()</a>.</p>
 
@@ -1566,9 +1540,9 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00285">285</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00248">248</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00123">default_drdy_cb()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00124">default_drdy_cb()</a>.</p>
 
 </div>
 </div>
@@ -1592,9 +1566,9 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00286">286</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00249">249</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00123">default_drdy_cb()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00087">init()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00165">wait_conversion_complete()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00124">default_drdy_cb()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00088">init()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00166">wait_conversion_complete()</a>.</p>
 
 </div>
 </div>
@@ -1619,9 +1593,9 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Number of enabled logical channels </p>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00265">265</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00228">228</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">AFE_base()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00276">NAFE13388_Base::channel_info_update()</a>, <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00242">enabled_logical_channels()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00410">NAFE13388_Base::read()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00405">NAFE13388_Base::read()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">AFE_base()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00277">NAFE13388_Base::channel_info_update()</a>, <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00260">NAFE33352_Base::channel_info_update()</a>, <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00203">enabled_logical_channels()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00406">NAFE13388_Base::read()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00411">NAFE13388_Base::read()</a>, <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00392">NAFE33352_Base::read()</a>, and <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00397">NAFE33352_Base::read()</a>.</p>
 
 </div>
 </div>
@@ -1645,9 +1619,9 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00255">255</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00216">216</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">AFE_base()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00301">NAFE13388_Base::calc_delay()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">AFE_base()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00302">NAFE13388_Base::calc_delay()</a>, and <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00285">NAFE33352_Base::calc_delay()</a>.</p>
 
 </div>
 </div>
@@ -1671,9 +1645,9 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00295">295</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00258">258</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00097">begin()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00117">static_default_drdy_cb()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00098">begin()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00118">static_default_drdy_cb()</a>.</p>
 
 </div>
 </div>
@@ -1698,9 +1672,9 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Multiplexer setting </p>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00274">274</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00237">237</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00253">NAFE13388_Base::open_logical_channel()</a>, and <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00164">raw2uv()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00254">NAFE13388_Base::open_logical_channel()</a>, <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00185">NAFE33352_Base::open_logical_channel()</a>, <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00410">NAFE13388_Base::raw2v()</a>, and <a class="el" href="_n_a_f_e33352_8h_source.html#l00212">NAFE33352_Base::raw2v()</a>.</p>
 
 </div>
 </div>
@@ -1724,7 +1698,7 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00257">257</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00218">218</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">AFE_base()</a>.</p>
 
@@ -1750,9 +1724,9 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00260">260</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00221">221</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">AFE_base()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00087">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">AFE_base()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00088">init()</a>.</p>
 
 </div>
 </div>
@@ -1776,7 +1750,7 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00256">256</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00217">217</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">AFE_base()</a>.</p>
 
@@ -1802,9 +1776,9 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00259">259</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00220">220</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">AFE_base()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00224">NAFE13388_Base::reset()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">AFE_base()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00225">NAFE13388_Base::reset()</a>, and <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00147">NAFE33352_Base::reset()</a>.</p>
 
 </div>
 </div>
@@ -1828,7 +1802,33 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00258">258</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00219">219</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">AFE_base()</a>.</p>
+
+</div>
+</div>
+<a id="a61c4aad19b7052dfef4f4a35d342d5a5" name="a61c4aad19b7052dfef4f4a35d342d5a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61c4aad19b7052dfef4f4a35d342d5a5">&#9670;&#160;</a></span>pin_SYNCDAC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int AFE_base::pin_SYNCDAC</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00222">222</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00070">AFE_base()</a>.</p>
 
@@ -1855,9 +1855,9 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Number of enabled logical channels </p>
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00268">268</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00231">231</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00276">NAFE13388_Base::channel_info_update()</a>, and <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00410">NAFE13388_Base::read()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00277">NAFE13388_Base::channel_info_update()</a>, <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00260">NAFE33352_Base::channel_info_update()</a>, <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00411">NAFE13388_Base::read()</a>, and <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00397">NAFE33352_Base::read()</a>.</p>
 
 </div>
 </div>
@@ -1881,9 +1881,9 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00281">281</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00244">244</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00165">wait_conversion_complete()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00166">wait_conversion_complete()</a>.</p>
 
 </div>
 </div>
@@ -1907,9 +1907,9 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00278">278</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00241">241</a> of file <a class="el" href="_a_f_e___n_x_p_8h_source.html">AFE_NXP.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00276">NAFE13388_Base::channel_info_update()</a>, <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00236">drdy_delay()</a>, and <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00138">start_and_read()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_a_f_e___n_x_p_8cpp_source.html#l00277">NAFE13388_Base::channel_info_update()</a>, <a class="el" href="_n_a_f_e33352_8cpp_source.html#l00260">NAFE33352_Base::channel_info_update()</a>, <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00197">drdy_delay()</a>, and <a class="el" href="_a_f_e___n_x_p_8h_source.html#l00138">start_and_read()</a>.</p>
 
 </div>
 </div>

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['register16_0',['Register16',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fb',1,'NAFE13388_Base']]],
-  ['register24_1',['Register24',['../class_n_a_f_e13388___base.html#a8da94b56680ae6228400f123970f1828',1,'NAFE13388_Base']]]
+  ['lv_5fmux_5fsel_0',['LV_mux_sel',['../class_a_f_e__base.html#a4ac5e1c23c1bd907c835027ca1f33b4c',1,'AFE_base']]]
 ];
