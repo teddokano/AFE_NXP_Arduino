@@ -75,7 +75,8 @@ AFE_base::AFE_base(  bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int n
 	pinMode( pin_DRDY_input,INPUT_PULLUP );
 	pinMode( pin_SYN,		OUTPUT );
 	pinMode( pin_nRESET,	OUTPUT );
-
+	pinMode( pin_SYNCDAC,	OUTPUT );
+	
 	digitalWrite( pin_SYN,		1 );
 	digitalWrite( pin_nRESET,	1 );
 }

@@ -737,7 +737,7 @@ class NAFE13388_UIM : public NAFE13388_Base
 {
 public:	
 	/** Constructor to create a NAFE13388 instance */
-	NAFE13388_UIM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 3, int DRDY = 3, int SYN = 6, int nRESET = 7, int DRDY_input = A0, int SYNCDAC = A1 );
+	NAFE13388_UIM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 3, int DRDY = 3, int SYN = 6, int nRESET = 7, int DRDY_input = 2, int SYNCDAC = A1 );
 
 	/** Destractor */
 	virtual ~NAFE13388_UIM();
