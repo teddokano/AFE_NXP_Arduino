@@ -1,10 +1,10 @@
 /* 
- * NAFE13388-UIM board operation sample for Arduino
+ * The NAFE33352-UIOM board operation sample for Arduino
  * 
- *  Copyright: 2023 - 2026 Tedd OKANO
+ *  Copyright: 2026 Tedd OKANO
  *  Released under the MIT license
  *
- * Sample of using SCSR(Single Channel Single Read) command for 2 channels
+ *	Sample of using both AIO channel as input
  */
 
 /*
@@ -12,7 +12,7 @@
   * ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION **
   * ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION ** CAUTION **
   * 
-  * The NAFE13388-UIM board and Arduino mocrocontroller cannot be connected 
+  * The NAFE33352-UIOM board and Arduino mocrocontroller cannot be connected 
   * directly on Arduino-shield socket. The 3.3V supply should be disconnected. 
   * Visit next URL page to confirm how to do it. 
   *   -->  https://github.com/teddokano/AFE_NXP_Arduino/blob/main/README.md
@@ -22,7 +22,7 @@
 
 NAFE33352_UIOM shasta;
 
-//#define AIO_VOLTAGE_INPUT
+#define AIO_VOLTAGE_INPUT
 
 void setup() {
   Serial.begin(115200);
