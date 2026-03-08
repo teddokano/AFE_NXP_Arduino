@@ -128,8 +128,8 @@ NAFE13388_2_1_multichannel_read_MCMR_using_DRDY|NAFE13388-UIM		|Get 8ch inputs u
 NAFE13388_3_0_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM	|Get 8ch inputs using Multi-Channel **Continuous**-Read command| Need to short pins between D2 and D4
 NAFE13388_4_0_LVMUX_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM	|Get 8ch inputs and LVMUX inputs (supply voltage, etc)|Need to short pins between D2 and D4
 [NAFE13388_5_0_RTD_4_wire](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_5_0_RTD_4_wire)|NAFE13388-UIM	|Practical sample to measure temperature by 2 RTDs using internal current excitation source|Need to short pins between D2 and D4
-[NAFE13388_6_0_Thermocouple](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/)|NAFE13388-UIM	|Practical sample to measure temperature by thermocouple with on-board RTD |Need to short pins between D2 and D4
-[NAFE13388_7_0_LoadCell](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/)|NAFE13388-UIM	|Practical sample to measure loadcell output using internal voltage excitation source |Need to short pins between D2 and D4
+[NAFE13388_6_0_Thermocouple](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_6_0_Thermocouple)|NAFE13388-UIM	|Practical sample to measure temperature by thermocouple with on-board RTD |Need to short pins between D2 and D4
+[NAFE13388_7_0_LoadCell](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_7_0_LoadCell)|NAFE13388-UIM	|Practical sample to measure loadcell output using internal voltage excitation source |Need to short pins between D2 and D4
 
 #### examples for NAFE33352
 Sketch|Target|Feature|NOTE
