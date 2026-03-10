@@ -4,44 +4,61 @@ Analog Front End device operation sample code for [Arduino](https://www.arduino.
 ## What is this?
 An Arduino library for NXP Analog Front End device with sample code.  
 This library provides simple API to get analog input channels.  
-Include device name header file (`NAFE13388_UIM.h`) to use those class libraries.   
+Include device name header file (`NAFE13388_UIM.h` or `NAFE33352_UIOM.h`) to use those class libraries.   
 
-This repo shoiws some basic operations of AFE as well as practical samples to work 
-with [RTD](examples/5_0_NAFE13388_RTD_4_wire/README.md), 
-[thermocouple](examples/6_0_NAFE13388_Thermocouple/README.md) and 
-[loadcell](examples/7_0_NAFE13388_LoadCell/README.md). 
+This repo shoiws some basic operations of NAFE13388_UIM as well as practical samples to work 
+with [RTD](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_5_0_RTD_4_wire), 
+[thermocouple](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_6_0_Thermocouple) and 
+[loadcell](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_7_0_LoadCell). 
 
 ## Easy to use
 
 3 types of Arduino UNO boards: **R3**, **R4 Minima** and **R4 WiFi** are supported.  
+> **Note**  
+> For any type of Arduino board and NAFE13388-UIM/NAFE33352-UIOM board connection, **DON'T PLUG ARDUINO SHIELD SOCKET DIRECTLY!!**   
+> The 3.3V supply pin should be disconected to protect Arduino suppy circuit.   
+> Please refer to pictures in later in this page.   
+
 Example sketches can be built and run on any of those boards.  
 
-Next is a sample of the basic operation of measureing analog voltage on AI1P and AI1N terminal.  
+### Simple example code for NAFE13388-UIM
+Next is a sample of the basic operation of NAFE13388-UIM measureing analog voltage on AI1P and AI1N terminal.    
 
 ```cpp
 #include <NAFE13388_UIM.h>
 
-NAFE13388_UIM afe;
+NAFE13388_UIM afe;	//	make an instance of NAFE13388_UIM
 
 void setup() {
+  //  serial channel (between PC and Arduino) setup
   Serial.begin(115200);
+  while (!Serial)
+    ;
   Serial.println("\n***** Hello, NAFE13388! *****");
 
+  //  SPI bus setup
   SPI.begin();
+  pinMode(SS, OUTPUT);  //  Required for UNO R4
 
+  //  AFE reset and check connection
   afe.begin();
   afe.blink_leds();
 
+  //  ADC logical chennel setup
   afe.logical_channel[0].configure(0x1710, 0x00A4, 0xBC00, 0x0000);
   afe.logical_channel[1].configure(0x2710, 0x00A4, 0xBC00, 0x0000);
 
-  Serial.println("\nlogical channel 0 (AI1P-GND) and 1 (AI2P-GND) voltages are shown in ADC readout value [V]");
+  Serial.println("\nlogical channel 0 (AI1P-AICOM) and 1 (AI2P-AICOM) voltages are shown in ADC readout value [V]");
+
+  //  To use DRDY signal to detect AD conversion done
+  afe.use_DRDY_trigger(true);
 }
 
 void loop() {
-  Serial.print((NAFE13388_UIM::microvolt_t)afe.logical_channel[0] * 1e-6);
+  //  Show ADC read value on volt
+  Serial.print((NAFE13388_UIM::volt_t)afe.logical_channel[0]);
   Serial.print(",  ");
-  Serial.println((NAFE13388_UIM::microvolt_t)afe.logical_channel[1] * 1e-6);
+  Serial.println((NAFE13388_UIM::volt_t)afe.logical_channel[1]);
 }
 ```
 
@@ -50,6 +67,76 @@ The analog input terminals are available as picture below.
 
 ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/termianl_and_jumper.jpg)  
 
+
+### Simple example code for NAFE33352-UIOM
+Next is a sample of the basic operation of NAFE33352-UIOM measureing analog voltage 
+beween AI1P and VCM with DAC working to output voltage or current.  
+```cpp
+#include <NAFE33352_UIOM.h>
+
+NAFE33352_UIOM shasta;	//	make an instance of NAFE33352_UIOM
+
+#define VOLTAGE_OUTPUT_SETTING	//	demo type selector: comment-out to select current output
+double output_value;
+int count = 0;
+
+void setup() {
+  //  serial channel (between PC and Arduino) setup
+  Serial.begin(115200);
+  while (!Serial)
+    ;
+  Serial.println("\n***** Hello, NAFE33352_UIOM! *****");
+
+  //  SPI bus setup
+  SPI.begin();
+  pinMode(SS, OUTPUT);  //  Required for UNO R4
+
+  //  AFE reset and check connection
+  shasta.begin();
+
+#ifdef VOLTAGE_OUTPUT_SETTING
+  //  DAC setup: configure to voltage output
+  output_value = 5.00;  //	5V
+  shasta.dac.configure(NAFE33352_UIOM::DAC::ModeSelect::VOLTAGE);
+#else
+  //  DAC setup: configure to current output
+  output_value = 20 * 1e-3;  //	20mA
+  shasta.dac.configure(NAFE33352_UIOM::DAC::ModeSelect::CURRENT);
+#endif
+
+  //  Set DAC output
+  shasta.dac = output_value;
+  delay( 100 );
+
+  //  ADC logical chennel setup
+  shasta.logical_channel[0].configure(0x0020, 0x50B4, 0x5000);  //  voltage between AI1P - VCOM
+  shasta.logical_channel[1].configure(0x0080, 0x5064, 0x5000);  //  supply monitoring: VHDD
+  shasta.logical_channel[2].configure(0x0088, 0x5064, 0x5000);  //  supply monitoring: VHSS
+  shasta.logical_channel[3].configure(0x0038, 0x2064, 0x5000);  //  VSNS voltage
+  shasta.logical_channel[4].configure(0x0030, 0x3064, 0x5000);  //  ISNS current
+}
+
+void loop() {
+  double data;
+  
+  //  show ADC measured data (in volt and ampere)
+  for (auto i = 0; i < shasta.enabled_logical_channels(); i++) {
+    data = shasta.logical_channel[i];
+    Serial.print(data, 9);
+    Serial.print(",    ");
+  }
+
+  //  show AIO_STATUS register value
+  Serial.println(shasta.reg(NAFE33352_UIOM::Register16::AIO_STATUS), HEX);
+
+  //  alternate DAC output polarity
+  shasta.dac = output_value * (count++ & 0x1 ? +1.00 : -1.00);
+
+  delay(1000);
+}
+```
+
+### Board connections
 
 Followings are pictures of UIM with UNO R3, UNO R4 Minima and UNO R4 WiFi boards.  
 On every picture, showing the hardware setting of..
