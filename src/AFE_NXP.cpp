@@ -9,7 +9,7 @@
 #include	"AFE_NXP.h"
 #include	<math.h>
 
-double	AFE_base::delay_accuracy	= 1.4;
+double	AFE_base::delay_accuracy	= 1.2;
 
 void LogicalChannel_Base::enable( void )
 {
@@ -169,7 +169,7 @@ int AFE_base::wait_conversion_complete( double wait )
 {
 	if ( 0 < wait )
 	{
-		delay( wait * delay_accuracy * 1000 );
+		delayMicroseconds( wait * delay_accuracy * 1e6 );
 		return	0;
 	}
 

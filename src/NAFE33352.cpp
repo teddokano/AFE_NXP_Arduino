@@ -284,6 +284,8 @@ void NAFE33352_Base::channel_info_update( uint16_t value )
 
 double NAFE33352_Base::calc_delay( int ch )
 {
+	constexpr double	system_clock	= 4608000.00;
+	
 	constexpr static double	data_rates[]	= {	   288000, 192000, 144000, 96000, 72000, 48000, 36000, 24000, 
 													18000,  12000,   9000,  6000,  4500,  3000,  2250,  1125, 
 													 562.5,    400,    300,   200,   100,    60,    50,    30, 
@@ -298,16 +300,15 @@ double NAFE33352_Base::calc_delay( int ch )
 
 	uint16_t ch_config1	= reg( NAFE33352_Base::Register16::AI_CONFIG1 );
 	uint16_t ch_config2	= reg( NAFE33352_Base::Register16::AI_CONFIG2 );
-	
+
 	uint8_t		adc_data_rate		= (ch_config1 >>  3) & 0x001F;
 	uint8_t		adc_sinc			= (ch_config1 >>  0) & 0x0007;
 	uint8_t		ch_delay			= (ch_config2 >> 10) & 0x003F;
 	bool		adc_normal_setting	= (ch_config2 >>  9) & 0x0001;
 	bool		ch_chop				= (ch_config2 >>  7) & 0x0001;
-	
 	double		base_freq			= data_rates[ adc_data_rate ];
-	double		delay_setting		= delays[ ch_delay ] / 4608000.00;
-	
+	double		delay_setting		= ((double)delays[ ch_delay ]) / system_clock;
+
 	if ( highspeed_variant )
 	{
 		base_freq		*= 2.00;
@@ -329,9 +330,9 @@ double NAFE33352_Base::calc_delay( int ch )
 	Serial.print( "base_freq = " );
 	Serial.println( base_freq );
 	Serial.print( "delay_setting = " );
-	Serial.println( delay_setting  );
+	Serial.println( delay_setting, 10 );
 	Serial.print( "channel delay = "  );
-	Serial.println(  (1 / base_freq) + delay_setting  );
+	Serial.println(  (1 / base_freq) + delay_setting, 10  );
 #endif
 	
 	return (1 / base_freq) + delay_setting;
