@@ -1,7 +1,7 @@
 var searchData=
 [
   ['ldo_0',['LDO',['../class_n_a_f_e33352___base.html#acf2972ba73703ea15b4d801f221001e9a3f874fdd852092858b357b6c5393c2b6',1,'NAFE33352_Base']]],
-  ['list_20of_20sample_20code_1',['List of sample code',['../md__r_e_a_d_m_e.html#autotoc_md20',1,'']]],
+  ['list_20of_20sample_20code_1',['List of sample code',['../md__r_e_a_d_m_e.html#autotoc_md23',1,'']]],
   ['logical_20channel_20setting_20on_20channel_200_2',['Logical channel setting on channel 0',['../dir_27a6c66212b61ce7bc3c59f615b46cd0.html#autotoc_md2',1,'Logical channel setting on channel 0'],['../dir_0faf0b726d1a69f3318046e200931148.html#autotoc_md6',1,'Logical channel setting on channel 0'],['../dir_9aeb26975dea168612a720ad08e60bac.html#autotoc_md10',1,'Logical channel setting on channel 0']]],
   ['logical_20channel_20setting_20on_20channel_201_3',['Logical channel setting on channel 1',['../dir_27a6c66212b61ce7bc3c59f615b46cd0.html#autotoc_md3',1,'Logical channel setting on channel 1'],['../dir_0faf0b726d1a69f3318046e200931148.html#autotoc_md7',1,'Logical channel setting on channel 1']]],
   ['logical_5fchannel_4',['logical_channel',['../class_n_a_f_e13388___base.html#a34f578474b1f74e4d5f71f3bc29a2502',1,'NAFE13388_Base::logical_channel'],['../class_n_a_f_e33352___base.html#af6431a4fefa9247b07a3f8acf770172b',1,'NAFE33352_Base::logical_channel']]],

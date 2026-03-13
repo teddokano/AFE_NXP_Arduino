@@ -37,7 +37,7 @@ var searchData=
   ['gainpga_34',['GainPGA',['../class_n_a_f_e13388___base.html#a6431f41355e322a0d5c6ceabc146a4d2',1,'NAFE13388_Base::GainPGA'],['../class_n_a_f_e33352___base.html#a84a15d0d0425df6a127f9b3e19fe2522',1,'NAFE33352_Base::GainPGA']]],
   ['get_5fdata16_35',['get_data16',['../class_s_p_i__for___a_f_e.html#ae368ac5ef6ff4c55e4d08530e89b42c9',1,'SPI_for_AFE']]],
   ['get_5fdata24_36',['get_data24',['../class_s_p_i__for___a_f_e.html#ab67418538d43e727e337c7b452a95ee8',1,'SPI_for_AFE']]],
-  ['getting_20started_37',['Getting started',['../md__r_e_a_d_m_e.html#autotoc_md16',1,'']]],
+  ['getting_20started_37',['Getting started',['../md__r_e_a_d_m_e.html#autotoc_md19',1,'']]],
   ['global_5falarm_5fenable_38',['GLOBAL_ALARM_ENABLE',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba9e84ca56918e5a5ffb786c3461eea70d',1,'NAFE13388_Base::GLOBAL_ALARM_ENABLE'],['../class_n_a_f_e33352___base.html#a1852162ffd62ea90b54532e038fc9a21a9e84ca56918e5a5ffb786c3461eea70d',1,'NAFE33352_Base::GLOBAL_ALARM_ENABLE']]],
   ['global_5falarm_5fint_39',['GLOBAL_ALARM_INT',['../class_n_a_f_e33352___base.html#a1852162ffd62ea90b54532e038fc9a21a51506e2249afb970f3a8efa201eb0e6c',1,'NAFE33352_Base']]],
   ['global_5falarm_5finterrupt_40',['GLOBAL_ALARM_INTERRUPT',['../class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba2637e3e722177aee586682564fd49b74',1,'NAFE13388_Base']]],
