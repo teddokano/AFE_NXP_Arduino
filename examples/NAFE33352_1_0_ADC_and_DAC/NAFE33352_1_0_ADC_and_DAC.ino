@@ -35,9 +35,6 @@ void setup() {
   SPI.begin();
   pinMode(SS, OUTPUT);  //  Required for UNO R4
 
-  Serial.println(shasta.revision_number(), HEX);
-
-
   shasta.begin();
 
 #ifdef VOLTAGE_OUTPUT_SETTING
@@ -49,13 +46,15 @@ void setup() {
 #endif
 
   shasta.dac = output_value;
-  delay( 100 );
+  delay(100);
 
   shasta.logical_channel[0].configure(0x0020, 0x50B4, 0x5000);
   shasta.logical_channel[1].configure(0x0080, 0x5064, 0x5000);
   shasta.logical_channel[2].configure(0x0088, 0x5064, 0x5000);
   shasta.logical_channel[3].configure(0x0038, 0x2064, 0x5000);
   shasta.logical_channel[4].configure(0x0030, 0x3064, 0x5000);
+
+  Serial.println("AIP(SE)[V], VHDD[V], VHSS[V], VSNS[V], ISNS[A], AIO_STATUS, Temp[deg-C]");
 }
 
 void loop() {
@@ -66,7 +65,9 @@ void loop() {
     Serial.print(",    ");
   }
 
-  Serial.println(shasta.reg(NAFE33352_UIOM::Register16::AIO_STATUS), HEX);
+  Serial.print(shasta.reg(NAFE33352_UIOM::Register16::AIO_STATUS), HEX);
+  Serial.print(",    ");
+  Serial.println(shasta.temperature(), 1);
 
   shasta.dac = output_value * (count++ & 0x1 ? +1.00 : -1.00);
 

@@ -9,7 +9,7 @@
 #include	"AFE_NXP.h"
 #include	<math.h>
 
-double	AFE_base::delay_accuracy	= 1.2;
+double	AFE_base::delay_accuracy	= 1.4;
 
 void LogicalChannel_Base::enable( void )
 {
@@ -98,6 +98,8 @@ void AFE_base::init( void )
 void AFE_base::begin( void )
 {
 	instance	= this;
+	
+	SPI_for_AFE::init();	//	set proper SPI_CS = HIGH state. This is required for UNO R4
 	
 	reset();
 	boot();	

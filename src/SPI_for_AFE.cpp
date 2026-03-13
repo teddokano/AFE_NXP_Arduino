@@ -69,3 +69,9 @@ void SPI_for_AFE::burst( uint32_t *data, int length, int width )
 	for ( auto i = 0; i < length; i++ )
 		*data++	= get_data24( v + command_length + i * width );
 }
+
+void SPI_for_AFE::init( void )
+{
+	digitalWrite(SS, HIGH);	//	to set proper SPI_CS = HIGH before command/register access
+	delay( 1 );
+}

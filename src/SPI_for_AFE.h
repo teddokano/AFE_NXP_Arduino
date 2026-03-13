@@ -65,6 +65,9 @@ public:
 
 	void burst( uint32_t *data, int length, int width = 3 );
 
+protected:
+	void init( void );
+
 private:
 
 	//	functions to access AFE multibyte data access independent from endianess

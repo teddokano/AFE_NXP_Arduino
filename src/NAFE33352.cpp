@@ -147,7 +147,7 @@ void NAFE33352_Base::boot( void )
 void NAFE33352_Base::reset( bool hardware_reset )
 {
 	if ( hardware_reset )
-		printf( "warning: UIOM doesn't have hardware RESET pin on the board. This reset will be ignored\r\n" );
+		Serial.println( "warning: UIOM doesn't have hardware RESET pin on the board. This reset will be ignored\r\n" );
 
 	command( NAFE33352_Base::Command::CMD_RESET ); 
 	
@@ -156,7 +156,7 @@ void NAFE33352_Base::reset( bool hardware_reset )
 	
 	for ( auto i = 0; i < RETRY; i++ )
 	{
-		delay( 3 );
+		delay( 1 );
 		if ( reg( NAFE33352_Base::Register16::SYS_STATUS ) & CHIP_READY )
 			return;
 	}
@@ -248,6 +248,13 @@ void NAFE33352_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 	enable_logical_channel( ch );
 	
 	ch_delay[ ch ]		= calc_delay( ch );
+	
+#if 1
+	Serial.print("lc[ ");
+	Serial.print(ch);
+	Serial.print("] : ");
+	Serial.println( ch_delay[ ch ] );
+#endif
 }
 
 void NAFE33352_Base::channel_info_update( uint16_t value )
@@ -316,11 +323,15 @@ double NAFE33352_Base::calc_delay( int ch )
 	if ( ch_chop )
 		base_freq	/= 2;
 	
-#if  0
-	printf( "adc_data_rate = %d\r\n", adc_data_rate );
-	printf( "base_freq = %lf\r\n", base_freq );
-	printf( "delay_setting = %lf\r\n", delay_setting  );
-	printf( "channel delay = %lf\r\n", (1 / base_freq) + delay_setting  );
+#if  1
+	Serial.print( "adc_data_rate =" );
+	Serial.println( adc_data_rate );
+	Serial.print( "base_freq = " );
+	Serial.println( base_freq );
+	Serial.print( "delay_setting = " );
+	Serial.println( delay_setting  );
+	Serial.print( "channel delay = "  );
+	Serial.println(  (1 / base_freq) + delay_setting  );
 #endif
 	
 	return (1 / base_freq) + delay_setting;
