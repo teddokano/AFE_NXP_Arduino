@@ -9,7 +9,7 @@
 #include	"AFE_NXP.h"
 #include	<math.h>
 
-double	AFE_base::delay_accuracy	= 1.2;
+double	AFE_base::delay_accuracy	= 1.1;
 
 void LogicalChannel_Base::enable( void )
 {
@@ -99,6 +99,8 @@ void AFE_base::begin( void )
 {
 	instance	= this;
 	
+	SPI_for_AFE::init();	//	set proper SPI_CS = HIGH state. This is required for UNO R4
+	
 	reset();
 	boot();	
 	init();
@@ -167,7 +169,7 @@ int AFE_base::wait_conversion_complete( double wait )
 {
 	if ( 0 < wait )
 	{
-		delay( wait * delay_accuracy * 1000 );
+		delayMicroseconds( wait * delay_accuracy * 1e6 );
 		return	0;
 	}
 
@@ -464,7 +466,7 @@ uint64_t NAFE13388_Base::serial_number( void )
 			
 float NAFE13388_Base::temperature( void )
 {
-	return reg( Register16::DIE_TEMP ) / 64.0;
+	return ((int16_t)reg( Register16::DIE_TEMP )) / 64.0;
 }
 
 void NAFE13388_Base::gain_offset_coeff( const ref_points &ref )

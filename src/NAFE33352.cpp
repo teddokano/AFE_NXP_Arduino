@@ -147,7 +147,7 @@ void NAFE33352_Base::boot( void )
 void NAFE33352_Base::reset( bool hardware_reset )
 {
 	if ( hardware_reset )
-		printf( "warning: UIOM doesn't have hardware RESET pin on the board. This reset will be ignored\r\n" );
+		Serial.println( "warning: UIOM doesn't have hardware RESET pin on the board. This reset will be ignored\r\n" );
 
 	command( NAFE33352_Base::Command::CMD_RESET ); 
 	
@@ -156,7 +156,7 @@ void NAFE33352_Base::reset( bool hardware_reset )
 	
 	for ( auto i = 0; i < RETRY; i++ )
 	{
-		delay( 3 );
+		delay( 1 );
 		if ( reg( NAFE33352_Base::Register16::SYS_STATUS ) & CHIP_READY )
 			return;
 	}
@@ -248,6 +248,13 @@ void NAFE33352_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 	enable_logical_channel( ch );
 	
 	ch_delay[ ch ]		= calc_delay( ch );
+	
+#if 0
+	Serial.print("lc[ ");
+	Serial.print(ch);
+	Serial.print("] : ");
+	Serial.println( ch_delay[ ch ], 10 );
+#endif
 }
 
 void NAFE33352_Base::channel_info_update( uint16_t value )
@@ -277,6 +284,8 @@ void NAFE33352_Base::channel_info_update( uint16_t value )
 
 double NAFE33352_Base::calc_delay( int ch )
 {
+	constexpr double	system_clock	= 4608000.00;
+	
 	constexpr static double	data_rates[]	= {	   288000, 192000, 144000, 96000, 72000, 48000, 36000, 24000, 
 													18000,  12000,   9000,  6000,  4500,  3000,  2250,  1125, 
 													 562.5,    400,    300,   200,   100,    60,    50,    30, 
@@ -291,16 +300,15 @@ double NAFE33352_Base::calc_delay( int ch )
 
 	uint16_t ch_config1	= reg( NAFE33352_Base::Register16::AI_CONFIG1 );
 	uint16_t ch_config2	= reg( NAFE33352_Base::Register16::AI_CONFIG2 );
-	
+
 	uint8_t		adc_data_rate		= (ch_config1 >>  3) & 0x001F;
 	uint8_t		adc_sinc			= (ch_config1 >>  0) & 0x0007;
 	uint8_t		ch_delay			= (ch_config2 >> 10) & 0x003F;
 	bool		adc_normal_setting	= (ch_config2 >>  9) & 0x0001;
 	bool		ch_chop				= (ch_config2 >>  7) & 0x0001;
-	
 	double		base_freq			= data_rates[ adc_data_rate ];
-	double		delay_setting		= delays[ ch_delay ] / 4608000.00;
-	
+	double		delay_setting		= ((double)delays[ ch_delay ]) / system_clock;
+
 	if ( highspeed_variant )
 	{
 		base_freq		*= 2.00;
@@ -317,10 +325,14 @@ double NAFE33352_Base::calc_delay( int ch )
 		base_freq	/= 2;
 	
 #if  0
-	printf( "adc_data_rate = %d\r\n", adc_data_rate );
-	printf( "base_freq = %lf\r\n", base_freq );
-	printf( "delay_setting = %lf\r\n", delay_setting  );
-	printf( "channel delay = %lf\r\n", (1 / base_freq) + delay_setting  );
+	Serial.print( "adc_data_rate =" );
+	Serial.println( adc_data_rate );
+	Serial.print( "base_freq = " );
+	Serial.println( base_freq );
+	Serial.print( "delay_setting = " );
+	Serial.println( delay_setting, 10 );
+	Serial.print( "channel delay = "  );
+	Serial.println(  (1 / base_freq) + delay_setting, 10  );
 #endif
 	
 	return (1 / base_freq) + delay_setting;
@@ -460,7 +472,7 @@ uint64_t NAFE33352_Base::serial_number( void )
 			
 float NAFE33352_Base::temperature( void )
 {
-	return reg( NAFE33352_Base::Register16::DIE_TEMP ) / 64.0;
+	return ((int16_t)reg( NAFE33352_Base::Register16::DIE_TEMP )) / 64.0;
 }
 
 /* NAFE33352 class ******************************************/

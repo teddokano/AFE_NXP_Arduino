@@ -23,7 +23,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">AFE_NXP_Arduino<span id="projectnumber">&#160;2.0.1</span>
+   <div id="projectname">AFE_NXP_Arduino<span id="projectnumber">&#160;2.0.2</span>
    </div>
    <div id="projectbrief">Analog Front-End (AFE) device operation sample code for Arduino</div>
   </td>
@@ -81,51 +81,149 @@ $(function() {
 What is this?</h1>
 <p>An Arduino library for NXP Analog Front End device with sample code. <br  />
  This library provides simple API to get analog input channels. <br  />
- Include device name header file (<span class="tt"><a class="el" href="_n_a_f_e13388___u_i_m_8h.html">NAFE13388_UIM.h</a></span>) to use those class libraries. <br  />
+ Include device name header file (<span class="tt"><a class="el" href="_n_a_f_e13388___u_i_m_8h.html">NAFE13388_UIM.h</a></span> or <span class="tt"><a class="el" href="_n_a_f_e33352___u_i_o_m_8h.html">NAFE33352_UIOM.h</a></span>) to use those class libraries. <br  />
 </p>
-<p>This repo shoiws some basic operations of AFE as well as practical samples to work with RTD, thermocouple and loadcell.</p>
+<p>This repo shoiws some basic operations of <a class="el" href="class_n_a_f_e13388___u_i_m.html">NAFE13388_UIM</a> as well as practical samples to work with <a href="https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_5_0_RTD_4_wire">RTD</a>, <a href="https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_6_0_Thermocouple">thermocouple</a> and <a href="https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_7_0_LoadCell">loadcell</a>.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
 Easy to use</h1>
 <p>3 types of Arduino UNO boards: <b>R3</b>, <b>R4 Minima</b> and <b>R4 WiFi</b> are supported. <br  />
- Example sketches can be built and run on any of those boards. <br  />
+ </p><blockquote class="doxtable">
+<p><b>Note</b> <br  />
+ For any type of Arduino board and NAFE13388-UIM/NAFE33352-UIOM board connection, <b>DON'T PLUG ARDUINO SHIELD SOCKET DIRECTLY!!</b> <br  />
+ The 3.3V supply pin should be disconected to protect Arduino suppy circuit. <br  />
+ Please refer to pictures in later in this page. <br  />
+ </p>
+</blockquote>
+<p>Example sketches can be built and run on any of those boards. <br  />
 </p>
-<p>Next is a sample of the basic operation of measureing analog voltage on AI1P and AI1N terminal. <br  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
+Simple example code for NAFE13388-UIM</h2>
+<p>Next is a sample of the basic operation of NAFE13388-UIM measureing analog voltage on AI1P and AI1N terminal. <br  />
 </p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="_n_a_f_e13388___u_i_m_8h.html">NAFE13388_UIM.h</a>&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><a class="code hl_class" href="class_n_a_f_e13388___u_i_m.html">NAFE13388_UIM</a> afe;</div>
+<div class="line"><a class="code hl_class" href="class_n_a_f_e13388___u_i_m.html">NAFE13388_UIM</a> afe;  <span class="comment">//  make an instance of NAFE13388_UIM</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">void</span> setup() {</div>
+<div class="line">  <span class="comment">//  serial channel (between PC and Arduino) setup</span></div>
 <div class="line">  Serial.<a class="code hl_function" href="class_a_f_e__base.html#a33584cc8f4bcf9455a4ee06dfa65cbd8">begin</a>(115200);</div>
+<div class="line">  <span class="keywordflow">while</span> (!Serial)</div>
+<div class="line">    ;</div>
 <div class="line">  Serial.println(<span class="stringliteral">&quot;\n***** Hello, NAFE13388! *****&quot;</span>);</div>
 <div class="line"> </div>
+<div class="line">  <span class="comment">//  SPI bus setup</span></div>
 <div class="line">  SPI.begin();</div>
+<div class="line">  pinMode(SS, OUTPUT);  <span class="comment">//  Required for UNO R4</span></div>
 <div class="line"> </div>
+<div class="line">  <span class="comment">//  AFE reset and check connection</span></div>
 <div class="line">  afe.<a class="code hl_function" href="class_a_f_e__base.html#a33584cc8f4bcf9455a4ee06dfa65cbd8">begin</a>();</div>
 <div class="line">  afe.<a class="code hl_function" href="class_n_a_f_e13388___u_i_m.html#a8914b71fffbf47cfbdb022e24476211c">blink_leds</a>();</div>
 <div class="line"> </div>
+<div class="line">  <span class="comment">//  ADC logical chennel setup</span></div>
 <div class="line">  afe.<a class="code hl_variable" href="class_n_a_f_e13388___base.html#a34f578474b1f74e4d5f71f3bc29a2502">logical_channel</a>[0].<a class="code hl_function" href="class_n_a_f_e13388___base_1_1_logical_channel.html#ae67df7c639793273465d726284f6424b">configure</a>(0x1710, 0x00A4, 0xBC00, 0x0000);</div>
 <div class="line">  afe.<a class="code hl_variable" href="class_n_a_f_e13388___base.html#a34f578474b1f74e4d5f71f3bc29a2502">logical_channel</a>[1].<a class="code hl_function" href="class_n_a_f_e13388___base_1_1_logical_channel.html#ae67df7c639793273465d726284f6424b">configure</a>(0x2710, 0x00A4, 0xBC00, 0x0000);</div>
 <div class="line"> </div>
-<div class="line">  Serial.println(<span class="stringliteral">&quot;\nlogical channel 0 (AI1P-GND) and 1 (AI2P-GND) voltages are shown in ADC readout value [V]&quot;</span>);</div>
+<div class="line">  Serial.println(<span class="stringliteral">&quot;\nlogical channel 0 (AI1P-AICOM) and 1 (AI2P-AICOM) voltages are shown in ADC readout value [V]&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">//  To use DRDY signal to detect AD conversion done</span></div>
+<div class="line">  afe.<a class="code hl_function" href="class_a_f_e__base.html#a1d71f6c7bb622b720fd3baacc4a69421">use_DRDY_trigger</a>(<span class="keyword">true</span>);</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">void</span> loop() {</div>
-<div class="line">  Serial.print((NAFE13388_UIM::microvolt_t)afe.<a class="code hl_variable" href="class_n_a_f_e13388___base.html#a34f578474b1f74e4d5f71f3bc29a2502">logical_channel</a>[0] * 1e-6);</div>
+<div class="line">  <span class="comment">//  Show ADC read value on volt</span></div>
+<div class="line">  Serial.print((<a class="code hl_typedef" href="class_a_f_e__base.html#a1a413cdd7697383236211ca23ccf3756">NAFE13388_UIM::volt_t</a>)afe.<a class="code hl_variable" href="class_n_a_f_e13388___base.html#a34f578474b1f74e4d5f71f3bc29a2502">logical_channel</a>[0]);</div>
 <div class="line">  Serial.print(<span class="stringliteral">&quot;,  &quot;</span>);</div>
-<div class="line">  Serial.println((NAFE13388_UIM::microvolt_t)afe.<a class="code hl_variable" href="class_n_a_f_e13388___base.html#a34f578474b1f74e4d5f71f3bc29a2502">logical_channel</a>[1] * 1e-6);</div>
+<div class="line">  Serial.println((<a class="code hl_typedef" href="class_a_f_e__base.html#a1a413cdd7697383236211ca23ccf3756">NAFE13388_UIM::volt_t</a>)afe.<a class="code hl_variable" href="class_n_a_f_e13388___base.html#a34f578474b1f74e4d5f71f3bc29a2502">logical_channel</a>[1]);</div>
 <div class="line">}</div>
 <div class="ttc" id="a_n_a_f_e13388___u_i_m_8h_html"><div class="ttname"><a href="_n_a_f_e13388___u_i_m_8h.html">NAFE13388_UIM.h</a></div></div>
+<div class="ttc" id="aclass_a_f_e__base_html_a1a413cdd7697383236211ca23ccf3756"><div class="ttname"><a href="class_a_f_e__base.html#a1a413cdd7697383236211ca23ccf3756">AFE_base::volt_t</a></div><div class="ttdeci">double volt_t</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8h_source.html#l00023">AFE_NXP.h:23</a></div></div>
+<div class="ttc" id="aclass_a_f_e__base_html_a1d71f6c7bb622b720fd3baacc4a69421"><div class="ttname"><a href="class_a_f_e__base.html#a1d71f6c7bb622b720fd3baacc4a69421">AFE_base::use_DRDY_trigger</a></div><div class="ttdeci">void use_DRDY_trigger(bool use=true)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00191">AFE_NXP.cpp:191</a></div></div>
 <div class="ttc" id="aclass_a_f_e__base_html_a33584cc8f4bcf9455a4ee06dfa65cbd8"><div class="ttname"><a href="class_a_f_e__base.html#a33584cc8f4bcf9455a4ee06dfa65cbd8">AFE_base::begin</a></div><div class="ttdeci">virtual void begin(void)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00098">AFE_NXP.cpp:98</a></div></div>
 <div class="ttc" id="aclass_n_a_f_e13388___base_1_1_logical_channel_html_ae67df7c639793273465d726284f6424b"><div class="ttname"><a href="class_n_a_f_e13388___base_1_1_logical_channel.html#ae67df7c639793273465d726284f6424b">NAFE13388_Base::LogicalChannel::configure</a></div><div class="ttdeci">void configure(const uint16_t(&amp;cc)[4])</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00056">AFE_NXP.cpp:56</a></div></div>
 <div class="ttc" id="aclass_n_a_f_e13388___base_html_a34f578474b1f74e4d5f71f3bc29a2502"><div class="ttname"><a href="class_n_a_f_e13388___base.html#a34f578474b1f74e4d5f71f3bc29a2502">NAFE13388_Base::logical_channel</a></div><div class="ttdeci">LogicalChannel logical_channel[16]</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8h_source.html#l00344">AFE_NXP.h:344</a></div></div>
 <div class="ttc" id="aclass_n_a_f_e13388___u_i_m_html"><div class="ttname"><a href="class_n_a_f_e13388___u_i_m.html">NAFE13388_UIM</a></div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8h_source.html#l00736">AFE_NXP.h:737</a></div></div>
-<div class="ttc" id="aclass_n_a_f_e13388___u_i_m_html_a8914b71fffbf47cfbdb022e24476211c"><div class="ttname"><a href="class_n_a_f_e13388___u_i_m.html#a8914b71fffbf47cfbdb022e24476211c">NAFE13388_UIM::blink_leds</a></div><div class="ttdeci">void blink_leds(void)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00633">AFE_NXP.cpp:633</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e13388___u_i_m_html_a8914b71fffbf47cfbdb022e24476211c"><div class="ttname"><a href="class_n_a_f_e13388___u_i_m.html#a8914b71fffbf47cfbdb022e24476211c">NAFE13388_UIM::blink_leds</a></div><div class="ttdeci">void blink_leds(void)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8cpp_source.html#l00635">AFE_NXP.cpp:635</a></div></div>
 </div><!-- fragment --><p>To try this sample code, set jumper plug on J91 to short AICOM and GND. <br  />
  The analog input terminals are available as picture below. <br  />
 </p>
 <p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/termianl_and_jumper.jpg" alt="" class="inline"/> <br  />
 </p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
+Simple example code for NAFE33352-UIOM</h2>
+<p>Next is a sample of the basic operation of NAFE33352-UIOM measureing analog voltage beween AI1P and VCM with DAC working to output voltage or current. <br  />
+ </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="_n_a_f_e33352___u_i_o_m_8h.html">NAFE33352_UIOM.h</a>&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_class" href="class_n_a_f_e33352___u_i_o_m.html">NAFE33352_UIOM</a> shasta;  <span class="comment">//  make an instance of NAFE33352_UIOM</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#define VOLTAGE_OUTPUT_SETTING  </span><span class="comment">//  demo type selector: comment-out to select current output</span></div>
+<div class="line"><span class="keywordtype">double</span> output_value;</div>
+<div class="line"><span class="keywordtype">int</span> count = 0;</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span> setup() {</div>
+<div class="line">  <span class="comment">//  serial channel (between PC and Arduino) setup</span></div>
+<div class="line">  Serial.<a class="code hl_function" href="class_a_f_e__base.html#a33584cc8f4bcf9455a4ee06dfa65cbd8">begin</a>(115200);</div>
+<div class="line">  <span class="keywordflow">while</span> (!Serial)</div>
+<div class="line">    ;</div>
+<div class="line">  Serial.println(<span class="stringliteral">&quot;\n***** Hello, NAFE33352_UIOM! *****&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">//  SPI bus setup</span></div>
+<div class="line">  SPI.begin();</div>
+<div class="line">  pinMode(SS, OUTPUT);  <span class="comment">//  Required for UNO R4</span></div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">//  AFE reset and check connection</span></div>
+<div class="line">  shasta.<a class="code hl_function" href="class_a_f_e__base.html#a33584cc8f4bcf9455a4ee06dfa65cbd8">begin</a>();</div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#ifdef VOLTAGE_OUTPUT_SETTING</span></div>
+<div class="line">  <span class="comment">//  DAC setup: configure to voltage output</span></div>
+<div class="line">  output_value = 5.00;  <span class="comment">//  5V</span></div>
+<div class="line">  shasta.<a class="code hl_variable" href="class_n_a_f_e33352___base.html#a9e83fe7194aa3e65ee81edee4cc2e8fe">dac</a>.<a class="code hl_function" href="class_n_a_f_e33352___base_1_1_d_a_c.html#ac49d390e6316bf326d6f7bf5c1ab5bd7">configure</a>(NAFE33352_UIOM::DAC::ModeSelect::VOLTAGE);</div>
+<div class="line"><span class="preprocessor">#else</span></div>
+<div class="line">  <span class="comment">//  DAC setup: configure to current output</span></div>
+<div class="line">  output_value = 20 * 1e-3;  <span class="comment">// 20mA</span></div>
+<div class="line">  shasta.<a class="code hl_variable" href="class_n_a_f_e33352___base.html#a9e83fe7194aa3e65ee81edee4cc2e8fe">dac</a>.<a class="code hl_function" href="class_n_a_f_e33352___base_1_1_d_a_c.html#ac49d390e6316bf326d6f7bf5c1ab5bd7">configure</a>(NAFE33352_UIOM::DAC::ModeSelect::CURRENT);</div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">//  Set DAC output</span></div>
+<div class="line">  shasta.<a class="code hl_variable" href="class_n_a_f_e33352___base.html#a9e83fe7194aa3e65ee81edee4cc2e8fe">dac</a> = output_value;</div>
+<div class="line">  delay( 100 );</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">//  ADC logical chennel setup</span></div>
+<div class="line">  shasta.<a class="code hl_variable" href="class_n_a_f_e33352___base.html#af6431a4fefa9247b07a3f8acf770172b">logical_channel</a>[0].<a class="code hl_function" href="class_n_a_f_e33352___base_1_1_logical_channel.html#a01bdd05be48a4edf5d8ec2716db5fd14">configure</a>(0x0020, 0x50B4, 0x5000);  <span class="comment">//  voltage between AI1P - VCOM</span></div>
+<div class="line">  shasta.<a class="code hl_variable" href="class_n_a_f_e33352___base.html#af6431a4fefa9247b07a3f8acf770172b">logical_channel</a>[1].<a class="code hl_function" href="class_n_a_f_e33352___base_1_1_logical_channel.html#a01bdd05be48a4edf5d8ec2716db5fd14">configure</a>(0x0080, 0x5064, 0x5000);  <span class="comment">//  supply monitoring: VHDD</span></div>
+<div class="line">  shasta.<a class="code hl_variable" href="class_n_a_f_e33352___base.html#af6431a4fefa9247b07a3f8acf770172b">logical_channel</a>[2].<a class="code hl_function" href="class_n_a_f_e33352___base_1_1_logical_channel.html#a01bdd05be48a4edf5d8ec2716db5fd14">configure</a>(0x0088, 0x5064, 0x5000);  <span class="comment">//  supply monitoring: VHSS</span></div>
+<div class="line">  shasta.<a class="code hl_variable" href="class_n_a_f_e33352___base.html#af6431a4fefa9247b07a3f8acf770172b">logical_channel</a>[3].<a class="code hl_function" href="class_n_a_f_e33352___base_1_1_logical_channel.html#a01bdd05be48a4edf5d8ec2716db5fd14">configure</a>(0x0038, 0x2064, 0x5000);  <span class="comment">//  VSNS voltage</span></div>
+<div class="line">  shasta.<a class="code hl_variable" href="class_n_a_f_e33352___base.html#af6431a4fefa9247b07a3f8acf770172b">logical_channel</a>[4].<a class="code hl_function" href="class_n_a_f_e33352___base_1_1_logical_channel.html#a01bdd05be48a4edf5d8ec2716db5fd14">configure</a>(0x0030, 0x3064, 0x5000);  <span class="comment">//  ISNS current</span></div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">void</span> loop() {</div>
+<div class="line">  <span class="keywordtype">double</span> data;</div>
+<div class="line">  </div>
+<div class="line">  <span class="comment">//  show ADC measured data (in volt and ampere)</span></div>
+<div class="line">  <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = 0; i &lt; shasta.<a class="code hl_function" href="class_a_f_e__base.html#a569d7ed4a4b14ee280b801468d2987bd">enabled_logical_channels</a>(); i++) {</div>
+<div class="line">    data = shasta.<a class="code hl_variable" href="class_n_a_f_e33352___base.html#af6431a4fefa9247b07a3f8acf770172b">logical_channel</a>[i];</div>
+<div class="line">    Serial.print(data, 9);</div>
+<div class="line">    Serial.print(<span class="stringliteral">&quot;,    &quot;</span>);</div>
+<div class="line">  }</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">//  show AIO_STATUS register value</span></div>
+<div class="line">  Serial.println(shasta.<a class="code hl_function" href="class_n_a_f_e33352___base.html#aff45c96ad20662f0f8c1caca78cac347">reg</a>(<a class="code hl_enumvalue" href="class_n_a_f_e33352___base.html#a1852162ffd62ea90b54532e038fc9a21a17bc03cbaf6898fa0881b8f56e636460">NAFE33352_UIOM::Register16::AIO_STATUS</a>), HEX);</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">//  alternate DAC output polarity</span></div>
+<div class="line">  shasta.<a class="code hl_variable" href="class_n_a_f_e33352___base.html#a9e83fe7194aa3e65ee81edee4cc2e8fe">dac</a> = output_value * (count++ &amp; 0x1 ? +1.00 : -1.00);</div>
+<div class="line"> </div>
+<div class="line">  delay(1000);</div>
+<div class="line">}</div>
+<div class="ttc" id="a_n_a_f_e33352___u_i_o_m_8h_html"><div class="ttname"><a href="_n_a_f_e33352___u_i_o_m_8h.html">NAFE33352_UIOM.h</a></div></div>
+<div class="ttc" id="aclass_a_f_e__base_html_a569d7ed4a4b14ee280b801468d2987bd"><div class="ttname"><a href="class_a_f_e__base.html#a569d7ed4a4b14ee280b801468d2987bd">AFE_base::enabled_logical_channels</a></div><div class="ttdeci">int enabled_logical_channels(void)</div><div class="ttdef"><b>Definition</b> <a href="_a_f_e___n_x_p_8h_source.html#l00203">AFE_NXP.h:203</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e33352___base_1_1_d_a_c_html_ac49d390e6316bf326d6f7bf5c1ab5bd7"><div class="ttname"><a href="class_n_a_f_e33352___base_1_1_d_a_c.html#ac49d390e6316bf326d6f7bf5c1ab5bd7">NAFE33352_Base::DAC::configure</a></div><div class="ttdeci">void configure(const uint16_t(&amp;cc)[6])</div><div class="ttdef"><b>Definition</b> <a href="_n_a_f_e33352_8cpp_source.html#l00048">NAFE33352.cpp:48</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e33352___base_1_1_logical_channel_html_a01bdd05be48a4edf5d8ec2716db5fd14"><div class="ttname"><a href="class_n_a_f_e33352___base_1_1_logical_channel.html#a01bdd05be48a4edf5d8ec2716db5fd14">NAFE33352_Base::LogicalChannel::configure</a></div><div class="ttdeci">void configure(const uint16_t(&amp;cc)[3])</div><div class="ttdef"><b>Definition</b> <a href="_n_a_f_e33352_8cpp_source.html#l00022">NAFE33352.cpp:22</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e33352___base_html_a1852162ffd62ea90b54532e038fc9a21a17bc03cbaf6898fa0881b8f56e636460"><div class="ttname"><a href="class_n_a_f_e33352___base.html#a1852162ffd62ea90b54532e038fc9a21a17bc03cbaf6898fa0881b8f56e636460">NAFE33352_Base::Register16::AIO_STATUS</a></div><div class="ttdeci">@ AIO_STATUS</div><div class="ttdef"><b>Definition</b> <a href="_n_a_f_e33352_8h_source.html#l00292">NAFE33352.h:292</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e33352___base_html_a9e83fe7194aa3e65ee81edee4cc2e8fe"><div class="ttname"><a href="class_n_a_f_e33352___base.html#a9e83fe7194aa3e65ee81edee4cc2e8fe">NAFE33352_Base::dac</a></div><div class="ttdeci">DAC dac</div><div class="ttdef"><b>Definition</b> <a href="_n_a_f_e33352_8h_source.html#l00143">NAFE33352.h:143</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e33352___base_html_af6431a4fefa9247b07a3f8acf770172b"><div class="ttname"><a href="class_n_a_f_e33352___base.html#af6431a4fefa9247b07a3f8acf770172b">NAFE33352_Base::logical_channel</a></div><div class="ttdeci">LogicalChannel logical_channel[16]</div><div class="ttdef"><b>Definition</b> <a href="_n_a_f_e33352_8h_source.html#l00074">NAFE33352.h:74</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e33352___base_html_aff45c96ad20662f0f8c1caca78cac347"><div class="ttname"><a href="class_n_a_f_e33352___base.html#aff45c96ad20662f0f8c1caca78cac347">NAFE33352_Base::reg</a></div><div class="ttdeci">virtual void reg(Register16 r, uint16_t value)</div><div class="ttdef"><b>Definition</b> <a href="_n_a_f_e33352_8cpp_source.html#l00434">NAFE33352.cpp:434</a></div></div>
+<div class="ttc" id="aclass_n_a_f_e33352___u_i_o_m_html"><div class="ttname"><a href="class_n_a_f_e33352___u_i_o_m.html">NAFE33352_UIOM</a></div><div class="ttdef"><b>Definition</b> <a href="_n_a_f_e33352_8h_source.html#l00482">NAFE33352.h:483</a></div></div>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
+Board connections</h2>
 <p>Followings are pictures of UIM with UNO R3, UNO R4 Minima and UNO R4 WiFi boards. <br  />
  On every picture, showing the hardware setting of..</p><ul>
 <li>3.3V are disconnected by using pin extender</li>
@@ -152,7 +250,7 @@ Easy to use</h1>
 <p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/afe.jpg" alt="Boards" class="inline"/> <br  />
  <em>NAFExx388-EVB 8 Channels Universal Input AFE Evaluation Board with Arduino UNO R3</em></p>
 <p><img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/NAFE13388.jpg" alt="NAFE13388.jpg" class="inline"/> <em>Analog-Front-End chip: <a class="el" href="class_n_a_f_e13388.html">NAFE13388</a></em></p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
 Supported device</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -166,7 +264,7 @@ Supported device</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><a href="https://www.nxp.com/products/NAFEx3352">NAFE93352</a>  </td><td class="markdownTableBodyNone">Software Configurable Input and Output Analog Front End  </td><td class="markdownTableBodyNone">SPI (mode1)  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
 Evaluation boards</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -180,24 +278,24 @@ Evaluation boards</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">[NAFE33352-UIOM]()  </td><td class="markdownTableBodyNone"><span class="tt"><a class="el" href="_n_a_f_e13388___u_i_m_8h.html">NAFE13388_UIM.h</a></span>  </td><td class="markdownTableBodyNone">AFE Arduino shield type evaluation board  </td><td class="markdownTableBodyNone">SPI (mode1)  </td><td class="markdownTableBodyNone">[NAFE33352-UIOM Universal Input/OUTPUT AFE Arduino® Shield Board]()  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
 Getting started</h1>
 <p>How to setup? --&gt; <a href="https://youtu.be/UEOFC0TwA6c">https://youtu.be/UEOFC0TwA6c</a> <br  />
  <img src="https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/demo_video.png" alt="Boards" class="inline"/></p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
 What's inside?</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
 Examples</h2>
 <p>Examples are provided as scketch files.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
 How to use?</h3>
 <p>After library install, Choose menu on Arduino-IDE: <span class="tt">File</span>→<span class="tt">Examples</span>→<span class="tt">AFE_NXP_Arduino</span>→ <b>sketch for your try</b></p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
 List of sample code</h3>
-<h4 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
+<h4 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
 examples for NAFE13388</h4>
-<p>Sketch|Target|Feature|NOTE &mdash;|&mdash;|&mdash;|&mdash; NAFE13388_1_0_simple_SCSR|NAFE13388-UIM |**Simple** sample to get 2ch inputs| NAFE13388_1_1_simple_SCSR_using_DRDY_signal|NAFE13388-UIM |**Simple** sample to get 2ch inputs using DRDY signal|Need to short pins between D2 and D4 NAFE13388_2_0_multichannel_read_MCMR|NAFE13388-UIM |Get 8ch inputs using Multi-Channel Multi-Read command| NAFE13388_2_1_multichannel_read_MCMR_using_DRDY|NAFE13388-UIM |Get 8ch inputs using Multi-Channel Multi-Read command| Need to short pins between D2 and D4 NAFE13388_3_0_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM |Get 8ch inputs using Multi-Channel <b>Continuous</b>-Read command| Need to short pins between D2 and D4 NAFE13388_4_0_LVMUX_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM |Get 8ch inputs and LVMUX inputs (supply voltage, etc)|Need to short pins between D2 and D4 NAFE13388_5_0_RTD_4_wire|NAFE13388-UIM |Practical sample to measure temperature by 2 RTDs using internal current excitation source|Need to short pins between D2 and D4 NAFE13388_6_0_Thermocouple|NAFE13388-UIM |Practical sample to measure temperature by thermocouple with on-board RTD |Need to short pins between D2 and D4 NAFE13388_7_0_LoadCell|NAFE13388-UIM |Practical sample to measure loadcell output using internal voltage excitation source |Need to short pins between D2 and D4</p>
-<h4 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
+<p>Sketch|Target|Feature|NOTE &mdash;|&mdash;|&mdash;|&mdash; NAFE13388_1_0_simple_SCSR|NAFE13388-UIM |**Simple** sample to get 2ch inputs| NAFE13388_1_1_simple_SCSR_using_DRDY_signal|NAFE13388-UIM |**Simple** sample to get 2ch inputs using DRDY signal|Need to short pins between D2 and D4 NAFE13388_2_0_multichannel_read_MCMR|NAFE13388-UIM |Get 8ch inputs using Multi-Channel Multi-Read command| NAFE13388_2_1_multichannel_read_MCMR_using_DRDY|NAFE13388-UIM |Get 8ch inputs using Multi-Channel Multi-Read command| Need to short pins between D2 and D4 NAFE13388_3_0_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM |Get 8ch inputs using Multi-Channel <b>Continuous</b>-Read command| Need to short pins between D2 and D4 NAFE13388_4_0_LVMUX_multichannel_read_MCCR_using_DRDY|NAFE13388-UIM |Get 8ch inputs and LVMUX inputs (supply voltage, etc)|Need to short pins between D2 and D4 <a href="https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_5_0_RTD_4_wire">NAFE13388_5_0_RTD_4_wire</a>|NAFE13388-UIM |Practical sample to measure temperature by 2 RTDs using internal current excitation source|Need to short pins between D2 and D4 <a href="https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_6_0_Thermocouple">NAFE13388_6_0_Thermocouple</a>|NAFE13388-UIM |Practical sample to measure temperature by thermocouple with on-board RTD |Need to short pins between D2 and D4 <a href="https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_7_0_LoadCell">NAFE13388_7_0_LoadCell</a>|NAFE13388-UIM |Practical sample to measure loadcell output using internal voltage excitation source |Need to short pins between D2 and D4</p>
+<h4 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
 examples for NAFE33352</h4>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -207,7 +305,7 @@ examples for NAFE33352</h4>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">NAFE33352_2_0_AIO_input  </td><td class="markdownTableBodyNone">NAFE33352-UIOM  </td><td class="markdownTableBodyNone">A sample of AIO (Analog Input/Output) channel used as an input  </td><td class="markdownTableBodyNone">Need to short pins between D2 and D4  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
 Document</h1>
 <p>For details of the library, please find descriptions in <a href="https://teddokano.github.io/AFE_NXP_Arduino/annotated.html">this document</a>. </p>
 </div></div><!-- contents -->
