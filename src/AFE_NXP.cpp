@@ -9,7 +9,7 @@
 #include	"AFE_NXP.h"
 #include	<math.h>
 
-double	AFE_base::delay_accuracy	= 1.2;
+double	AFE_base::delay_accuracy	= 1.1;
 
 void LogicalChannel_Base::enable( void )
 {

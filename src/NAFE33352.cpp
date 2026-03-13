@@ -249,11 +249,11 @@ void NAFE33352_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 	
 	ch_delay[ ch ]		= calc_delay( ch );
 	
-#if 1
+#if 0
 	Serial.print("lc[ ");
 	Serial.print(ch);
 	Serial.print("] : ");
-	Serial.println( ch_delay[ ch ] );
+	Serial.println( ch_delay[ ch ], 10 );
 #endif
 }
 
@@ -324,7 +324,7 @@ double NAFE33352_Base::calc_delay( int ch )
 	if ( ch_chop )
 		base_freq	/= 2;
 	
-#if  1
+#if  0
 	Serial.print( "adc_data_rate =" );
 	Serial.println( adc_data_rate );
 	Serial.print( "base_freq = " );
