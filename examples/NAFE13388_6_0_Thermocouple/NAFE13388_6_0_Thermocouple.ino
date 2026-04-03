@@ -83,7 +83,7 @@ void loop() {
 double get_termocouple_temp(void) {
   static constexpr auto thermocouple_coefficient = 41.00;  //  [uV / degree-C]
 
-  return afe.logical_channel[logical_channel_for_thermocouple] / thermocouple_coefficient;
+  return afe.logical_channel[logical_channel_for_thermocouple] * 1e6 / thermocouple_coefficient;
 }
 
 double get_rtd_temp(void)
