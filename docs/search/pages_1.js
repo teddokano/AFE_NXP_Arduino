@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['1_0',['1',['../dir_27a6c66212b61ce7bc3c59f615b46cd0.html#autotoc_md3',1,'Logical channel setting on channel 1'],['../dir_0faf0b726d1a69f3318046e200931148.html#autotoc_md7',1,'Logical channel setting on channel 1']]]
+  ['6_5f0_5fnafe13388_5fthermocouple_0',['6_0_NAFE13388_Thermocouple',['../md_examples_2NAFE13388__6__0__Thermocouple_2README.html',1,'']]]
 ];

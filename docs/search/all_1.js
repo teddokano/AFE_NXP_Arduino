@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['1_0',['1',['../dir_27a6c66212b61ce7bc3c59f615b46cd0.html#autotoc_md3',1,'Logical channel setting on channel 1'],['../dir_0faf0b726d1a69f3318046e200931148.html#autotoc_md7',1,'Logical channel setting on channel 1']]]
+  ['1_0',['1',['../md_examples_2NAFE13388__5__0__RTD__4__wire_2README.html#autotoc_md3',1,'Logical channel setting on channel 1'],['../md_examples_2NAFE13388__6__0__Thermocouple_2README.html#autotoc_md7',1,'Logical channel setting on channel 1']]]
 ];

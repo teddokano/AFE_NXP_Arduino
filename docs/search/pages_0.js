@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['0_0',['0',['../dir_27a6c66212b61ce7bc3c59f615b46cd0.html#autotoc_md2',1,'Logical channel setting on channel 0'],['../dir_0faf0b726d1a69f3318046e200931148.html#autotoc_md6',1,'Logical channel setting on channel 0'],['../dir_9aeb26975dea168612a720ad08e60bac.html#autotoc_md10',1,'Logical channel setting on channel 0']]]
+  ['5_5f0_5fnafe13388_5frtd_5f4_5fwire_0',['5_0_NAFE13388_RTD_4_wire',['../md_examples_2NAFE13388__5__0__RTD__4__wire_2README.html',1,'']]]
 ];
