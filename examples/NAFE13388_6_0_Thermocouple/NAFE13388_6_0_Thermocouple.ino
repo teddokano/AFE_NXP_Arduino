@@ -52,7 +52,8 @@ void setup() {
   //  measureing Thermocouple voltage between AI1P and AI1N pins
   //  PGA gain = x16, coefficient set slot = 7 (for gainsetting x16),
   //  ADC data rate = 2.5Hz, delay for measurement start = 5000us, filter = SINC4, CH_CHOP = on
-  afe.logical_channel[logical_channel_for_thermocouple].configure(0x11F0, 0x70C4, 0x8480, 0x0000);
+  //  Voltage excitation:23mV on AI1N pin to stabilize floating input and set ability of open detection 
+  afe.logical_channel[logical_channel_for_thermocouple].configure(0x11F0, 0x70C4, 0x8480, 0x0E01);
 
   //  Logical-channel for RTD on GPIO0 and GPIO1
   //
