@@ -52,7 +52,7 @@ void NAFE33352_Base::DAC::configure( const uint16_t (&cc)[ 6 ] )
 
 void NAFE33352_Base::DAC::configure( ModeSelect mode, double full_scale_range )
 {
-	uint16_t	default_dac_setting[ 6 ]	= { 0x0000, 0x1000, 0x87FF, 0x8200, 0xE7FF, 0x0C00 };
+	uint16_t	default_dac_setting[ 6 ]	= { 0x0000, 0x1000, 0x87FF, 0x0000, 0xE7FF, 0x0C00 };
 	
 	output_mode	= mode;
 	
