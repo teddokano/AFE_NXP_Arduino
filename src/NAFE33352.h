@@ -31,8 +31,15 @@ private:
 	 * @param data pointer to data buffer
 	 * @param size data size
 	 */
-	virtual void txrx( uint8_t *data, int size );
+	virtual void txrx( uint8_t *data, int size, int cs_delay = 0 );
 	
+	/** Register write, 24 bit
+	 *
+	 * @param reg register index
+	 * @param val data value
+	 */
+	virtual void write_r24( uint16_t reg, uint32_t val );
+
 public:	
 	/** Set system-level config registers */
 	virtual void boot( void );

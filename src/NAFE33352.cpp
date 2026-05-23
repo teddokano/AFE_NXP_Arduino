@@ -128,13 +128,23 @@ NAFE33352_Base::~NAFE33352_Base()
 {
 }
 
-void NAFE33352_Base::txrx( uint8_t *data, int size )
+void NAFE33352_Base::txrx( uint8_t *data, int size, int cd_delay )
 {
 	SPI.beginTransaction( SPISettings( 1000000, MSBFIRST, SPI_MODE1 ) );
 	digitalWrite( SS, LOW );
 	SPI.transfer( data, size );
-	delayMicroseconds( 4 );
+	delayMicroseconds( cd_delay );
 	digitalWrite( SS, HIGH );
+}
+
+void NAFE33352_Base::write_r24( uint16_t reg, uint32_t val )
+{
+	int	cs_delay	= (static_cast<uint16_t>(NAFE33352_Base::Register24::AO_DATA) == reg) ? 4 : 0;
+	
+	reg	<<= 1;
+
+	uint8_t	v[]	= { (uint8_t)(reg >> 8), (uint8_t)(reg & 0xFF), (uint8_t)(val >> 16), (uint8_t)(val >> 8), (uint8_t)val };
+	txrx( v, sizeof( v ), cs_delay );
 }
 
 void NAFE33352_Base::boot( void )
