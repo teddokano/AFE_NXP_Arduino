@@ -9,5 +9,5 @@ var searchData=
   ['timeout_5flimit_6',['timeout_limit',['../class_a_f_e__base.html#a308b9039a3221a2b13f6ebcd1f6605b3',1,'AFE_base']]],
   ['to_20use_7',['to use',['../md__r_e_a_d_m_e.html#autotoc_md13',1,'Easy to use'],['../md__r_e_a_d_m_e.html#autotoc_md22',1,'How to use?']]],
   ['total_5fdelay_8',['total_delay',['../class_a_f_e__base.html#afebe805e43da330337776aca5fe9cbba',1,'AFE_base']]],
-  ['txrx_9',['txrx',['../class_s_p_i__for___a_f_e.html#a3063f4bf133088e6c239a446310686f5',1,'SPI_for_AFE']]]
+  ['txrx_9',['txrx',['../class_n_a_f_e33352___base.html#ad85ba38efd6d5abbc3791f0a82187209',1,'NAFE33352_Base::txrx()'],['../class_s_p_i__for___a_f_e.html#a3063f4bf133088e6c239a446310686f5',1,'SPI_for_AFE::txrx()']]]
 ];

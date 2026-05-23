@@ -22,10 +22,10 @@ public:
 	using raw_t		= int32_t;
 	using volt_t	= double;
 
-	/** Constructor to create a AFE_base instance */
+	/** Constructor to create an AFE_base instance */
 	AFE_base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC );
 
-	/** Destractor */
+	/** Destructor */
 	virtual ~AFE_base();
 	
 	/** Begin the device operation
@@ -45,9 +45,7 @@ public:
 	/** set callback function when DRDY comes */
 	typedef void	(*callback_fp_t)( void );
 	virtual void set_DRDY_callback( callback_fp_t fnc );
-	
-	/** set callback function when DRDY comes */
-	
+
 	/** Configure logical channel
 	 *
 	 * @param ch logical channel number (0 ~ 15)
@@ -97,7 +95,7 @@ public:
 
 	/** DRDY event select
 	 *
-	 * @param set true for DRDY by sequencer is done
+	 * @param flag true for DRDY by sequencer is done
 	 */	
 	virtual void DRDY_by_sequencer_done( bool flag = true )	= 0;
 
@@ -183,7 +181,7 @@ public:
 	 */
 	virtual double raw2v( int ch, raw_t value )	= 0;
 	
-	/** Caliculated delay from logical channel setting (for single channel)
+	/** Calculated delay from logical channel setting (for single channel)
 	 *
 	 * @param ch logical channel number
 	 */
@@ -192,7 +190,7 @@ public:
 		return ch_delay[ ch ];
 	}
 
-	/** Caliculated delay from logical channel setting (for all channels)
+	/** Calculated delay from logical channel setting (for all channels)
 	 */
 	inline double drdy_delay( void )
 	{
@@ -207,7 +205,7 @@ public:
 	
 	/** Switch to use DRDY to start ADC result reading
 	 *
-	 * @param use true (default) to use DRDY. if false, caliculated delay is used to start reading. 
+	 * @param use true (default) to use DRDY. if false, calculated delay is used to start reading.
 	 */
 	void	use_DRDY_trigger( bool use = true );
 
@@ -302,10 +300,10 @@ public:
 		int				cal_index;
 	} ref_points;
 	
-	/** Constructor to create a AFE_base instance */
+	/** Constructor to create a NAFE13388_Base instance */
 	NAFE13388_Base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC );
 
-	/** Destractor */
+	/** Destructor */
 	virtual ~NAFE13388_Base();
 	
 	/** Set system-level config registers */
@@ -380,7 +378,7 @@ public:
 
 	/** DRDY event select
 	 *
-	 * @param set true for DRDY by sequencer is done
+	 * @param flag true for DRDY by sequencer is done
 	 */	
 	virtual void DRDY_by_sequencer_done( bool flag = true );
 	
@@ -615,46 +613,48 @@ public:
 	
 	/** Command
 	 *	
-	 * @param com "Comand" type or uint16_t value
+	 * @param com "Command" type or uint16_t value
 	 */
 	virtual void		command( uint16_t com );
 
 	/** Write register
 	 *
-	 *	Writes register. Register width is selected by reg type (Register16 ot Register24)
-	 * @param reg register specified by Register16 member
+	 *	Writes register. Register width is selected by reg type (Register16 or Register24)
+	 * @param r register specified by Register16 member
+	 * @param value data value to write
 	 */
 	virtual void		reg( Register16 r, uint16_t value );
 
 	/** Write register
 	 *
-	 *	Writes register. Register width is selected by reg type (Register16 ot Register24)
-	 * @param reg register specified by Register24 member
+	 *	Writes register. Register width is selected by reg type (Register16 or Register24)
+	 * @param r register specified by Register24 member
+	 * @param value data value to write
 	 */
 	virtual void		reg( Register24 r, uint32_t value );
 
 	/** Read register
 	 *
-	 *	Reads register. Register width is selected by reg type (Register16 ot Register24)
-	 * @param reg register specified by Register16 member
+	 *	Reads register. Register width is selected by reg type (Register16 or Register24)
+	 * @param r register specified by Register16 member
 	 * @return readout value
 	 */
 	virtual uint16_t	reg( Register16 r );
 
 	/** Read register
 	 *
-	 *	Reads register. Register width is selected by reg type (Register16 ot Register24)
-	 * @param reg register specified by Register24 member
+	 *	Reads register. Register width is selected by reg type (Register16 or Register24)
+	 * @param r register specified by Register24 member
 	 * @return readout value
 	 */
 	virtual uint32_t	reg( Register24 r );
 		
 	/** Register bit operation
 	 *
-	 *	overwrite bits i a register
-	 * @param reg register specified by Register16 or Register24 member
+	 *	overwrite bits in a register
+	 * @param rg register specified by Register16 or Register24 member
 	 * @param mask mask bits
-	 * @param reg value to over write
+	 * @param value value to overwrite
 	 */
 	template<typename T>
 	uint32_t	bit_op( T rg, uint32_t mask, uint32_t value )
@@ -675,7 +675,7 @@ public:
 	 */
 	uint32_t	part_number( void );
 
-	/** Read rivision number
+	/** Read revision number
 	 *
 	 * @return PN0 register value & 0xF
 	 */
@@ -695,7 +695,7 @@ public:
 	
 	/** Gain and offset coefficient customization
 	 *
-	 *	Sets gain and offset coefficients with given target ADC read-out values at two reference voltaeg points
+	 *	Sets gain and offset coefficients with given target ADC read-out values at two reference voltage points
 	 * @param ref struct to define the target coefficient index and two reference poins and reference pre-calibrated coeffs
 	 */
 	void	gain_offset_coeff( const ref_points &ref );
@@ -729,17 +729,17 @@ public:
 	/** Constructor to create a NAFE13388 instance */
 	NAFE13388( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 2, int DRDY = 4, int SYN = 5, int nRESET = 6, int DRDY_input = 15, int SYNCDAC = 14 );
 
-	/** Destractor */
+	/** Destructor */
 	virtual ~NAFE13388();
 };
 
 class NAFE13388_UIM : public NAFE13388_Base
 {
 public:	
-	/** Constructor to create a NAFE13388 instance */
+	/** Constructor to create a NAFE13388_UIM instance */
 	NAFE13388_UIM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 3, int DRDY = 4, int SYN = 6, int nRESET = 7, int DRDY_input = 2, int SYNCDAC = 14 );
 
-	/** Destractor */
+	/** Destructor */
 	virtual ~NAFE13388_UIM();
 
 	void blink_leds( void );

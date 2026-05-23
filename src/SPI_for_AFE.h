@@ -29,9 +29,9 @@ public:
 	 */
 	virtual void txrx( uint8_t *data, int size );
 
-	/** Register write, 8 bit
+	/** Command write (register address only, no data)
 	 *
-	 * @param reg register index
+	 * @param reg register/command index
 	 */
 	virtual void write_r16( uint16_t reg );
 
