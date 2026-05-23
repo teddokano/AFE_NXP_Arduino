@@ -65,11 +65,13 @@ public:
 
 	virtual void burst( uint32_t *data, int length, int width = 3 );
 
+	virtual void spi_frequency( uint32_t frequency = 1'000'000 );
+
 protected:
 	void init( void );
+	uint32_t	frequency;
 
 private:
-
 	//	functions to access AFE multibyte data access independent from endianess
 	inline int32_t get_data16( uint8_t *vp )
 	{

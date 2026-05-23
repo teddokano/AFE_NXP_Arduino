@@ -4,7 +4,7 @@ void SPI_for_AFE::txrx( uint8_t *data, int size )
 {
 //	data[ 0 ]	|= dev_ad ? 0x80 : 0x00;
 
-	SPI.beginTransaction( SPISettings( 1000000, MSBFIRST, SPI_MODE1 ) );
+	SPI.beginTransaction( SPISettings( frequency, MSBFIRST, SPI_MODE1 ) );
 	digitalWrite( SS, LOW );
 	SPI.transfer( data, size );
 	digitalWrite( SS, HIGH );
@@ -70,8 +70,15 @@ void SPI_for_AFE::burst( uint32_t *data, int length, int width )
 		*data++	= get_data24( v + command_length + i * width );
 }
 
+void SPI_for_AFE::spi_frequency( uint32_t f )
+{
+	frequency	= f;
+}
+
 void SPI_for_AFE::init( void )
 {
+	spi_frequency();
+	
 	digitalWrite(SS, HIGH);	//	to set proper SPI_CS = HIGH before command/register access
 	delay( 1 );
 }

@@ -130,7 +130,7 @@ NAFE33352_Base::~NAFE33352_Base()
 
 void NAFE33352_Base::txrx( uint8_t *data, int size, int cd_delay )
 {
-	SPI.beginTransaction( SPISettings( 1000000, MSBFIRST, SPI_MODE1 ) );
+	SPI.beginTransaction( SPISettings( frequency, MSBFIRST, SPI_MODE1 ) );
 	digitalWrite( SS, LOW );
 	SPI.transfer( data, size );
 	delayMicroseconds( cd_delay );
