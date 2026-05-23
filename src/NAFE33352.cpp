@@ -128,6 +128,15 @@ NAFE33352_Base::~NAFE33352_Base()
 {
 }
 
+void NAFE33352_Base::txrx( uint8_t *data, int size )
+{
+	SPI.beginTransaction( SPISettings( 1000000, MSBFIRST, SPI_MODE1 ) );
+	digitalWrite( SS, LOW );
+	SPI.transfer( data, size );
+	delayMicroseconds( 4 );
+	digitalWrite( SS, HIGH );
+}
+
 void NAFE33352_Base::boot( void )
 {
 	command( NAFE33352_Base::Command::CMD_ADC_ABORT );

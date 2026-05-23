@@ -41,7 +41,7 @@ void setup() {
   output_value = 5.00;  //	5V
   shasta.dac.configure(NAFE33352_UIOM::DAC::ModeSelect::VOLTAGE);
 #else
-  output_value = 5 * 1e-3;  //	20mA
+  output_value = 20 * 1e-3;  //	20mA
   shasta.dac.configure(NAFE33352_UIOM::DAC::ModeSelect::CURRENT);
 #endif
 
