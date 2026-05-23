@@ -27,49 +27,62 @@ public:
 	 * @param data pointer to data buffer
 	 * @param size data size
 	 */
-	void txrx( uint8_t *data, int size );
+	virtual void txrx( uint8_t *data, int size );
 
-	/** Register write, 8 bit
+	/** Command write (register address only, no data)
 	 *
-	 * @param reg register index
+	 * @param reg register/command index
 	 */
-	void write_r16( uint16_t reg );
+	virtual void write_r16( uint16_t reg );
 
 	/** Register write, 16 bit
 	 *
 	 * @param reg register index
 	 * @param val data value
 	 */
-	void write_r16( uint16_t reg, uint16_t val );
+	virtual void write_r16( uint16_t reg, uint16_t val );
 
 	/** Register read, 16 bit
 	 *
 	 * @param reg register index
 	 * @return data value
 	 */
-	uint16_t read_r16( uint16_t reg );
+	virtual uint16_t read_r16( uint16_t reg );
 
 	/** Register write, 24 bit
 	 *
 	 * @param reg register index
 	 * @param val data value
 	 */
-	void write_r24( uint16_t reg, uint32_t val );
+	virtual void write_r24( uint16_t reg, uint32_t val );
 
 	/** Register read, 24 bit
 	 *
 	 * @param reg register index
 	 * @return data value
 	 */
-	int32_t read_r24( uint16_t reg );
+	virtual int32_t read_r24( uint16_t reg );
 
-	void burst( uint32_t *data, int length, int width = 3 );
+	/** Burst read of consecutive channel results
+	 *
+	 * @param data   pointer to buffer to store results
+	 * @param length number of words to read
+	 * @param width  word width in bytes (default: 3 for 24-bit)
+	 */
+	virtual void burst( uint32_t *data, int length, int width = 3 );
+
+	/** Set SPI clock frequency
+	 *
+	 * @param frequency SPI clock in Hz (default: 1 MHz)
+	 */
+	virtual void spi_frequency( uint32_t frequency = 1'000'000 );
 
 protected:
+	/** Initialize SPI peripheral and chip-select pin */
 	void init( void );
+	uint32_t	frequency;
 
 private:
-
 	//	functions to access AFE multibyte data access independent from endianess
 	inline int32_t get_data16( uint8_t *vp )
 	{

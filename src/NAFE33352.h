@@ -22,9 +22,26 @@ public:
 	/** Constructor to create a NAFE33352_Base instance */
 	NAFE33352_Base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC );
 
-	/** Destractor */
+	/** Destructor */
 	virtual ~NAFE33352_Base();
+
+private:
+	/** Send data
+	 *
+	 * @param data pointer to data buffer
+	 * @param size data size
+	 * @param cs_delay microseconds to hold CS asserted after transfer
+	 */
+	virtual void txrx( uint8_t *data, int size, int cs_delay = 0 );
 	
+	/** Register write, 24 bit
+	 *
+	 * @param reg register index
+	 * @param val data value
+	 */
+	virtual void write_r24( uint16_t reg, uint32_t val );
+
+public:	
 	/** Set system-level config registers */
 	virtual void boot( void );
 
@@ -57,7 +74,7 @@ public:
 		
 		/** Configure logical channel
 		 *
-		 * @param cc array for AI_CONFIG0, AI_CONFIG1 and AI_CONFIG2 rgister values
+		 * @param cc array for AI_CONFIG0, AI_CONFIG1 and AI_CONFIG2 register values
 		 */
 		void	configure( const uint16_t (&cc)[ 3 ] );
 
@@ -91,13 +108,13 @@ public:
 		DAC();
 		virtual ~DAC();
 		
-		/** Configure logical channel
+		/** Configure DAC output
 		 *
-		 * @param cc array for AIO_CONFIG, AO_CAL_COEF, AIO_PROT_CFG, AO_SLR_CTRL, AWG_PER and AO_SYSCFG rgister values
+		 * @param cc array for AIO_CONFIG, AO_CAL_COEF, AIO_PROT_CFG, AO_SLR_CTRL, AWG_PER and AO_SYSCFG register values
 		 */
 		void	configure( const uint16_t (&cc)[ 6 ] );
 
-		/** Configure logical channel
+		/** Configure DAC output
 		 *
 		 * @param cc0	16bit value to be set AIO_CONFIG register (0x20)
 		 * @param cc1	16bit value to be set AO_CAL_COEF register (0x21)
@@ -108,16 +125,16 @@ public:
 		 */
 		void	configure( uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3, uint16_t cc4, uint16_t cc5 );
 		
-		/** Configure logical channel
+		/** Configure DAC output mode
 		 *
 		 * @param mode	ModeSelect selector
-		 * @param full_scale_range	Full scale range modifier. If it meeds to be +/-2.5V, define this variable 2.5. If it is +/-10mA, define it as 0.01. 
+		 * @param full_scale_range	Full scale range modifier. If it needs to be +/-2.5V, define this variable 2.5. If it is +/-10mA, define it as 0.01. 
 		 */		
 		void	configure( ModeSelect mode, double full_scale_range = 0.00 );
 		
-		/** Configure logical channel
+		/** Set DAC full scale range
 		 *
-		 * @param full_scale_range	Full scale range modifier. If it meeds to be +/-2.5V, define this variable 2.5. If it is +/-10mA, define it as 0.01. 
+		 * @param full_scale_range	Full scale range modifier. If it needs to be +/-2.5V, define this variable 2.5. If it is +/-10mA, define it as 0.01. 
 		 */		
 		void 	configure( double full_scale_range );
 		
@@ -147,6 +164,10 @@ private:
 	void 	channel_info_update( uint16_t value );
 	
 public:
+	/** Configure and enable the DAC output channel
+	 *
+	 * @param cc array for AIO_CONFIG, AO_CAL_COEF, AIO_PROT_CFG, AO_SLR_CTRL, AWG_PER and AO_SYSCFG register values
+	 */
 	void	open_dac_output( const uint16_t (&cc)[ 6 ] );
 
 
@@ -182,7 +203,7 @@ public:
 
 	/** DRDY event select
 	 *
-	 * @param set true for DRDY by sequencer is done
+	 * @param flag true for DRDY by sequencer is done
 	 */	
 	virtual void DRDY_by_sequencer_done( bool flag = true );
 	
@@ -219,7 +240,21 @@ public:
 			return	value * coeff_V[ ch ];
 	}
 	
+	/** Write a value to the DAC output register
+	 *
+	 * @param vi         output value in Volt or Ampere
+	 * @param full_scale full-scale range (e.g. 10.0 for +/-10 V)
+	 * @param bit_length DAC resolution in bits
+	 */
 	virtual void	dac_out( double vi, double full_scale, uint8_t bit_length );
+
+	/** Convert a physical value to a DAC register code
+	 *
+	 * @param a          physical value in Volt or Ampere
+	 * @param full_scale full-scale range
+	 * @param bit_length DAC resolution in bits
+	 * @return DAC register code
+	 */
 	int32_t			dac_code( double a, double full_scale, uint8_t bit_length );
 
 	constexpr static double	pga_gain[]	= { 1.00, 16.00 };
@@ -390,46 +425,48 @@ public:
 
 	/** Command
 	 *	
-	 * @param com "Comand" type or uint16_t value
+	 * @param com "Command" type or uint16_t value
 	 */
 	virtual void		command( uint16_t com );
 
 	/** Write register
 	 *
-	 *	Writes register. Register width is selected by reg type (Register16 ot Register24)
-	 * @param reg register specified by Register16 member
+	 *	Writes register. Register width is selected by reg type (Register16 or Register24)
+	 * @param r register specified by Register16 member
+	 * @param value data value to write
 	 */
 	virtual void		reg( Register16 r, uint16_t value );
 
 	/** Write register
 	 *
-	 *	Writes register. Register width is selected by reg type (Register16 ot Register24)
-	 * @param reg register specified by Register24 member
+	 *	Writes register. Register width is selected by reg type (Register16 or Register24)
+	 * @param r register specified by Register24 member
+	 * @param value data value to write
 	 */
 	virtual void		reg( Register24 r, uint32_t value );
 
 	/** Read register
 	 *
-	 *	Reads register. Register width is selected by reg type (Register16 ot Register24)
-	 * @param reg register specified by Register16 member
+	 *	Reads register. Register width is selected by reg type (Register16 or Register24)
+	 * @param r register specified by Register16 member
 	 * @return readout value
 	 */
 	virtual uint16_t	reg( Register16 r );
 
 	/** Read register
 	 *
-	 *	Reads register. Register width is selected by reg type (Register16 ot Register24)
-	 * @param reg register specified by Register24 member
+	 *	Reads register. Register width is selected by reg type (Register16 or Register24)
+	 * @param r register specified by Register24 member
 	 * @return readout value
 	 */
 	virtual uint32_t	reg( Register24 r );
 	
 	/** Register bit operation
 	 *
-	 *	overwrite bits i a register
-	 * @param reg register specified by Register16 or Register24 member
+	 *	overwrite bits in a register
+	 * @param rg register specified by Register16 or Register24 member
 	 * @param mask mask bits
-	 * @param reg value to over write
+	 * @param value value to overwrite
 	 */
 	template<typename T>
 	uint32_t	bit_op( T rg, uint32_t mask, uint32_t value )
@@ -446,11 +483,11 @@ public:
 	
 	/** Read part_number
 	 *
-	 * @return 0x13388B40 
+	 * @return device part number
 	 */
 	uint64_t	part_number( void );
 
-	/** Read rivision number
+	/** Read revision number
 	 *
 	 * @return PN0 register value & 0xF
 	 */
@@ -475,17 +512,17 @@ public:
 	/** Constructor to create a NAFE33352 instance */
 	NAFE33352( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 7, int DRDY = 4, int SYN = 14, int nRESET = 14, int DRDY_input = 2, int SYNCDAC = 14 );
 
-	/** Destractor */
+	/** Destructor */
 	virtual ~NAFE33352();
 };
 
 class NAFE33352_UIOM : public NAFE33352_Base
 {
 public:	
-	/** Constructor to create a NAFE33352 instance */
+	/** Constructor to create a NAFE33352_UIOM instance */
 	NAFE33352_UIOM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 7, int DRDY = 4, int SYN = 14, int nRESET = 14, int DRDY_input = 2, int SYNCDAC = 14 );
 
-	/** Destractor */
+	/** Destructor */
 	virtual ~NAFE33352_UIOM();
 };
 

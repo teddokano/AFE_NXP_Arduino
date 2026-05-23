@@ -52,7 +52,7 @@ void NAFE33352_Base::DAC::configure( const uint16_t (&cc)[ 6 ] )
 
 void NAFE33352_Base::DAC::configure( ModeSelect mode, double full_scale_range )
 {
-	uint16_t	default_dac_setting[ 6 ]	= { 0x0000, 0x1000, 0x87FF, 0x8200, 0xE7FF, 0x0C00 };
+	uint16_t	default_dac_setting[ 6 ]	= { 0x0000, 0x1000, 0x87FF, 0x0000, 0xE7FF, 0x0C00 };
 	
 	output_mode	= mode;
 	
@@ -126,6 +126,25 @@ NAFE33352_Base::NAFE33352_Base( bool spi_addr, bool hsv, int nINT, int DRDY, int
 
 NAFE33352_Base::~NAFE33352_Base()
 {
+}
+
+void NAFE33352_Base::txrx( uint8_t *data, int size, int cd_delay )
+{
+	SPI.beginTransaction( SPISettings( frequency, MSBFIRST, SPI_MODE1 ) );
+	digitalWrite( SS, LOW );
+	SPI.transfer( data, size );
+	delayMicroseconds( cd_delay );
+	digitalWrite( SS, HIGH );
+}
+
+void NAFE33352_Base::write_r24( uint16_t reg, uint32_t val )
+{
+	int	cs_delay	= (static_cast<uint16_t>(NAFE33352_Base::Register24::AO_DATA) == reg) ? 4 : 0;
+	
+	reg	<<= 1;
+
+	uint8_t	v[]	= { (uint8_t)(reg >> 8), (uint8_t)(reg & 0xFF), (uint8_t)(val >> 16), (uint8_t)(val >> 8), (uint8_t)val };
+	txrx( v, sizeof( v ), cs_delay );
 }
 
 void NAFE33352_Base::boot( void )

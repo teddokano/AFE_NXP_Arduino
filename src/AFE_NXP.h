@@ -22,10 +22,10 @@ public:
 	using raw_t		= int32_t;
 	using volt_t	= double;
 
-	/** Constructor to create a AFE_base instance */
+	/** Constructor to create an AFE_base instance */
 	AFE_base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC );
 
-	/** Destractor */
+	/** Destructor */
 	virtual ~AFE_base();
 	
 	/** Begin the device operation
@@ -42,12 +42,15 @@ public:
 	/** Issue RESET command */
 	virtual void reset( bool hardware_reset = false )	= 0;
 
-	/** set callback function when DRDY comes */
+	/** Callback function type called when DRDY asserts */
 	typedef void	(*callback_fp_t)( void );
+
+	/** Set callback function invoked when DRDY asserts
+	 *
+	 * @param fnc pointer to the callback function
+	 */
 	virtual void set_DRDY_callback( callback_fp_t fnc );
-	
-	/** set callback function when DRDY comes */
-	
+
 	/** Configure logical channel
 	 *
 	 * @param ch logical channel number (0 ~ 15)
@@ -97,7 +100,7 @@ public:
 
 	/** DRDY event select
 	 *
-	 * @param set true for DRDY by sequencer is done
+	 * @param flag true for DRDY by sequencer is done
 	 */	
 	virtual void DRDY_by_sequencer_done( bool flag = true )	= 0;
 
@@ -134,6 +137,10 @@ public:
 	virtual void	start_and_read( raw_t *data_ptr );
 
 #else
+	/** Start ADC and read results for all enabled channels
+	 *
+	 * @param data pointer to array to store ADC data (raw_t* or volt_t*)
+	 */
 	template<typename T>
 	inline void start_and_read( T data )
 	{
@@ -146,6 +153,7 @@ public:
 	};
 #endif
 
+	/** Low-voltage MUX input selection for internal diagnostic measurements */
 	enum LV_mux_sel : uint8_t {
 		REF2_REF2	= 0,
 		GPIO0_GPIO1,
@@ -183,7 +191,7 @@ public:
 	 */
 	virtual double raw2v( int ch, raw_t value )	= 0;
 	
-	/** Caliculated delay from logical channel setting (for single channel)
+	/** Calculated delay from logical channel setting (for single channel)
 	 *
 	 * @param ch logical channel number
 	 */
@@ -192,7 +200,7 @@ public:
 		return ch_delay[ ch ];
 	}
 
-	/** Caliculated delay from logical channel setting (for all channels)
+	/** Calculated delay from logical channel setting (for all channels)
 	 */
 	inline double drdy_delay( void )
 	{
@@ -207,7 +215,7 @@ public:
 	
 	/** Switch to use DRDY to start ADC result reading
 	 *
-	 * @param use true (default) to use DRDY. if false, caliculated delay is used to start reading. 
+	 * @param use true (default) to use DRDY. if false, calculated delay is used to start reading.
 	 */
 	void	use_DRDY_trigger( bool use = true );
 
@@ -222,6 +230,11 @@ protected:
 	int		pin_SYNCDAC;
 	
 
+	/** Count number of set bits in a value
+	 *
+	 * @param value input value
+	 * @return number of set bits
+	 */
 	int 			bit_count( uint32_t value );
 
 	/** Number of enabled logical channels */
@@ -250,8 +263,14 @@ protected:
 	static callback_fp_t	cbf_DRDY;
 	static void				DRDY_cb();
 
+	/** Initialize AFE device and SPI peripheral */
 	virtual void			init( void );
-	
+
+	/** Wait until ADC conversion completes
+	 *
+	 * @param delay wait time in seconds; negative value uses DRDY interrupt
+	 * @return 0 on success, negative on timeout
+	 */
 	int						wait_conversion_complete( double delay = -1.0 );
 
 public:
@@ -264,14 +283,23 @@ public:
 	LogicalChannel_Base() {}
 	virtual ~LogicalChannel_Base() {}
 	
+	/** Enable this logical channel in the sequencer */
 	void	enable( void );
+	/** Disable this logical channel in the sequencer */
 	void	disable( void );
 
+	/** Read ADC result as the specified type (raw_t or volt_t)
+	 *
+	 * @return ADC result as T
+	 */
 	template<class T> T read(void);
-		
+
+	/** Implicit conversion to raw integer ADC count */
 	operator AFE_base::raw_t(void);
+	/** Implicit conversion to voltage in volts */
 	operator AFE_base::volt_t(void);
 
+	/** @{ Arithmetic operators for inline channel value computations */
 	template<class T> double operator+( T v ) { return (double)(*this) + (double)v; }
 	template<class T> double operator-( T v ) { return (double)(*this) - (double)v; }
 	template<class T> double operator*( T v ) { return (double)(*this) * (double)v; }
@@ -280,6 +308,7 @@ public:
 	template<class T> friend double operator-( T v, LogicalChannel_Base lc ) { return (double)v - (double)lc; }
 	template<class T> friend double operator*( T v, LogicalChannel_Base lc ) { return (double)v * (double)lc; }
 	template<class T> friend double operator/( T v, LogicalChannel_Base lc ) { return (double)v / (double)lc; }
+	/** @} */
 	
 	int			ch_number;
 	AFE_base	*afe_ptr;
@@ -302,10 +331,10 @@ public:
 		int				cal_index;
 	} ref_points;
 	
-	/** Constructor to create a AFE_base instance */
+	/** Constructor to create a NAFE13388_Base instance */
 	NAFE13388_Base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC );
 
-	/** Destractor */
+	/** Destructor */
 	virtual ~NAFE13388_Base();
 	
 	/** Set system-level config registers */
@@ -337,7 +366,19 @@ public:
 		LogicalChannel();
 		virtual ~LogicalChannel();
 		
+		/** Configure logical channel with register array
+		 *
+		 * @param cc array for CH_CONFIG0, CH_CONFIG1, CH_CONFIG2 and CH_CONFIG3 values
+		 */
 		void	configure( const uint16_t (&cc)[ 4 ] );
+
+		/** Configure logical channel with individual register values
+		 *
+		 * @param cc0 16bit value for CH_CONFIG0 register (0x20)
+		 * @param cc1 16bit value for CH_CONFIG1 register (0x21)
+		 * @param cc2 16bit value for CH_CONFIG2 register (0x22)
+		 * @param cc3 16bit value for CH_CONFIG3 register (0x23)
+		 */
 		void	configure( uint16_t cc0 = 0x0000, uint16_t cc1 = 0x0000, uint16_t cc2 = 0x0000, uint16_t cc3 = 0x0000 );
 	};
 	
@@ -380,7 +421,7 @@ public:
 
 	/** DRDY event select
 	 *
-	 * @param set true for DRDY by sequencer is done
+	 * @param flag true for DRDY by sequencer is done
 	 */	
 	virtual void DRDY_by_sequencer_done( bool flag = true );
 	
@@ -615,46 +656,48 @@ public:
 	
 	/** Command
 	 *	
-	 * @param com "Comand" type or uint16_t value
+	 * @param com "Command" type or uint16_t value
 	 */
 	virtual void		command( uint16_t com );
 
 	/** Write register
 	 *
-	 *	Writes register. Register width is selected by reg type (Register16 ot Register24)
-	 * @param reg register specified by Register16 member
+	 *	Writes register. Register width is selected by reg type (Register16 or Register24)
+	 * @param r register specified by Register16 member
+	 * @param value data value to write
 	 */
 	virtual void		reg( Register16 r, uint16_t value );
 
 	/** Write register
 	 *
-	 *	Writes register. Register width is selected by reg type (Register16 ot Register24)
-	 * @param reg register specified by Register24 member
+	 *	Writes register. Register width is selected by reg type (Register16 or Register24)
+	 * @param r register specified by Register24 member
+	 * @param value data value to write
 	 */
 	virtual void		reg( Register24 r, uint32_t value );
 
 	/** Read register
 	 *
-	 *	Reads register. Register width is selected by reg type (Register16 ot Register24)
-	 * @param reg register specified by Register16 member
+	 *	Reads register. Register width is selected by reg type (Register16 or Register24)
+	 * @param r register specified by Register16 member
 	 * @return readout value
 	 */
 	virtual uint16_t	reg( Register16 r );
 
 	/** Read register
 	 *
-	 *	Reads register. Register width is selected by reg type (Register16 ot Register24)
-	 * @param reg register specified by Register24 member
+	 *	Reads register. Register width is selected by reg type (Register16 or Register24)
+	 * @param r register specified by Register24 member
 	 * @return readout value
 	 */
 	virtual uint32_t	reg( Register24 r );
 		
 	/** Register bit operation
 	 *
-	 *	overwrite bits i a register
-	 * @param reg register specified by Register16 or Register24 member
+	 *	overwrite bits in a register
+	 * @param rg register specified by Register16 or Register24 member
 	 * @param mask mask bits
-	 * @param reg value to over write
+	 * @param value value to overwrite
 	 */
 	template<typename T>
 	uint32_t	bit_op( T rg, uint32_t mask, uint32_t value )
@@ -675,7 +718,7 @@ public:
 	 */
 	uint32_t	part_number( void );
 
-	/** Read rivision number
+	/** Read revision number
 	 *
 	 * @return PN0 register value & 0xF
 	 */
@@ -695,7 +738,7 @@ public:
 	
 	/** Gain and offset coefficient customization
 	 *
-	 *	Sets gain and offset coefficients with given target ADC read-out values at two reference voltaeg points
+	 *	Sets gain and offset coefficients with given target ADC read-out values at two reference voltage points
 	 * @param ref struct to define the target coefficient index and two reference poins and reference pre-calibrated coeffs
 	 */
 	void	gain_offset_coeff( const ref_points &ref );
@@ -729,19 +772,20 @@ public:
 	/** Constructor to create a NAFE13388 instance */
 	NAFE13388( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 2, int DRDY = 4, int SYN = 5, int nRESET = 6, int DRDY_input = 15, int SYNCDAC = 14 );
 
-	/** Destractor */
+	/** Destructor */
 	virtual ~NAFE13388();
 };
 
 class NAFE13388_UIM : public NAFE13388_Base
 {
 public:	
-	/** Constructor to create a NAFE13388 instance */
+	/** Constructor to create a NAFE13388_UIM instance */
 	NAFE13388_UIM( bool spi_addr = 0, bool highspeed_variant = false, int nINT = 3, int DRDY = 4, int SYN = 6, int nRESET = 7, int DRDY_input = 2, int SYNCDAC = 14 );
 
-	/** Destractor */
+	/** Destructor */
 	virtual ~NAFE13388_UIM();
 
+	/** Blinks LEDs on GPIO pins (UIM board variant) */
 	void blink_leds( void );
 };
 
