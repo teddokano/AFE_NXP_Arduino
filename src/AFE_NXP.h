@@ -42,8 +42,13 @@ public:
 	/** Issue RESET command */
 	virtual void reset( bool hardware_reset = false )	= 0;
 
-	/** set callback function when DRDY comes */
+	/** Callback function type called when DRDY asserts */
 	typedef void	(*callback_fp_t)( void );
+
+	/** Set callback function invoked when DRDY asserts
+	 *
+	 * @param fnc pointer to the callback function
+	 */
 	virtual void set_DRDY_callback( callback_fp_t fnc );
 
 	/** Configure logical channel
@@ -132,6 +137,10 @@ public:
 	virtual void	start_and_read( raw_t *data_ptr );
 
 #else
+	/** Start ADC and read results for all enabled channels
+	 *
+	 * @param data pointer to array to store ADC data (raw_t* or volt_t*)
+	 */
 	template<typename T>
 	inline void start_and_read( T data )
 	{
@@ -144,6 +153,7 @@ public:
 	};
 #endif
 
+	/** Low-voltage MUX input selection for internal diagnostic measurements */
 	enum LV_mux_sel : uint8_t {
 		REF2_REF2	= 0,
 		GPIO0_GPIO1,
@@ -220,6 +230,11 @@ protected:
 	int		pin_SYNCDAC;
 	
 
+	/** Count number of set bits in a value
+	 *
+	 * @param value input value
+	 * @return number of set bits
+	 */
 	int 			bit_count( uint32_t value );
 
 	/** Number of enabled logical channels */
@@ -248,8 +263,14 @@ protected:
 	static callback_fp_t	cbf_DRDY;
 	static void				DRDY_cb();
 
+	/** Initialize AFE device and SPI peripheral */
 	virtual void			init( void );
-	
+
+	/** Wait until ADC conversion completes
+	 *
+	 * @param delay wait time in seconds; negative value uses DRDY interrupt
+	 * @return 0 on success, negative on timeout
+	 */
 	int						wait_conversion_complete( double delay = -1.0 );
 
 public:
@@ -262,14 +283,23 @@ public:
 	LogicalChannel_Base() {}
 	virtual ~LogicalChannel_Base() {}
 	
+	/** Enable this logical channel in the sequencer */
 	void	enable( void );
+	/** Disable this logical channel in the sequencer */
 	void	disable( void );
 
+	/** Read ADC result as the specified type (raw_t or volt_t)
+	 *
+	 * @return ADC result as T
+	 */
 	template<class T> T read(void);
-		
+
+	/** Implicit conversion to raw integer ADC count */
 	operator AFE_base::raw_t(void);
+	/** Implicit conversion to voltage in volts */
 	operator AFE_base::volt_t(void);
 
+	/** @{ Arithmetic operators for inline channel value computations */
 	template<class T> double operator+( T v ) { return (double)(*this) + (double)v; }
 	template<class T> double operator-( T v ) { return (double)(*this) - (double)v; }
 	template<class T> double operator*( T v ) { return (double)(*this) * (double)v; }
@@ -278,6 +308,7 @@ public:
 	template<class T> friend double operator-( T v, LogicalChannel_Base lc ) { return (double)v - (double)lc; }
 	template<class T> friend double operator*( T v, LogicalChannel_Base lc ) { return (double)v * (double)lc; }
 	template<class T> friend double operator/( T v, LogicalChannel_Base lc ) { return (double)v / (double)lc; }
+	/** @} */
 	
 	int			ch_number;
 	AFE_base	*afe_ptr;
@@ -335,7 +366,19 @@ public:
 		LogicalChannel();
 		virtual ~LogicalChannel();
 		
+		/** Configure logical channel with register array
+		 *
+		 * @param cc array for CH_CONFIG0, CH_CONFIG1, CH_CONFIG2 and CH_CONFIG3 values
+		 */
 		void	configure( const uint16_t (&cc)[ 4 ] );
+
+		/** Configure logical channel with individual register values
+		 *
+		 * @param cc0 16bit value for CH_CONFIG0 register (0x20)
+		 * @param cc1 16bit value for CH_CONFIG1 register (0x21)
+		 * @param cc2 16bit value for CH_CONFIG2 register (0x22)
+		 * @param cc3 16bit value for CH_CONFIG3 register (0x23)
+		 */
 		void	configure( uint16_t cc0 = 0x0000, uint16_t cc1 = 0x0000, uint16_t cc2 = 0x0000, uint16_t cc3 = 0x0000 );
 	};
 	
@@ -742,6 +785,7 @@ public:
 	/** Destructor */
 	virtual ~NAFE13388_UIM();
 
+	/** Blinks LEDs on GPIO pins (UIM board variant) */
 	void blink_leds( void );
 };
 

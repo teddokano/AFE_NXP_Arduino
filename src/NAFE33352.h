@@ -164,6 +164,10 @@ private:
 	void 	channel_info_update( uint16_t value );
 	
 public:
+	/** Configure and enable the DAC output channel
+	 *
+	 * @param cc array for AIO_CONFIG, AO_CAL_COEF, AIO_PROT_CFG, AO_SLR_CTRL, AWG_PER and AO_SYSCFG register values
+	 */
 	void	open_dac_output( const uint16_t (&cc)[ 6 ] );
 
 
@@ -236,7 +240,21 @@ public:
 			return	value * coeff_V[ ch ];
 	}
 	
+	/** Write a value to the DAC output register
+	 *
+	 * @param vi         output value in Volt or Ampere
+	 * @param full_scale full-scale range (e.g. 10.0 for +/-10 V)
+	 * @param bit_length DAC resolution in bits
+	 */
 	virtual void	dac_out( double vi, double full_scale, uint8_t bit_length );
+
+	/** Convert a physical value to a DAC register code
+	 *
+	 * @param a          physical value in Volt or Ampere
+	 * @param full_scale full-scale range
+	 * @param bit_length DAC resolution in bits
+	 * @return DAC register code
+	 */
 	int32_t			dac_code( double a, double full_scale, uint8_t bit_length );
 
 	constexpr static double	pga_gain[]	= { 1.00, 16.00 };
