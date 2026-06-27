@@ -75,7 +75,7 @@ public:
 	 *
 	 * @param frequency SPI clock in Hz (default: 1 MHz)
 	 */
-	virtual void spi_frequency( uint32_t frequency = 1'000'000 );
+	virtual void spi_frequency( uint32_t frequency = 1000000 );
 
 protected:
 	/** Initialize SPI peripheral and chip-select pin */
