@@ -6,7 +6,7 @@ An Arduino library for NXP Analog Front End device with sample code.
 This library provides simple API to get analog input channels.  
 Include device name header file (`NAFE13388_UIM.h` or `NAFE33352_UIOM.h`) to use those class libraries.   
 
-This repo shoiws some basic operations of NAFE13388_UIM as well as practical samples to work 
+This repo shows some basic operations of NAFE13388_UIM as well as practical samples to work 
 with [RTD](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_5_0_RTD_4_wire), 
 [thermocouple](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_6_0_Thermocouple) and 
 [loadcell](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_7_0_LoadCell). 
@@ -16,13 +16,13 @@ with [RTD](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE1
 3 types of Arduino UNO boards: **R3**, **R4 Minima** and **R4 WiFi** are supported.  
 > **Note**  
 > For any type of Arduino board and NAFE13388-UIM/NAFE33352-UIOM board connection, **DON'T PLUG ARDUINO SHIELD SOCKET DIRECTLY!!**   
-> The 3.3V supply pin should be disconected to protect Arduino suppy circuit.   
+> The 3.3V supply pin should be disconnected to protect Arduino supply circuit.   
 > Please refer to pictures in later in this page.   
 
 Example sketches can be built and run on any of those boards.  
 
 ### Simple example code for NAFE13388-UIM
-Next is a sample of the basic operation of NAFE13388-UIM measureing analog voltage on AI1P and AI1N terminal.    
+Next is a sample of the basic operation of NAFE13388-UIM measuring analog voltage on AI1P and AI1N terminal.    
 
 ```cpp
 #include <NAFE13388_UIM.h>
@@ -44,7 +44,7 @@ void setup() {
   afe.begin();
   afe.blink_leds();
 
-  //  ADC logical chennel setup
+  //  ADC logical channel setup
   afe.logical_channel[0].configure(0x1710, 0x00A4, 0xBC00, 0x0000);
   afe.logical_channel[1].configure(0x2710, 0x00A4, 0xBC00, 0x0000);
 
@@ -69,8 +69,8 @@ The analog input terminals are available as picture below.
 
 
 ### Simple example code for NAFE33352-UIOM
-Next is a sample of the basic operation of NAFE33352-UIOM measureing analog voltage 
-beween AI1P and VCM with DAC working to output voltage or current.  
+Next is a sample of the basic operation of NAFE33352-UIOM measuring analog voltage 
+between AI1P and VCM with DAC working to output voltage or current.  
 ```cpp
 #include <NAFE33352_UIOM.h>
 
@@ -108,7 +108,7 @@ void setup() {
   shasta.dac = output_value;
   delay( 100 );
 
-  //  ADC logical chennel setup
+  //  ADC logical channel setup
   shasta.logical_channel[0].configure(0x0020, 0x50B4, 0x5000);  //  voltage between AI1P - VCOM
   shasta.logical_channel[1].configure(0x0080, 0x5064, 0x5000);  //  supply monitoring: VHDD
   shasta.logical_channel[2].configure(0x0088, 0x5064, 0x5000);  //  supply monitoring: VHSS
@@ -162,7 +162,7 @@ _NAFE13388-UIM 8 Channels Universal Input AFE Evaluation Board with Arduino UNO 
 > _Diagram of 3.3V and 5V supply rails on NAFE13388-UIM board's schematic_
 > 
 > ![](https://github.com/teddokano/additional_files/blob/main/AFE_NXP_Arduino/ioref.png)  
-> Using 5V supply on IOREF pin from Arduino board_
+> _Using 5V supply on IOREF pin from Arduino board_
 
 
 
@@ -187,8 +187,8 @@ Name|Header file|Features|Interface|Evaluation board
 ---|---|---|---|---
 [NAFExx388-EVB](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFExx388-EVB)	|`NAFE13388.h`	|	General purpose evaluation board for NAFE13388 |SPI (mode1)	|[NAFE13388-UIM 8-Channel Universal Input AFE Arduino® Shield Board](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFExx388-EVB)
 [NAFE13388-UIM](https://www.nxp.com/products/peripherals-and-logic/signal-chain/analog-front-end/highly-configurable-8-channel-25-v-universal-input-low-power-analog-front-end:NAFEx1388)	|`NAFE13388_UIM.h`	|AFE Arduino shield type evaluation board |SPI (mode1)	|[NAFE13388-UIM 8-Channel Universal Input AFE Arduino® Shield Board](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFE13388-UIM)
-[NAFE33352-EVB](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFE33352-EVB)	|`NAFE13388_UIM.h`	|AFE Arduino shield type evaluation board |SPI (mode1)	|[Software Configurable Universal AIO-AFE Evaluation Board](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFE33352-EVB)
-[NAFE33352-UIOM]()	|`NAFE13388_UIM.h`	|AFE Arduino shield type evaluation board |SPI (mode1)	|[NAFE33352-UIOM Universal Input/OUTPUT AFE Arduino® Shield Board]()
+[NAFE33352-EVB](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFE33352-EVB)	|`NAFE33352_UIOM.h`	|AFE Arduino shield type evaluation board |SPI (mode1)	|[Software Configurable Universal AIO-AFE Evaluation Board](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFE33352-EVB)
+[NAFE33352-UIOM](https://www.nxp.com/design/design-center/development-boards-and-designs/NAFE33352-UIOM)	|`NAFE33352_UIOM.h`	|AFE Arduino shield type evaluation board |SPI (mode1)	|[NAFE33352-UIOM Universal Input/OUTPUT AFE Arduino® Shield Board]()
 
 # Getting started
 How to setup? --> [https://youtu.be/UEOFC0TwA6c](https://youtu.be/UEOFC0TwA6c)  
@@ -197,7 +197,7 @@ How to setup? --> [https://youtu.be/UEOFC0TwA6c](https://youtu.be/UEOFC0TwA6c)
 # What's inside?
 
 ## Examples
-Examples are provided as scketch files.
+Examples are provided as sketch files.
 
 ### How to use?
 

@@ -1,8 +1,8 @@
-/** NXP Analog Front End class library for MCX
+/** NXP Analog Front End class library for Arduino
  *
  *  @author  Tedd OKANO
  *
- *  Copyright: 2023 - 2025 Tedd OKANO
+ *  Copyright: 2023 - 2026 Tedd OKANO
  *  Released under the MIT license
  */
 
@@ -250,7 +250,7 @@ void NAFE13388_Base::reset( bool hardware_reset )
 			return;
 	}
 	
-	Serial.println( "NAFE13388 couldn't get ready. Check power supply or pin conections\r\n" );
+	Serial.println( "NAFE13388 couldn't get ready. Check power supply or pin connections\r\n" );
 	
 	while ( true )
 		;
@@ -512,7 +512,7 @@ int NAFE13388_Base::self_calibrate( int pga_gain_index, int channel_selection, i
 	int					gain_index		= static_cast<int>( pga_gain_index );
 	
 	//	logical channel selection to perform the self-calibration
-	//	if the chennel in-use, save channel setting to temporal memory
+	//	if the channel in-use, save channel setting to temporal memory
 	
 	if ( reg( Register16::CH_CONFIG4 ) & (0x1 << channel_selection) )
 	{

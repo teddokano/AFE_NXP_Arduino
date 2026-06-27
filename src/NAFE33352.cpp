@@ -1,8 +1,8 @@
-/** NXP Analog Front End class library for MCX
+/** NXP Analog Front End class library for Arduino
  *
  *  @author  Tedd OKANO
  *
- *  Copyright: 2026 Tedd OKANO
+ *  Copyright: 2023 - 2026 Tedd OKANO
  *  Released under the MIT license
  */
 
@@ -180,7 +180,7 @@ void NAFE33352_Base::reset( bool hardware_reset )
 			return;
 	}
 	
-	Serial.println( "NAFE33352 couldn't get ready. Check power supply or pin conections\r\n" );
+	Serial.println( "NAFE33352 couldn't get ready. Check power supply or pin connections\r\n" );
 	
 	while ( true )
 		;

@@ -2,13 +2,11 @@
  *
  *  @class   SPI_for_AFE
  *  @author  Tedd OKANO
- *  @version 0.1.1
- *  @date    27-June-2023
  *
- *  Copyright: 2023 Tedd OKANO
+ *  Copyright: 2023 - 2026 Tedd OKANO
  *  Released under the MIT license
  *
- *  A SPI interface class for NXP Analog Front End: NAFE13388
+ *  A SPI interface class for NXP Analog Front End: NAFE13388, NAFE33352
  */
 
 #ifndef ARDUINO_SPI_FOR_AFE_H
@@ -75,7 +73,7 @@ public:
 	 *
 	 * @param frequency SPI clock in Hz (default: 1 MHz)
 	 */
-	virtual void spi_frequency( uint32_t frequency = 1'000'000 );
+	virtual void spi_frequency( uint32_t frequency = 1000000 );
 
 protected:
 	/** Initialize SPI peripheral and chip-select pin */
