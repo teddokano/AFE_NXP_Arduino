@@ -3,7 +3,7 @@
  *	Copyright: 2023 - 2026 Tedd OKANO
  *	Released under the MIT license
  *
- *	A simple class library for NXP Analog Front End: NAFE13388 evaluation boards
+ *	A simple class library for NXP Analog Front End: NAFE13388, NAFE33352 evaluation boards
  */
 
 #ifndef ARDUINO_AFE_DRIVER_H

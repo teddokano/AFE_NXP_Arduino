@@ -27,7 +27,7 @@ mermaid.initialize({ startOnLoad: true, theme: theme });
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">AFE_NXP_Arduino<span id="projectnumber">&#160;2.0.4</span>
+   <div id="projectname">AFE_NXP_Arduino<span id="projectnumber">&#160;2.0.5</span>
    </div>
    <div id="projectbrief">Analog Front-End (AFE) device operation sample code for Arduino</div>
   </td>
@@ -403,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>            <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    }</div>
 <div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    </div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    Serial.println( <span class="stringliteral">&quot;NAFE13388 couldn&#39;t get ready. Check power supply or pin conections\r\n&quot;</span> );</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    Serial.println( <span class="stringliteral">&quot;NAFE13388 couldn&#39;t get ready. Check power supply or pin connections\r\n&quot;</span> );</div>
 <div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    </div>
 <div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    <span class="keywordflow">while</span> ( <span class="keyword">true</span> )</div>
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        ;</div>
@@ -715,7 +715,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span>    <span class="keywordtype">int</span>                 gain_index      = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>( pga_gain_index );</div>
 <div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>    </div>
 <div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span>    <span class="comment">//  logical channel selection to perform the self-calibration</span></div>
-<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>    <span class="comment">//  if the chennel in-use, save channel setting to temporal memory</span></div>
+<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>    <span class="comment">//  if the channel in-use, save channel setting to temporal memory</span></div>
 <div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>    </div>
 <div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>    <span class="keywordflow">if</span> ( <a class="code hl_function" href="class_n_a_f_e13388___base.html#a606cd23de868686c41d54cbc40587b23">reg</a>( <a class="code hl_enumvalue" href="class_n_a_f_e13388___base.html#ae88e748f942fa5e9787d1180602ea9fba86b11aa9dfe155543ff8f013749b6f28">Register16::CH_CONFIG4</a> ) &amp; (0x1 &lt;&lt; channel_selection) )</div>
 <div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>    {</div>

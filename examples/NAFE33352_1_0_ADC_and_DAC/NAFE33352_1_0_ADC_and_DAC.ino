@@ -4,7 +4,7 @@
  *  Copyright: 2026 Tedd OKANO
  *  Released under the MIT license
  *
- *	Sample of using both ADC and DAC (input and oupput)
+ *	Sample of using both ADC and DAC (input and output)
  */
 
 /*
