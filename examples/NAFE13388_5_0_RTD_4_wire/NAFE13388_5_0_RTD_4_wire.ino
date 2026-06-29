@@ -92,7 +92,7 @@ void loop() {
 }
 
 double get_temp(int logical_channel_num) {
-  static constexpr auto coef_pt100 = 0.385;
+  static constexpr double coef_pt100 = 0.385;
 
   //  get logical channel voltage in microvolt and convert to volt
   double volt = afe.logical_channel[logical_channel_num];
@@ -116,10 +116,10 @@ double get_temp(int logical_channel_num) {
 //    -> no closed-form inverse, solved numerically by Newton-Raphson,
 //       using the linear approximation as the initial guess
 double resistance_to_temp_cvd(double resistance) {
-  static constexpr auto R0 = 100.0;
-  static constexpr auto A = 3.9083e-3;
-  static constexpr auto B = -5.775e-7;
-  static constexpr auto C = -4.183e-12;
+  static constexpr double R0 = 100.0;
+  static constexpr double A = 3.9083e-3;
+  static constexpr double B = -5.775e-7;
+  static constexpr double C = -4.183e-12;
 
   if (resistance >= R0) {
     double ratio = resistance / R0;
