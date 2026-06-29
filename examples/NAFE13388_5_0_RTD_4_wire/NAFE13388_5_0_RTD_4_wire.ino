@@ -26,8 +26,14 @@
   */
 
 #include <NAFE13388_UIM.h>
+#include <math.h>
 
+double get_temp(double resistance);
 double get_temp(int logical_channel_num);
+double get_temp_cvd(double resistance);
+double get_temp_cvd(int logical_channel_num);
+
+double excitation_current[2];
 
 NAFE13388_UIM afe;
 
@@ -59,6 +65,10 @@ void setup() {
   //  ADC data rate = 2.5Hz, delay for measurement start = 5000us, filter = SINC4, CH_CHOP = on
   afe.logical_channel[1].configure(0x44F8, 0x80C4, 0x8480, 0xA618);
 
+  //  excitation current setting to calculate resistance from voltage
+  excitation_current[0] = 250e-6;  //  logical channel 0
+  excitation_current[1] = 250e-6;  //  logical channel 1
+
   //  Set factory calibrated coefficients for PGA gain=x16, with excitation current = 250uA
   //  using coefficient slot on 8
   //  reference : AN14539, Table 3
@@ -74,24 +84,87 @@ void setup() {
 }
 
 void loop() {
-  double temp0 = get_temp(0);
-  double temp1 = get_temp(1);
+  for (int channel = 0; channel < 2; channel++) {
+    //  get logical channel voltage in microvolt and convert to volt
+    double volt = afe.logical_channel[channel];
 
-  Serial.print(temp0, 8);
-  Serial.print(", ");
-  Serial.print(temp1, 8);
+    //  calcurate resistance by deviding excitation current
+    double resistance = volt / excitation_current[channel];
+
+    double temp = get_temp(resistance);
+    double temp_cvd = get_temp_cvd(resistance);
+
+    Serial.print("logical-channel");
+    Serial.print(channel);
+    Serial.print(": ");
+    Serial.print(temp, 8);
+    Serial.print("℃, ");
+    Serial.print(temp_cvd, 8);
+    Serial.print("℃(CVD),   ");
+  }
+
   Serial.println("");
 }
 
-double get_temp(int logical_channel_num) {
-  static constexpr auto coef_pt100 = 0.385;
+double get_temp(double resistance) {
+  static constexpr double coef_pt100 = 0.385;
 
+  //  convert from resistance to tempoerature (degree Celsius)
+  return (resistance - 100) / coef_pt100;
+}
+
+double get_temp(int logical_channel_num) {
   //  get logical channel voltage in microvolt and convert to volt
   double volt = afe.logical_channel[logical_channel_num];
 
   //  calcurate resistance by deviding excitation current
-  double resistance = volt / 250e-6;
+  double resistance = volt / excitation_current[logical_channel_num];
 
   //  convert from resistance to tempoerature (degree Celsius)
-  return (resistance - 100) / coef_pt100;
+  return get_temp(resistance);
+}
+
+//  Convert Pt100 resistance to temperature using the Callendar-Van Dusen (CVD)
+//  equation (IEC 60751), instead of the linear approximation used in get_temp().
+//
+//  For T >= 0 degC:
+//    R(T) = R0 * (1 + A*T + B*T^2)
+//    -> solved directly for T (quadratic formula)
+//
+//  For T < 0 degC:
+//    R(T) = R0 * (1 + A*T + B*T^2 + C*(T - 100)*T^3)
+//    -> no closed-form inverse, solved numerically by Newton-Raphson,
+//       using the linear approximation as the initial guess
+double get_temp_cvd(double resistance) {
+  static constexpr double R0 = 100.0;
+  static constexpr double A = 3.9083e-3;
+  static constexpr double B = -5.775e-7;
+  static constexpr double C = -4.183e-12;
+
+  if (resistance >= R0) {
+    double ratio = resistance / R0;
+    return (-A + sqrt(A * A - 4.0 * B * (1.0 - ratio))) / (2.0 * B);
+  }
+
+  //  initial guess from linear approximation
+  double t = (resistance - R0) / (R0 * 0.00385);
+
+  for (int i = 0; i < 5; i++) {
+    double f = R0 * (1.0 + A * t + B * t * t + C * (t - 100.0) * t * t * t) - resistance;
+    double df = R0 * (A + 2.0 * B * t + C * (4.0 * t * t * t - 300.0 * t * t));
+    t -= f / df;
+  }
+
+  return t;
+}
+
+double get_temp_cvd(int logical_channel_num) {
+  //  get logical channel voltage in microvolt and convert to volt
+  double volt = afe.logical_channel[logical_channel_num];
+
+  //  calcurate resistance by deviding excitation current
+  double resistance = volt / excitation_current[logical_channel_num];
+
+  //  convert from resistance to tempoerature (degree Celsius), using CVD equation
+  return get_temp_cvd(resistance);
 }
