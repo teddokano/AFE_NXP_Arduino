@@ -6,6 +6,8 @@ These RTD measurements are done in 4 wire method.
 This sample uses 2 logical channels for each RTDs.  
 The logical channel setting defines analog input channel selections as well as excitation current configurations.  
 
+The measurement results on both logical channels are shown as two calcuration result: linear calicuration and Callendar-Van Dusen (CVD) equation
+
 ## Wiring
 ![](img/conection_RTDs.png)
 
