@@ -28,7 +28,9 @@
 #include <NAFE13388_UIM.h>
 #include <math.h>
 
+double get_temp(double resistance);
 double get_temp(int logical_channel_num);
+double get_temp_cvd(double resistance);
 double get_temp_cvd(int logical_channel_num);
 
 double excitation_current[2];
