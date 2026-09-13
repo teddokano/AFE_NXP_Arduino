@@ -20,6 +20,9 @@
 class SPI_for_AFE
 {
 public:
+	/** Destructor */
+	virtual ~SPI_for_AFE() {}
+
 	/** Send data
 	 * 
 	 * @param data pointer to data buffer
