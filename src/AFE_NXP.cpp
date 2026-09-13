@@ -170,9 +170,9 @@ int AFE_base::wait_conversion_complete( double wait )
 	if ( 0 < wait )
 	{
 		if ( wait < 0.016 )
-			delayMicroseconds( wait * delay_accuracy * 1e6 );
+			delayMicroseconds( wait * 1e6 );
 		else
-			delay( wait * delay_accuracy * 1e3 );			
+			delay( wait * 1e3 );
 		return	0;
 	}
 
