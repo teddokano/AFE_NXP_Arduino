@@ -82,6 +82,11 @@ protected:
 
 private:
 	//	functions to access AFE multibyte data access independent from endianess
+#ifdef AFE_NXP_UNIT_TEST
+	//	grants the host unit tests (test/) access to these otherwise-private helpers
+	friend int32_t test_get_data16( SPI_for_AFE &obj, uint8_t *vp );
+	friend int32_t test_get_data24( SPI_for_AFE &obj, uint8_t *vp );
+#endif
 	inline int32_t get_data16( uint8_t *vp )
 	{
 		return ((uint16_t)(*(vp + 0)) << 8) | *(vp + 1);
