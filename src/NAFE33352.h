@@ -87,8 +87,8 @@ public:
 		void	configure( uint16_t cc0, uint16_t cc1 = 0x0000, uint16_t cc2 = 0x0000 );
 	};
 	
-	/** 16 LogicalChannel instance array */
-	LogicalChannel	logical_channel[ 16 ];
+	/** LogicalChannel instance array */
+	LogicalChannel	logical_channel[ max_logical_channels ];
 
 	/** DAC sub-class in NAFE33352_Base class */
 	class DAC
@@ -232,6 +232,12 @@ public:
 	 */
 	inline double raw2v( int ch, raw_t value )
 	{
+		if ( !valid_ch( ch ) )
+		{
+			AFE_DBG( "raw2v(): invalid logical channel %d\r\n", ch );
+			return NAN;
+		}
+
 		if ( mux_setting[ ch ] == ISNS )
 			return	value * coeff_V[ ch ] / on_board_shunt_resister;				
 		else if ( mux_setting[ ch ] == BG )

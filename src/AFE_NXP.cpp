@@ -210,11 +210,11 @@ AFE_base::callback_fp_t	AFE_base::cbf_DRDY	= nullptr;
 NAFE13388_Base::NAFE13388_Base( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC ) 
 	: AFE_base( spi_addr, hsv, nINT, DRDY, SYN, nRESET, DRDY_input, SYNCDAC )
 {
-	for ( auto i = 0; i < 16; i++ )
+	for ( auto i = 0; i < max_logical_channels; i++ )
 	{
 		logical_channel[ i ].afe_ptr	= this;
 		logical_channel[ i ].ch_number	= i;
-	}	
+	}
 }
 
 NAFE13388_Base::~NAFE13388_Base()
@@ -259,7 +259,13 @@ void NAFE13388_Base::reset( bool hardware_reset )
 }
 
 void NAFE13388_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
-{	
+{
+	if ( !valid_ch( ch ) )
+	{
+		AFE_DBG( "open_logical_channel(): invalid logical channel %d\r\n", ch );
+		return;
+	}
+
 	command( ch );
 	
 	if ( cc[ 0 ] & 0x0010 )
@@ -283,12 +289,12 @@ void NAFE13388_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 
 void NAFE13388_Base::channel_info_update( uint16_t value )
 {
-	constexpr auto	bit_length	= 16;
+	constexpr auto	bit_length	= max_logical_channels;
 	enabled_channels			= 0;
 	total_delay					= 0.00;
-	
-	memset( sequence_order, 0, 16 );
-		
+
+	memset( sequence_order, 0, max_logical_channels );
+
 	for ( auto i = 0; i < bit_length; i++ )
 	{
 		if ( value & (0x1 << i) )
@@ -369,7 +375,13 @@ void NAFE13388_Base::open_logical_channel( int ch, uint16_t cc0, uint16_t cc1, u
 }
 
 void NAFE13388_Base::enable_logical_channel( int ch )
-{	
+{
+	if ( !valid_ch( ch ) )
+	{
+		AFE_DBG( "enable_logical_channel(): invalid logical channel %d\r\n", ch );
+		return;
+	}
+
 	const uint16_t	setbit	= 0x1 << ch;
 	const uint16_t	bits	= bit_op( Register16::CH_CONFIG4, ~setbit, setbit );
 
@@ -377,7 +389,13 @@ void NAFE13388_Base::enable_logical_channel( int ch )
 }
 
 void NAFE13388_Base::close_logical_channel( int ch )
-{	
+{
+	if ( !valid_ch( ch ) )
+	{
+		AFE_DBG( "close_logical_channel(): invalid logical channel %d\r\n", ch );
+		return;
+	}
+
 	const uint16_t	clearingbit	= 0x1 << ch;
 	const uint16_t	bits		= bit_op( Register16::CH_CONFIG4, ~clearingbit, ~clearingbit );
 
@@ -392,6 +410,12 @@ void NAFE13388_Base::close_logical_channel( void )
 
 void NAFE13388_Base::start( int ch )
 {
+	if ( !valid_ch( ch ) )
+	{
+		AFE_DBG( "start(): invalid logical channel %d\r\n", ch );
+		return;
+	}
+
 	command( ch     );
 	command( Command::CMD_SS );
 }
@@ -413,6 +437,12 @@ void NAFE13388_Base::DRDY_by_sequencer_done( bool flag )
 
 int32_t NAFE13388_Base::read( int ch )
 {
+	if ( !valid_ch( ch ) )
+	{
+		AFE_DBG( "read(): invalid logical channel %d\r\n", ch );
+		return 0;
+	}
+
 	return reg( Register24::CH_DATA0 + ch );
 }
 
@@ -423,7 +453,7 @@ void NAFE13388_Base::read( raw_t *data )
 
 void NAFE13388_Base::read( volt_t *data )
 {
-	raw_t	raw_data[ 16 ];
+	raw_t	raw_data[ max_logical_channels ];
 	
 	read( raw_data );
 	
