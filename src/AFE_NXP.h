@@ -12,30 +12,19 @@
 #include <Arduino.h>
 #include <math.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <SPI_for_AFE.h>
 
-/** Debug print macro
+/*	Debug output: disabled by default. Define AFE_NXP_DEBUG (before including
+ *	this header, or as a build flag) to enable it.
  *
- *	Disabled by default. Define AFE_NXP_DEBUG (before including this header,
- *	or as a build flag) to route AFE_DBG() output to Serial.
- *
- *	Serial.printf() isn't available on every core (e.g. AVR), so the message
- *	is formatted with snprintf() into a local buffer and sent with
- *	Serial.print() instead. This is deliberately a no-op when AFE_NXP_DEBUG
- *	isn't defined, so no printf/snprintf machinery is linked into a default
- *	build.
+ *	Debug blocks in the .cpp files are wrapped in #ifdef AFE_NXP_DEBUG / #endif
+ *	and print with Serial.print()/println() directly -- no printf()-family
+ *	call (not even snprintf() into a buffer). AVR's default vfprintf doesn't
+ *	support floating-point conversions (%f/%lf) without linking a separate
+ *	float-enabled printf, and several of these messages print doubles; using
+ *	%lf there produced garbage and (reliably, on UNO R3) a reset loop -- not
+ *	just missing output.
  */
-#ifdef AFE_NXP_DEBUG
-	#define AFE_DBG( ... )										\
-		do {														\
-			char	afe_dbg_buf[ 128 ];							\
-			snprintf( afe_dbg_buf, sizeof( afe_dbg_buf ), __VA_ARGS__ );	\
-			Serial.print( afe_dbg_buf );							\
-		} while ( 0 )
-#else
-	#define AFE_DBG( ... )		do {} while ( 0 )
-#endif
 
 class AFE_base : public SPI_for_AFE
 {

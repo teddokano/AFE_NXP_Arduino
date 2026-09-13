@@ -268,7 +268,12 @@ void NAFE33352_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 	
 	ch_delay[ ch ]		= calc_delay( ch );
 	
-	AFE_DBG( "lc[ %d ] : %.10lf\r\n", ch, ch_delay[ ch ] );
+#ifdef AFE_NXP_DEBUG
+	Serial.print( "lc[ " );
+	Serial.print( ch );
+	Serial.print( " ] : " );
+	Serial.println( ch_delay[ ch ], 10 );
+#endif
 }
 
 void NAFE33352_Base::channel_info_update( uint16_t value )
@@ -289,9 +294,14 @@ void NAFE33352_Base::channel_info_update( uint16_t value )
 		}
 	}
 
+#ifdef AFE_NXP_DEBUG
 	for ( auto i = 0; i < bit_length; i++ )
-		AFE_DBG( " %x", sequence_order[ i ] );
-	AFE_DBG( "\r\n" );
+	{
+		Serial.print( ' ' );
+		Serial.print( sequence_order[ i ], HEX );
+	}
+	Serial.println();
+#endif
 }
 
 double NAFE33352_Base::calc_delay( int ch )
