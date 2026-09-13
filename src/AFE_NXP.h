@@ -220,7 +220,6 @@ public:
 	void	use_DRDY_trigger( bool use = true );
 
 protected:
-	bool	dev_add;
 	bool	highspeed_variant;
 	int		pin_nINT;
 	int		pin_DRDY;

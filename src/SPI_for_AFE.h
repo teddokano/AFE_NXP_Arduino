@@ -20,6 +20,12 @@
 class SPI_for_AFE
 {
 public:
+	/** Constructor
+	 *
+	 * @param spi_addr device address bit, OR'd into the first command byte
+	 */
+	SPI_for_AFE( bool spi_addr = false );
+
 	/** Send data
 	 * 
 	 * @param data pointer to data buffer
@@ -79,6 +85,7 @@ protected:
 	/** Initialize SPI peripheral and chip-select pin */
 	void init( void );
 	uint32_t	frequency;
+	bool		dev_add;
 
 private:
 	//	functions to access AFE multibyte data access independent from endianess
@@ -98,7 +105,6 @@ private:
 	}
 
 	static constexpr int	command_length	= 2;
-//	const bool	dev_ad;
 };
 
 #endif //	ARDUINO_SPI_FOR_AFE_H
