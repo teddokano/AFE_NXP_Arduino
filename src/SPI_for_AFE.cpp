@@ -67,6 +67,7 @@ void SPI_for_AFE::burst( uint32_t *data, int length, int width )
 	v[ 0 ]	= (uint8_t)(reg >> 8);
 	v[ 1 ]	= (uint8_t)(reg & 0xFF);
 
+	memset( v + command_length, 0xFF, length * width );
 	txrx( v, command_length + length * width );
 
 	for ( auto i = 0; i < length; i++ )
