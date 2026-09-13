@@ -346,7 +346,7 @@ double NAFE33352_Base::calc_delay( int ch )
 	if ( ch_chop )
 		base_freq	/= 2;
 	
-#if  0
+#ifdef AFE_NXP_DEBUG
 	Serial.print( "adc_data_rate =" );
 	Serial.println( adc_data_rate );
 	Serial.print( "base_freq = " );
