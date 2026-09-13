@@ -268,12 +268,7 @@ void NAFE33352_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 	
 	ch_delay[ ch ]		= calc_delay( ch );
 	
-#if 0
-	Serial.print("lc[ ");
-	Serial.print(ch);
-	Serial.print("] : ");
-	Serial.println( ch_delay[ ch ], 10 );
-#endif
+	AFE_DBG( "lc[ %d ] : %.10lf\r\n", ch, ch_delay[ ch ] );
 }
 
 void NAFE33352_Base::channel_info_update( uint16_t value )
@@ -294,11 +289,9 @@ void NAFE33352_Base::channel_info_update( uint16_t value )
 		}
 	}
 
-#if 0
 	for ( auto i = 0; i < bit_length; i++ )
-		printf( " %x", sequence_order[ i ] );
-	printf( "\r\n" );
-#endif
+		AFE_DBG( " %x", sequence_order[ i ] );
+	AFE_DBG( "\r\n" );
 }
 
 double NAFE33352_Base::calc_delay( int ch )
