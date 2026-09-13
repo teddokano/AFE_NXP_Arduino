@@ -95,15 +95,21 @@ void AFE_base::init( void )
 	use_DRDY_trigger( false );
 }
 
-void AFE_base::begin( void )
+bool AFE_base::begin( void )
 {
 	instance	= this;
-	
+
 	SPI_for_AFE::init();	//	set proper SPI_CS = HIGH state. This is required for UNO R4
-	
-	reset();
-	boot();	
+
+	if ( !reset() )
+		return false;
+
+	if ( !boot() )
+		return false;
+
 	init();
+
+	return true;
 }
 
 void AFE_base::set_DRDY_callback( callback_fp_t func )
@@ -219,41 +225,40 @@ NAFE13388_Base::~NAFE13388_Base()
 {
 }
 
-void NAFE13388_Base::boot( void )
+bool NAFE13388_Base::boot( void )
 {
-	command( CMD_ABORT ); 
+	command( CMD_ABORT );
 	delay( 1 );
 
 	DRDY_by_sequencer_done( true );
+
+	return true;
 }
 
-void NAFE13388_Base::reset( bool hardware_reset )
+bool NAFE13388_Base::reset( bool hardware_reset )
 {
 	if ( hardware_reset )
 	{
-		digitalWrite( pin_nRESET, 0 );		
+		digitalWrite( pin_nRESET, 0 );
 		delay( 1 );
-		digitalWrite( pin_nRESET, 1 );		
+		digitalWrite( pin_nRESET, 1 );
 	}
 	else
 	{
-		command( CMD_RESET ); 
+		command( CMD_RESET );
 	}
-	
+
 	constexpr uint16_t	CHIP_READY	= 1 << 13;
 	constexpr auto		RETRY		= 10;
-	
+
 	for ( auto i = 0; i < RETRY; i++ )
 	{
 		delay( 3 );
 		if ( reg( Register16::SYS_STATUS0 ) & CHIP_READY )
-			return;
+			return true;
 	}
-	
-	Serial.println( "NAFE13388 couldn't get ready. Check power supply or pin connections\r\n" );
-	
-	while ( true )
-		;
+
+	return false;
 }
 
 void NAFE13388_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )

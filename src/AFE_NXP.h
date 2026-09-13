@@ -33,14 +33,19 @@ public:
 	 *	NAFE13388 initialization. It does following steps
 	 *	(1) Call reset()
 	 *	(2) Call boot()
+	 *
+	 * @return true on success, false if reset() or boot() failed
 	 */
-	virtual void begin( void );
+	virtual bool begin( void );
 
 	/** Set system-level config registers */
-	virtual void boot( void )	= 0;
+	virtual bool boot( void )	= 0;
 
-	/** Issue RESET command */
-	virtual void reset( bool hardware_reset = false )	= 0;
+	/** Issue RESET command
+	 *
+	 * @return true if the chip became ready, false on timeout
+	 */
+	virtual bool reset( bool hardware_reset = false )	= 0;
 
 	/** Callback function type called when DRDY asserts */
 	typedef void	(*callback_fp_t)( void );
@@ -338,10 +343,13 @@ public:
 	virtual ~NAFE13388_Base();
 	
 	/** Set system-level config registers */
-	virtual void boot( void );
+	virtual bool boot( void );
 
-	/** Issue RESET command */
-	virtual void reset( bool hardware_reset = false );
+	/** Issue RESET command
+	 *
+	 * @return true if the chip became ready, false on timeout
+	 */
+	virtual bool reset( bool hardware_reset = false );
 	
 	/** Configure logical channel
 	 *
