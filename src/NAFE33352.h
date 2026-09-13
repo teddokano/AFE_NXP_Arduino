@@ -234,7 +234,10 @@ public:
 	{
 		if ( !valid_ch( ch ) )
 		{
-			AFE_DBG( "raw2v(): invalid logical channel %d\r\n", ch );
+#ifdef AFE_NXP_DEBUG
+			Serial.print( "raw2v(): invalid logical channel " );
+			Serial.println( ch );
+#endif
 			return NAN;
 		}
 

@@ -198,7 +198,10 @@ void NAFE33352_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 {
 	if ( !valid_ch( ch ) )
 	{
-		AFE_DBG( "open_logical_channel(): invalid logical channel %d\r\n", ch );
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "open_logical_channel(): invalid logical channel " );
+		Serial.println( ch );
+#endif
 		return;
 	}
 
@@ -378,7 +381,10 @@ void NAFE33352_Base::enable_logical_channel( int ch )
 {
 	if ( !valid_ch( ch ) )
 	{
-		AFE_DBG( "enable_logical_channel(): invalid logical channel %d\r\n", ch );
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "enable_logical_channel(): invalid logical channel " );
+		Serial.println( ch );
+#endif
 		return;
 	}
 
@@ -392,7 +398,10 @@ void NAFE33352_Base::close_logical_channel( int ch )
 {
 	if ( !valid_ch( ch ) )
 	{
-		AFE_DBG( "close_logical_channel(): invalid logical channel %d\r\n", ch );
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "close_logical_channel(): invalid logical channel " );
+		Serial.println( ch );
+#endif
 		return;
 	}
 
@@ -412,7 +421,10 @@ void NAFE33352_Base::start( int ch )
 {
 	if ( !valid_ch( ch ) )
 	{
-		AFE_DBG( "start(): invalid logical channel %d\r\n", ch );
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "start(): invalid logical channel " );
+		Serial.println( ch );
+#endif
 		return;
 	}
 
@@ -439,7 +451,10 @@ int32_t NAFE33352_Base::read( int ch )
 {
 	if ( !valid_ch( ch ) )
 	{
-		AFE_DBG( "read(): invalid logical channel %d\r\n", ch );
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "read(): invalid logical channel " );
+		Serial.println( ch );
+#endif
 		return 0;
 	}
 
