@@ -25,6 +25,12 @@ constexpr int INPUT_PULLUP	= 2;
 constexpr int CHANGE		= 1;
 constexpr int SS			= 10;
 
+/* Number bases accepted as print()/println()'s second argument */
+constexpr int DEC			= 10;
+constexpr int HEX			= 16;
+constexpr int OCT			= 8;
+constexpr int BIN			= 2;
+
 inline void pinMode( int, int )				{}
 inline void digitalWrite( int, int )			{}
 inline int  digitalRead( int )					{ return LOW; }
@@ -49,6 +55,10 @@ struct SerialStub
 	void print( unsigned long v )				{ std::printf( "%lu", v ); }
 	void print( double v, int digits = 2 )		{ std::printf( "%.*f", digits, v ); }
 	void print( double v, const char * )		{ std::printf( "%f", v ); }
+	void print( int v, int base )				{ print_based( v, base ); }
+	void print( unsigned int v, int base )		{ print_based( (long)v, base ); }
+	void print( long v, int base )				{ print_based( v, base ); }
+	void print( unsigned long v, int base )		{ print_based( (long)v, base ); }
 
 	void println( void )						{ std::fputs( "\n", stdout ); }
 	void println( const char *s )				{ std::fputs( s, stdout ); std::fputs( "\n", stdout ); }
@@ -57,6 +67,32 @@ struct SerialStub
 	void println( long v )						{ std::printf( "%ld\n", v ); }
 	void println( unsigned long v )			{ std::printf( "%lu\n", v ); }
 	void println( double v, int digits = 2 )	{ std::printf( "%.*f\n", digits, v ); }
+	void println( int v, int base )			{ print_based( v, base ); std::fputs( "\n", stdout ); }
+	void println( unsigned int v, int base )	{ print_based( (long)v, base ); std::fputs( "\n", stdout ); }
+	void println( long v, int base )			{ print_based( v, base ); std::fputs( "\n", stdout ); }
+	void println( unsigned long v, int base )	{ print_based( (long)v, base ); std::fputs( "\n", stdout ); }
+
+private:
+	static void print_based( long v, int base )
+	{
+		switch ( base )
+		{
+			case HEX:	std::printf( "%lX", v );	break;
+			case OCT:	std::printf( "%lo", v );	break;
+			case BIN:
+			{
+				unsigned long	u	= (unsigned long)v;
+				char			buf[ sizeof( u ) * 8 + 1 ];
+				int				n	= 0;
+
+				do	{ buf[ n++ ] = (char)( '0' + (u & 1) ); u >>= 1; } while ( u );
+				while ( n-- )
+					std::fputc( buf[ n ], stdout );
+				break;
+			}
+			default:	std::printf( "%ld", v );	break;
+		}
+	}
 };
 
 extern SerialStub Serial;

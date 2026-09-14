@@ -14,6 +14,18 @@
 #include <stdint.h>
 #include <SPI_for_AFE.h>
 
+/*	Debug output: disabled by default. Define AFE_NXP_DEBUG (before including
+ *	this header, or as a build flag) to enable it.
+ *
+ *	Debug blocks in the .cpp files are wrapped in #ifdef AFE_NXP_DEBUG / #endif
+ *	and print with Serial.print()/println() directly -- no printf()-family
+ *	call (not even snprintf() into a buffer). AVR's default vfprintf doesn't
+ *	support floating-point conversions (%f/%lf) without linking a separate
+ *	float-enabled printf, and several of these messages print doubles; using
+ *	%lf there produced garbage and (reliably, on UNO R3) a reset loop -- not
+ *	just missing output.
+ */
+
 class AFE_base : public SPI_for_AFE
 {
 public:

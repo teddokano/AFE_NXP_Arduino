@@ -273,10 +273,10 @@ void NAFE33352_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 	
 	enable_logical_channel( ch );
 	
-#if 0
-	Serial.print("lc[ ");
-	Serial.print(ch);
-	Serial.print("] : ");
+#ifdef AFE_NXP_DEBUG
+	Serial.print( "lc[ " );
+	Serial.print( ch );
+	Serial.print( " ] : " );
 	Serial.println( ch_delay[ ch ], 10 );
 #endif
 }
@@ -299,10 +299,13 @@ void NAFE33352_Base::channel_info_update( uint16_t value )
 		}
 	}
 
-#if 0
+#ifdef AFE_NXP_DEBUG
 	for ( auto i = 0; i < bit_length; i++ )
-		printf( " %x", sequence_order[ i ] );
-	printf( "\r\n" );
+	{
+		Serial.print( ' ' );
+		Serial.print( sequence_order[ i ], HEX );
+	}
+	Serial.println();
 #endif
 }
 

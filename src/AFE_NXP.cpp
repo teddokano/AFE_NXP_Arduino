@@ -186,7 +186,9 @@ int AFE_base::wait_conversion_complete( double wait )
 	
 	if ( !timeout_count )
 	{
-		printf( "DRDY signal wait timeout\r\n" );
+#ifdef AFE_NXP_DEBUG
+		Serial.println( "DRDY signal wait timeout" );
+#endif
 		return	-1;
 	}
 	return	0;
@@ -252,6 +254,17 @@ double AFE_base::calc_delay_from_config( uint16_t ch_config1, uint16_t ch_config
 
 	if ( ch_chop )
 		base_freq	/= 2;
+
+#ifdef AFE_NXP_DEBUG
+	Serial.print( "adc_data_rate = " );
+	Serial.println( (int)adc_data_rate );
+	Serial.print( "base_freq = " );
+	Serial.println( base_freq, 6 );
+	Serial.print( "delay_setting = " );
+	Serial.println( delay_setting, 10 );
+	Serial.print( "channel delay = " );
+	Serial.println( (1 / base_freq) + delay_setting, 10 );
+#endif
 
 	return (1 / base_freq) + delay_setting;
 }
@@ -358,10 +371,13 @@ void NAFE13388_Base::channel_info_update( uint16_t value )
 		}
 	}
 
-#if 0
+#ifdef AFE_NXP_DEBUG
 	for ( auto i = 0; i < bit_length; i++ )
-		printf( " %x", sequence_order[ i ] );
-	printf( "\r\n" );
+	{
+		Serial.print( ' ' );
+		Serial.print( sequence_order[ i ], HEX );
+	}
+	Serial.println();
 #endif
 }
 
@@ -514,11 +530,19 @@ void NAFE13388_Base::gain_offset_coeff( const ref_points &ref )
 	int32_t	gain_coeff_new		= round( gain_coeff_cal * custom_gain );
 	int32_t	offset_coeff_new	= round( custom_offset - offsset_coeff_cal );
 
-#if 0
-	printf( "ref_point_high = %8ld @%6.3lf\r\n", ref.high.data, ref.high.voltage );
-	printf( "ref_point_low  = %8ld @%6.3lf\r\n", ref.low.data,  ref.low.voltage  );
-	printf( "gain_coeff_new   = %8ld\r\n", gain_coeff_new   );
-	printf( "offset_coeff_new = %8ld\r\n", offset_coeff_new );
+#ifdef AFE_NXP_DEBUG
+	Serial.print( "ref_point_high = " );
+	Serial.print( ref.high.data );
+	Serial.print( " @" );
+	Serial.println( ref.high.voltage, 3 );
+	Serial.print( "ref_point_low  = " );
+	Serial.print( ref.low.data );
+	Serial.print( " @" );
+	Serial.println( ref.low.voltage, 3 );
+	Serial.print( "gain_coeff_new   = " );
+	Serial.println( gain_coeff_new );
+	Serial.print( "offset_coeff_new = " );
+	Serial.println( offset_coeff_new );
 #endif
 	
 	reg( Register24::GAIN_COEFF0   + ref.coeff_index, gain_coeff_new   );
@@ -554,10 +578,16 @@ int NAFE13388_Base::self_calibrate( int pga_gain_index, int channel_selection, i
 		input_select				= low_gain ? 0x5 : 0x6;
 		reference_source_voltage	= (reg( low_gain ? Register24::OPT_COEF1 : Register24::OPT_COEF2 ) * 5.00) / (double)(1UL << 24);
 
-#if 1
-		printf( "==== self-calibration for PGA gain setting: x%3.1lf\r\n", pga_gain[ gain_index ] );
-		printf( "gain = %s\r\n", low_gain ? "low" : "high" );
-		printf( "REF%s = %10.8lfV\r\n", low_gain ? "H" : "L", reference_source_voltage );
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "==== self-calibration for PGA gain setting: x" );
+		Serial.println( pga_gain[ gain_index ], 1 );
+		Serial.print( "gain = " );
+		Serial.println( low_gain ? "low" : "high" );
+		Serial.print( "REF" );
+		Serial.print( low_gain ? "H" : "L" );
+		Serial.print( " = " );
+		Serial.print( reference_source_voltage, 8 );
+		Serial.println( "V" );
 #endif
 	}
 	
@@ -599,11 +629,28 @@ int NAFE13388_Base::self_calibrate( int pga_gain_index, int channel_selection, i
 	const double	fullscale_voltage	= 5.00 / pga_gain[ gain_index ];
 	const double	calibrated_gain		= (double)(0x1UL << 23) * (reference_source_voltage / fullscale_voltage) / (double)(data_REF - data_GND);
 
-#if 0
-	printf( "data_REF = %8ld (%lfV)\r\n",  data_REF, raw2v(  channel_selection, data_REF ) );
-	printf( "data_GND = %8ld (%lfmV)\r\n", data_GND, raw2mv( channel_selection, data_GND ) );
-	printf( "data_COM = %8ld (%lfmV)\r\n", data_COM, raw2mv( channel_selection, data_COM ) );
-	printf( "gain adjustment = %8lf (%lfdB)\r\n\r\n", calibrated_gain, 20 * log10( calibrated_gain ) );
+#ifdef AFE_NXP_DEBUG
+	Serial.print( "data_REF = " );
+	Serial.print( data_REF );
+	Serial.print( " (" );
+	Serial.print( raw2v( channel_selection, data_REF ), 6 );
+	Serial.println( "V)" );
+	Serial.print( "data_GND = " );
+	Serial.print( data_GND );
+	Serial.print( " (" );
+	Serial.print( raw2mv( channel_selection, data_GND ), 6 );
+	Serial.println( "mV)" );
+	Serial.print( "data_COM = " );
+	Serial.print( data_COM );
+	Serial.print( " (" );
+	Serial.print( raw2mv( channel_selection, data_COM ), 6 );
+	Serial.println( "mV)" );
+	Serial.print( "gain adjustment = " );
+	Serial.print( calibrated_gain, 6 );
+	Serial.print( " (" );
+	Serial.print( 20 * log10( calibrated_gain ), 6 );
+	Serial.println( "dB)" );
+	Serial.println();
 #endif
 	
 	if ( !( (0.95 < calibrated_gain) && (calibrated_gain < 1.05) ) )
