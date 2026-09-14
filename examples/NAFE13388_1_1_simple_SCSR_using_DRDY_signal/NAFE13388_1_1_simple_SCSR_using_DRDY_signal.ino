@@ -41,8 +41,8 @@ void setup() {
   afe.begin();
   afe.blink_leds();
 
-  afe.logical_channel[0].configure(0x1710, 0x00A4, 0xBC00, 0x0000);
-  afe.logical_channel[1].configure(0x2710, 0x00A4, 0xBC00, 0x0000);
+  afe.logical_channel[0].configure(0x1710, 0x00A4, 0x8400, 0x0000);
+  afe.logical_channel[1].configure(0x2710, 0x00A4, 0x8400, 0x0000);
 
   Serial.println("\nlogical channel 0 (AI1P-AICOM) and 1 (AI2P-AICOM) voltages are shown in ADC readout value [V]");
 

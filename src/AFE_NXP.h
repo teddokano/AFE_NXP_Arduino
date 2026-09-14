@@ -231,6 +231,20 @@ public:
 	 */
 	void	use_DRDY_trigger( bool use = true );
 
+	/** Compute a logical channel's DRDY delay from its CH_CONFIG1/CH_CONFIG2 (or
+	 *	AI_CONFIG1/AI_CONFIG2) register values
+	 *
+	 *	Pure computation shared by NAFE13388_Base and NAFE33352_Base's calc_delay(),
+	 *	extracted so it can be exercised without hardware (data-rate/sinc/delay
+	 *	table lookup only, no register access).
+	 *
+	 * @param ch_config1        CH_CONFIG1 / AI_CONFIG1 register value
+	 * @param ch_config2        CH_CONFIG2 / AI_CONFIG2 register value
+	 * @param highspeed_variant true for the -MB (highspeed) variant
+	 * @return delay in seconds, or 0.0 for a reserved data-rate/sinc combination
+	 */
+	static double	calc_delay_from_config( uint16_t ch_config1, uint16_t ch_config2, bool highspeed_variant );
+
 protected:
 	bool	dev_add;
 	bool	highspeed_variant;
@@ -396,7 +410,7 @@ public:
 	
 	LogicalChannel	logical_channel[ 16 ];
 
-	private:	
+	private:
 	double 	calc_delay( int ch );
 	void 	channel_info_update( uint16_t value );
 
