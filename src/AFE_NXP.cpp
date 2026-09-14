@@ -88,6 +88,7 @@ AFE_base::~AFE_base()
 void AFE_base::init( void )
 {
 	attachInterrupt( digitalPinToInterrupt( pin_DRDY_input ), DRDY_cb, CHANGE );
+	SPI.usingInterrupt( digitalPinToInterrupt( pin_DRDY_input ) );
 
 	drdy_flag		= false;
 	set_DRDY_callback( static_default_drdy_cb );
@@ -170,9 +171,9 @@ int AFE_base::wait_conversion_complete( double wait )
 	if ( 0 < wait )
 	{
 		if ( wait < 0.016 )
-			delayMicroseconds( wait * delay_accuracy * 1e6 );
+			delayMicroseconds( wait * 1e6 );
 		else
-			delay( wait * delay_accuracy * 1e3 );			
+			delay( wait * 1e3 );
 		return	0;
 	}
 
@@ -330,9 +331,13 @@ void NAFE13388_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 	for ( auto i = 0; i < 4; i++ )
 		reg( Register16::CH_CONFIG0 + i, cc[ i ] );
 	
-	enable_logical_channel( ch );
-	
+	//	ch_delay[ ch ] must be settled before enable_logical_channel() because
+	//	that call recalculates total_delay as the sum of ch_delay[] over the
+	//	enabled channels. Doing it the other way round leaves this channel
+	//	counted as zero, making total_delay short by one channel.
 	ch_delay[ ch ]		= calc_delay( ch );
+	
+	enable_logical_channel( ch );
 }
 
 void NAFE13388_Base::channel_info_update( uint16_t value )

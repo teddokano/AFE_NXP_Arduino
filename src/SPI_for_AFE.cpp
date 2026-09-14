@@ -8,6 +8,7 @@ void SPI_for_AFE::txrx( uint8_t *data, int size )
 	digitalWrite( SS, LOW );
 	SPI.transfer( data, size );
 	digitalWrite( SS, HIGH );
+	SPI.endTransaction();
 }
 
 void SPI_for_AFE::write_r16( uint16_t reg )
