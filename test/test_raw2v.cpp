@@ -29,10 +29,10 @@ int main()
 	const double	v			= raw * lv_coeff;
 
 	//	mux_setting = (cc0 >> 1) & 0x7, HV bit (0x0010) clear selects the LV path
-	afe.open_logical_channel( 0, (0 << 1), 0x00A4, 0xBC00, 0x0000 );	//	REF2_REF2
-	afe.open_logical_channel( 1, (2 << 1), 0x00A4, 0xBC00, 0x0000 );	//	REFCOARSE_REF2
-	afe.open_logical_channel( 2, (4 << 1), 0x00A4, 0xBC00, 0x0000 );	//	VHDD_REF2
-	afe.open_logical_channel( 3, (5 << 1), 0x00A4, 0xBC00, 0x0000 );	//	REF2_VHSS
+	afe.open_logical_channel( 0, (0 << 1), 0x00A4, 0x8400, 0x0000 );	//	REF2_REF2
+	afe.open_logical_channel( 1, (2 << 1), 0x00A4, 0x8400, 0x0000 );	//	REFCOARSE_REF2
+	afe.open_logical_channel( 2, (4 << 1), 0x00A4, 0x8400, 0x0000 );	//	VHDD_REF2
+	afe.open_logical_channel( 3, (5 << 1), 0x00A4, 0x8400, 0x0000 );	//	REF2_VHSS
 
 	assert( close_enough( afe.raw2v( 0, raw ), v ) );
 	assert( close_enough( afe.raw2v( 1, raw ), 2.00 * (v + 1.50) ) );
@@ -44,7 +44,7 @@ int main()
 	const double	hv_coeff	= (10.0 / (double)(1L << 24)) / 0.2;	//	pga_gain[0] == 0.2
 	const double	hv_v		= raw * hv_coeff;
 
-	afe.open_logical_channel( 4, 0x0010, 0x00A4, 0xBC00, 0x0000 );
+	afe.open_logical_channel( 4, 0x0010, 0x00A4, 0x8400, 0x0000 );
 	assert( close_enough( afe.raw2v( 4, raw ), hv_v ) );
 
 	std::printf( "test_raw2v: all assertions passed\n" );

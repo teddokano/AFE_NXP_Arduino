@@ -44,6 +44,45 @@ int main()
 	//	ch_delay index 5 -> delays[5] = 10, adds 10/4608000 seconds on top of the base 1/288000
 	assert( close_enough( AFE_base::calc_delay_from_config( 0x0000, 0x1600, false ), (1.0 / 288000.0) + (10.0 / 4608000.0) ) );
 
+	//	CH_DELAY is a 6 bit field but only codes 0 ... 33 have a defined delay.
+	//	Sweep every code the field can hold: codes above the table must be clamped
+	//	to the last defined one rather than reading past the end of delays[].
+	{
+		constexpr double	base		= 1.0 / 288000.0;		//	data_rate=0, sinc=0
+		constexpr uint16_t	normal_set	= 0x0200;				//	adc_normal_setting=1, chop=0
+		constexpr int		last_code	= 33;
+		constexpr double	last_delay	= 23040.0 / 4608000.0;	//	delays[ 33 ]
+
+		double	prev	= -1.0;
+
+		for ( int code = 0; code < 64; code++ )
+		{
+			const uint16_t	cc2	= (uint16_t)( ( code << 10 ) | normal_set );
+			const double	d	= AFE_base::calc_delay_from_config( 0x0000, cc2, false );
+
+			//	always at least the conversion time, and never NaN/garbage
+			assert( base <= d );
+			assert( d < 1.0 );
+
+			//	delays[] is monotonically increasing, so the result must be too
+			assert( prev <= d );
+			prev	= d;
+
+			if ( last_code < code )
+				assert( close_enough( d, base + last_delay ) );
+		}
+
+		//	the last defined code and everything above it land on the same value
+		assert( close_enough( AFE_base::calc_delay_from_config( 0x0000, (last_code << 10) | normal_set, false ),
+							  AFE_base::calc_delay_from_config( 0x0000, (63 << 10) | normal_set, false ) ) );
+
+		//	0xBC00 is the CH_CONFIG2 value the examples used to carry: CH_DELAY = 47,
+		//	which is undefined and used to read past delays[]. It now behaves the
+		//	same as 0x8400, the explicit CH_DELAY = 33 the examples were moved to.
+		assert( close_enough( AFE_base::calc_delay_from_config( 0x00A4, 0xBC00, false ),
+							  AFE_base::calc_delay_from_config( 0x00A4, 0x8400, false ) ) );
+	}
+
 	std::printf( "test_calc_delay: all assertions passed\n" );
 	return 0;
 }
