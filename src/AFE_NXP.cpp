@@ -212,6 +212,8 @@ double AFE_base::calc_delay_from_config( uint16_t ch_config1, uint16_t ch_config
 												  256, 358, 512, 716,
 												  1024, 1664, 3276, 7680, 19200, 23040, };
 
+	constexpr static uint8_t	last_ch_delay_code	= (sizeof( delays ) / sizeof( delays[ 0 ] )) - 1;
+
 	uint8_t		adc_data_rate		= (ch_config1 >>  3) & 0x001F;
 	uint8_t		adc_sinc			= (ch_config1 >>  0) & 0x0007;
 	uint8_t		ch_delay			= (ch_config2 >> 10) & 0x003F;
@@ -220,6 +222,21 @@ double AFE_base::calc_delay_from_config( uint16_t ch_config1, uint16_t ch_config
 
 	if ( (28 < adc_data_rate) || (4 < adc_sinc) || ((adc_data_rate < 12) && (adc_sinc)) )
 		return 0.00;
+
+	//	CH_DELAY is a 6 bit field (0 ... 63) but only codes 0 ... last_ch_delay_code
+	//	have a defined delay. An undefined code leaves no way to know what the chip
+	//	actually inserts, so clamp to the longest defined delay: waiting too long only
+	//	costs throughput, while waiting too little hands back unconverted data.
+	if ( last_ch_delay_code < ch_delay )
+	{
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "calc_delay_from_config(): CH_DELAY code " );
+		Serial.print( (int)ch_delay );
+		Serial.print( " is not defined. Clamped to " );
+		Serial.println( (int)last_ch_delay_code );
+#endif
+		ch_delay	= last_ch_delay_code;
+	}
 
 	double		base_freq			= data_rates[ adc_data_rate ];
 	double		delay_setting		= delays[ ch_delay ] / 4608000.00;
