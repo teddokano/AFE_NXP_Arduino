@@ -88,6 +88,7 @@ AFE_base::~AFE_base()
 void AFE_base::init( void )
 {
 	attachInterrupt( digitalPinToInterrupt( pin_DRDY_input ), DRDY_cb, CHANGE );
+	SPI.usingInterrupt( digitalPinToInterrupt( pin_DRDY_input ) );
 
 	drdy_flag		= false;
 	set_DRDY_callback( static_default_drdy_cb );
@@ -170,9 +171,9 @@ int AFE_base::wait_conversion_complete( double wait )
 	if ( 0 < wait )
 	{
 		if ( wait < 0.016 )
-			delayMicroseconds( wait * delay_accuracy * 1e6 );
+			delayMicroseconds( wait * 1e6 );
 		else
-			delay( wait * delay_accuracy * 1e3 );			
+			delay( wait * 1e3 );
 		return	0;
 	}
 
@@ -199,6 +200,73 @@ void AFE_base::use_DRDY_trigger( bool use )
 		set_DRDY_callback( static_default_drdy_cb );
 	else
 		set_DRDY_callback( nullptr );
+}
+
+double AFE_base::calc_delay_from_config( uint16_t ch_config1, uint16_t ch_config2, bool highspeed_variant )
+{
+	constexpr static double	data_rates[]	= {	   288000, 192000, 144000, 96000, 72000, 48000, 36000, 24000,
+													18000,  12000,   9000,  6000,  4500,  3000,  2250,  1125,
+													 562.5,    400,    300,   200,   100,    60,    50,    30,
+														25,     20,     15,    10,   7.5, 						};
+	constexpr static uint16_t	delays[]	= {		0,   2,   4,   6,   8,  10,   12,  14,
+												   16,  18,  20,  28,  38,  40,   42,  56,
+												   64,  76,  90, 128, 154, 178, 204, 224,
+												  256, 358, 512, 716,
+												  1024, 1664, 3276, 7680, 19200, 23040, };
+
+	constexpr static uint8_t	last_ch_delay_code	= (sizeof( delays ) / sizeof( delays[ 0 ] )) - 1;
+
+	uint8_t		adc_data_rate		= (ch_config1 >>  3) & 0x001F;
+	uint8_t		adc_sinc			= (ch_config1 >>  0) & 0x0007;
+	uint8_t		ch_delay			= (ch_config2 >> 10) & 0x003F;
+	bool		adc_normal_setting	= (ch_config2 >>  9) & 0x0001;
+	bool		ch_chop				= (ch_config2 >>  7) & 0x0001;
+
+	if ( (28 < adc_data_rate) || (4 < adc_sinc) || ((adc_data_rate < 12) && (adc_sinc)) )
+		return 0.00;
+
+	//	CH_DELAY is a 6 bit field (0 ... 63) but only codes 0 ... last_ch_delay_code
+	//	have a defined delay. An undefined code leaves no way to know what the chip
+	//	actually inserts, so clamp to the longest defined delay: waiting too long only
+	//	costs throughput, while waiting too little hands back unconverted data.
+	if ( last_ch_delay_code < ch_delay )
+	{
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "calc_delay_from_config(): CH_DELAY code " );
+		Serial.print( (int)ch_delay );
+		Serial.print( " is not defined. Clamped to " );
+		Serial.println( (int)last_ch_delay_code );
+#endif
+		ch_delay	= last_ch_delay_code;
+	}
+
+	double		base_freq			= data_rates[ adc_data_rate ];
+	double		delay_setting		= delays[ ch_delay ] / 4608000.00;
+
+	if ( highspeed_variant )
+	{
+		base_freq		*= 2.00;
+		delay_setting	/= 2.00;
+	}
+
+	if ( !adc_normal_setting  )
+		base_freq	/= (adc_sinc + 1);
+
+	if ( ch_chop )
+		base_freq	/= 2;
+
+#ifdef AFE_NXP_DEBUG
+	Serial.print( "adc_data_rate = " );
+	Serial.println( (int)adc_data_rate );
+	Serial.print( "base_freq = " );
+	Serial.println( base_freq, 6 );
+	Serial.print( "delay_setting = " );
+	Serial.println( delay_setting, 10 );
+	Serial.print( "channel delay = " );
+	Serial.println( (1 / base_freq) + delay_setting, 10 );
+#endif
+
+	return (1 / base_freq) + delay_setting;
 }
 
 
@@ -285,9 +353,13 @@ void NAFE13388_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 	for ( auto i = 0; i < 4; i++ )
 		reg( Register16::CH_CONFIG0 + i, cc[ i ] );
 	
-	enable_logical_channel( ch );
-	
+	//	ch_delay[ ch ] must be settled before enable_logical_channel() because
+	//	that call recalculates total_delay as the sum of ch_delay[] over the
+	//	enabled channels. Doing it the other way round leaves this channel
+	//	counted as zero, making total_delay short by one channel.
 	ch_delay[ ch ]		= calc_delay( ch );
+	
+	enable_logical_channel( ch );
 }
 
 void NAFE13388_Base::channel_info_update( uint16_t value )
@@ -320,55 +392,12 @@ void NAFE13388_Base::channel_info_update( uint16_t value )
 
 double NAFE13388_Base::calc_delay( int ch )
 {
-	constexpr static double	data_rates[]	= {	   288000, 192000, 144000, 96000, 72000, 48000, 36000, 24000, 
-													18000,  12000,   9000,  6000,  4500,  3000,  2250,  1125, 
-													 562.5,    400,    300,   200,   100,    60,    50,    30, 
-														25,     20,     15,    10,   7.5, 						};
-	constexpr static uint16_t	delays[]	= {		0,   2,   4,   6,   8,  10,   12,  14, 
-												   16,  18,  20,  28,  38,  40,   42,  56, 
-												   64,  76,  90, 128, 154, 178, 204, 224, 
-												  256, 358, 512, 716, 
-												  1024, 1664, 3276, 7680, 19200, 23040, };
-	
 	command( ch );
 
 	uint16_t ch_config1	= reg( Register16::CH_CONFIG1 );
 	uint16_t ch_config2	= reg( Register16::CH_CONFIG2 );
-	
-	uint8_t		adc_data_rate		= (ch_config1 >>  3) & 0x001F;
-	uint8_t		adc_sinc			= (ch_config1 >>  0) & 0x0007;
-	uint8_t		ch_delay			= (ch_config2 >> 10) & 0x003F;
-	bool		adc_normal_setting	= (ch_config2 >>  9) & 0x0001;
-	bool		ch_chop				= (ch_config2 >>  7) & 0x0001;
-	
-	double		base_freq			= data_rates[ adc_data_rate ];
-	double		delay_setting		= delays[ ch_delay ] / 4608000.00;
-	
-	if ( highspeed_variant )
-	{
-		base_freq		*= 2.00;
-		delay_setting	/= 2.00;		
-	}
-	
-	if ( (28 < adc_data_rate) || (4 < adc_sinc) || ((adc_data_rate < 12) && (adc_sinc)) )
-		return 0.00;
-	
-	if ( !adc_normal_setting  )
-		base_freq	/= (adc_sinc + 1);
-	
-	if ( ch_chop )
-		base_freq	/= 2;
-	
-#ifdef AFE_NXP_DEBUG
-	Serial.print( "base_freq = " );
-	Serial.println( base_freq, 6 );
-	Serial.print( "delay_setting = " );
-	Serial.println( delay_setting, 6 );
-	Serial.print( "total delay = " );
-	Serial.println( (1 / base_freq) + delay_setting, 6 );
-#endif
-	
-	return (1 / base_freq) + delay_setting;
+
+	return calc_delay_from_config( ch_config1, ch_config2, highspeed_variant );
 }
 
 void NAFE13388_Base::open_logical_channel( int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3 )

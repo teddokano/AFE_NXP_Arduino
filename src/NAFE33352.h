@@ -26,6 +26,10 @@ public:
 	virtual ~NAFE33352_Base();
 
 private:
+	//	brings SPI_for_AFE::txrx( uint8_t*, int ) back into scope; the override
+	//	below would otherwise hide it (name hiding, not overloading)
+	using SPI_for_AFE::txrx;
+
 	/** Send data
 	 *
 	 * @param data pointer to data buffer
