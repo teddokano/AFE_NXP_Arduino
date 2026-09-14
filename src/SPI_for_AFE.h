@@ -20,6 +20,9 @@
 class SPI_for_AFE
 {
 public:
+	/** Destructor */
+	virtual ~SPI_for_AFE() {}
+
 	/** Send data
 	 * 
 	 * @param data pointer to data buffer
@@ -82,6 +85,11 @@ protected:
 
 private:
 	//	functions to access AFE multibyte data access independent from endianess
+#ifdef AFE_NXP_UNIT_TEST
+	//	grants the host unit tests (test/) access to these otherwise-private helpers
+	friend int32_t test_get_data16( SPI_for_AFE &obj, uint8_t *vp );
+	friend int32_t test_get_data24( SPI_for_AFE &obj, uint8_t *vp );
+#endif
 	inline int32_t get_data16( uint8_t *vp )
 	{
 		return ((uint16_t)(*(vp + 0)) << 8) | *(vp + 1);
@@ -89,12 +97,9 @@ private:
 	
 	inline int32_t get_data24( uint8_t *vp )
 	{
-		int32_t	r0	= *(vp + 0);
-		int32_t	r1	= *(vp + 1);
-		int32_t	r2	= *(vp + 2);
-		int32_t	r	= ( (r0 << 24) | (r1 << 16) | (r2 << 8) );
+		uint32_t	u	= ((uint32_t)vp[ 0 ] << 24) | ((uint32_t)vp[ 1 ] << 16) | ((uint32_t)vp[ 2 ] << 8);
 
-		return r >> 8;
+		return (int32_t)u >> 8;
 	}
 
 	static constexpr int	command_length	= 2;
