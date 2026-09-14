@@ -314,9 +314,13 @@ void NAFE13388_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 	for ( auto i = 0; i < 4; i++ )
 		reg( Register16::CH_CONFIG0 + i, cc[ i ] );
 	
-	enable_logical_channel( ch );
-	
+	//	ch_delay[ ch ] must be settled before enable_logical_channel() because
+	//	that call recalculates total_delay as the sum of ch_delay[] over the
+	//	enabled channels. Doing it the other way round leaves this channel
+	//	counted as zero, making total_delay short by one channel.
 	ch_delay[ ch ]		= calc_delay( ch );
+	
+	enable_logical_channel( ch );
 }
 
 void NAFE13388_Base::channel_info_update( uint16_t value )
