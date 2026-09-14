@@ -88,6 +88,7 @@ AFE_base::~AFE_base()
 void AFE_base::init( void )
 {
 	attachInterrupt( digitalPinToInterrupt( pin_DRDY_input ), DRDY_cb, CHANGE );
+	SPI.usingInterrupt( digitalPinToInterrupt( pin_DRDY_input ) );
 
 	drdy_flag		= false;
 	set_DRDY_callback( static_default_drdy_cb );

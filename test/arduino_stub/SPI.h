@@ -22,6 +22,7 @@ struct SPIClass
 	void begin( void ) {}
 	void beginTransaction( SPISettings ) {}
 	void endTransaction( void ) {}
+	void usingInterrupt( int ) {}
 	void transfer( uint8_t *, size_t ) {}
 };
 

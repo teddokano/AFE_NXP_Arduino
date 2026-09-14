@@ -135,6 +135,7 @@ void NAFE33352_Base::txrx( uint8_t *data, int size, int cd_delay )
 	SPI.transfer( data, size );
 	delayMicroseconds( cd_delay );
 	digitalWrite( SS, HIGH );
+	SPI.endTransaction();
 }
 
 void NAFE33352_Base::write_r24( uint16_t reg, uint32_t val )
