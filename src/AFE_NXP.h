@@ -293,7 +293,7 @@ protected:
 	double			total_delay;
 	static double	delay_accuracy;
 	
-	constexpr static uint32_t	timeout_limit	= 10000000;
+	constexpr static uint32_t	timeout_us	= 1000000;	//	DRDY wait timeout, 1 second
 
 	void					default_drdy_cb();
 	static void				static_default_drdy_cb();

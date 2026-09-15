@@ -177,20 +177,21 @@ int AFE_base::wait_conversion_complete( double wait )
 		return	0;
 	}
 
-	auto	timeout_count	= timeout_limit;
+	uint32_t	start_us	= micros();
 
-	while ( !drdy_flag && --timeout_count )
-		;
+	while ( !drdy_flag )
+	{
+		if ( (micros() - start_us) > timeout_us )
+		{
+			drdy_flag	= false;
+#ifdef AFE_NXP_DEBUG
+			Serial.println( "DRDY signal wait timeout" );
+#endif
+			return	-1;
+		}
+	}
 
 	drdy_flag	= false;
-	
-	if ( !timeout_count )
-	{
-#ifdef AFE_NXP_DEBUG
-		Serial.println( "DRDY signal wait timeout" );
-#endif
-		return	-1;
-	}
 	return	0;
 }
 
