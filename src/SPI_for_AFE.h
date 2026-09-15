@@ -20,14 +20,14 @@
 class SPI_for_AFE
 {
 public:
-	/** Destructor */
-	virtual ~SPI_for_AFE() {}
-
 	/** Constructor
 	 *
 	 * @param spi_addr device address bit, OR'd into the first command byte
 	 */
 	SPI_for_AFE( bool spi_addr = false );
+
+	/** Destructor */
+	virtual ~SPI_for_AFE() {}
 
 	/** Send data
 	 * 
