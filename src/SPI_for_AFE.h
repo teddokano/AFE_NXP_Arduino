@@ -103,6 +103,12 @@ private:
 	}
 
 	static constexpr int	command_length	= 2;
+
+	/** Widest burst read burst()'s stack buffer can hold, in ADC results.
+	 *	Matches the device's 16 logical channels; burst() sizes its buffer from
+	 *	this and rejects anything longer, so the two cannot drift apart. */
+	static constexpr int	max_burst_length	= 16;
+	static constexpr int	max_burst_width		= 3;
 //	const bool	dev_ad;
 };
 
