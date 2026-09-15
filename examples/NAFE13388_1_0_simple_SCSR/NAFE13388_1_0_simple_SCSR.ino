@@ -31,7 +31,11 @@ void setup() {
   SPI.begin();
   pinMode(SS, OUTPUT);  //  Required for UNO R4
 
-  afe.begin();
+  if (!afe.begin()) {
+    Serial.println("afe.begin() failed. Check power supply or pin connections");
+    while (true)
+      ;
+  }
   afe.blink_leds();
 
   afe.logical_channel[0].configure(0x1710, 0x00A4, 0x8400, 0x0000);

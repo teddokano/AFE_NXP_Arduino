@@ -47,10 +47,13 @@ private:
 
 public:	
 	/** Set system-level config registers */
-	virtual void boot( void );
+	virtual bool boot( void );
 
-	/** Issue RESET command */
-	virtual void reset( bool hardware_reset = false );
+	/** Issue RESET command
+	 *
+	 * @return true if the chip became ready, false on timeout
+	 */
+	virtual bool reset( bool hardware_reset = false );
 	
 	/** Configure logical channel
 	 *

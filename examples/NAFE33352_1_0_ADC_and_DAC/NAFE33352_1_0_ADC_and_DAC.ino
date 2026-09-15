@@ -35,7 +35,11 @@ void setup() {
   SPI.begin();
   pinMode(SS, OUTPUT);  //  Required for UNO R4
 
-  shasta.begin();
+  if (!shasta.begin()) {
+    Serial.println("shasta.begin() failed. Check power supply or pin connections");
+    while (true)
+      ;
+  }
 
 #ifdef VOLTAGE_OUTPUT_SETTING
   output_value = 10.00;  //	5V

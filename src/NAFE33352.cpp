@@ -148,44 +148,40 @@ void NAFE33352_Base::write_r24( uint16_t reg, uint32_t val )
 	txrx( v, sizeof( v ), cs_delay );
 }
 
-void NAFE33352_Base::boot( void )
+bool NAFE33352_Base::boot( void )
 {
 	command( NAFE33352_Base::Command::CMD_ADC_ABORT );
 	command( NAFE33352_Base::Command::CMD_AO_ABORT );
 	delay( 1 );
-	
+
 	DRDY_by_sequencer_done( true );
-	
+
 	reg( NAFE33352_Base::Register16::SYS_CONFIG,        0x0000 );
 	reg( NAFE33352_Base::Register16::CK_SRC_SEL_CONFIG, 0x0000 );
 
 	reg( NAFE33352_Base::Register16::AI_SYSCFG,         0x0800 );
 
-
+	return true;
 }
 
-void NAFE33352_Base::reset( bool hardware_reset )
+bool NAFE33352_Base::reset( bool hardware_reset )
 {
 	if ( hardware_reset )
 		Serial.println( "warning: UIOM doesn't have hardware RESET pin on the board. This reset will be ignored\r\n" );
 
-	command( NAFE33352_Base::Command::CMD_RESET ); 
-	
+	command( NAFE33352_Base::Command::CMD_RESET );
+
 	constexpr uint16_t	CHIP_READY	= 1 << 13;
 	constexpr auto		RETRY		= 10;
-	
+
 	for ( auto i = 0; i < RETRY; i++ )
 	{
 		delay( 1 );
 		if ( reg( NAFE33352_Base::Register16::SYS_STATUS ) & CHIP_READY )
-			return;
+			return true;
 	}
-	
-	Serial.println( "NAFE33352 couldn't get ready. Check power supply or pin connections\r\n" );
-	
-	while ( true )
-		;
 
+	return false;
 }
 
 void NAFE33352_Base::open_dac_output( const uint16_t (&cc)[ 6 ] )
