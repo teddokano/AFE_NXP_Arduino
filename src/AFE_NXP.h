@@ -34,6 +34,17 @@ public:
 	using raw_t		= int32_t;
 	using volt_t	= double;
 
+	/** Returned in place of an ADC reading when no valid conversion result is
+	 *	available. Currently that means the DRDY wait timed out.
+	 *
+	 *	ADC results are 24 bit signed, so a real reading is always within
+	 *	-8388608 ... 8388607 and this value can never collide with one.
+	 *	raw2v() maps it to NAN -- and raw2mv()/raw2uv() go through raw2v() --
+	 *	so the volt_t side of the API carries the same information without
+	 *	needing a sentinel of its own.
+	 */
+	static constexpr raw_t	raw_invalid	= INT32_MIN;
+
 	/** Constructor to create an AFE_base instance */
 	AFE_base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC );
 
@@ -152,16 +163,25 @@ public:
 	/** Start ADC and read results for all enabled channels
 	 *
 	 * @param data pointer to array to store ADC data (raw_t* or volt_t*)
+	 * @return true if the conversion completed, false if the DRDY wait timed
+	 *         out. On timeout every enabled slot of the array is filled with
+	 *         raw_invalid (raw_t*) or NAN (volt_t*) instead of a stale value.
 	 */
 	template<typename T>
-	inline void start_and_read( T data )
+	inline bool start_and_read( T data )
 	{
 		double	wait_time	= cbf_DRDY ? -1.0 : total_delay * delay_accuracy;
 		
 		start();
-		wait_conversion_complete( wait_time );
+		
+		if ( wait_conversion_complete( wait_time ) )
+		{
+			invalidate( data );
+			return false;
+		}
 		
 		read( data );
+		return true;
 	};
 #endif
 
@@ -259,6 +279,10 @@ public:
 	static double	calc_delay_from_config( uint16_t ch_config1, uint16_t ch_config2, bool highspeed_variant );
 
 protected:
+	/** Fill the enabled channels' slots with "no valid reading" markers */
+	void	invalidate( raw_t *data );
+	void	invalidate( volt_t *data );
+
 	bool	dev_add;
 	bool	highspeed_variant;
 	int		pin_nINT;
@@ -497,6 +521,9 @@ public:
 #endif
 			return NAN;
 		}
+
+		if ( raw_invalid == value )
+			return NAN;
 
 		double	v	= value * coeff_V[ ch ];
 
@@ -795,6 +822,7 @@ public:
 		NoError		=  0,
 		GainError	= -1,
 		OffsetError	= -2,
+		ReadError	= -3,	//	a measurement timed out, so the coefficients cannot be trusted
 	};
 	
 	/** On-board calibration with specified input and voltage

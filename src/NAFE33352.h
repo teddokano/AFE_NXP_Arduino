@@ -245,6 +245,9 @@ public:
 			return NAN;
 		}
 
+		if ( raw_invalid == value )
+			return NAN;
+
 		if ( mux_setting[ ch ] == ISNS )
 			return	value * coeff_V[ ch ] / on_board_shunt_resister;				
 		else if ( mux_setting[ ch ] == BG )

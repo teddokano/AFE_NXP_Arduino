@@ -135,10 +135,26 @@ int32_t AFE_base::start_and_read( int ch )
 	double	wait_time	= cbf_DRDY ? -1.0 : ch_delay[ ch ] * delay_accuracy;
 	
 	start( ch );
-	wait_conversion_complete( wait_time );
+	
+	//	No point reading CH_DATA back: it still holds the previous conversion,
+	//	which is indistinguishable from a fresh one once it is returned.
+	if ( wait_conversion_complete( wait_time ) )
+		return raw_invalid;
 	
 	return read( ch );
 };
+
+void AFE_base::invalidate( raw_t *data )
+{
+	for ( auto i = 0; i < enabled_channels; i++ )
+		data[ i ]	= raw_invalid;
+}
+
+void AFE_base::invalidate( volt_t *data )
+{
+	for ( auto i = 0; i < enabled_channels; i++ )
+		data[ i ]	= NAN;
+}
 
 #ifdef	NON_TEMPLATE_VERSION_FOR_START_AND_READ
 void AFE_base::start_and_read( raw_t* data )
@@ -146,7 +162,12 @@ void AFE_base::start_and_read( raw_t* data )
 	double	wait_time	= cbf_DRDY ? -1.0 : total_delay * delay_accuracy;
 	
 	start();
-	wait_conversion_complete( wait_time );
+	
+	if ( wait_conversion_complete( wait_time ) )
+	{
+		invalidate( data );
+		return;
+	}
 	
 	read( data );
 };
@@ -669,6 +690,11 @@ int NAFE13388_Base::self_calibrate( int pga_gain_index, int channel_selection, i
 
 	open_logical_channel( channel_selection, refc );
 	raw_t	data_COM	= start_and_read( channel_selection );
+
+	//	Any of the three timing out would put a wrong gain/offset coefficient
+	//	into the chip, which then silently skews every later reading.
+	if ( (raw_invalid == data_REF) || (raw_invalid == data_GND) || (raw_invalid == data_COM) )
+		return CalibrationError::ReadError;
 
 	//	calculation
 	

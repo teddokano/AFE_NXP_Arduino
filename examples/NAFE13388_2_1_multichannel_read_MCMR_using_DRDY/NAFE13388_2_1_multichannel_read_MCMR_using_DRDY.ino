@@ -69,7 +69,14 @@ void setup() {
 
 void loop() {
   NAFE13388_UIM::volt_t data[8];
-  afe.start_and_read(data);
+
+  //  start_and_read() returns false if the DRDY signal never arrived. The
+  //  library fills the array with NAN in that case, so the values are never
+  //  silently stale -- but checking the return value says why.
+  if (!afe.start_and_read(data)) {
+    Serial.println("DRDY wait timed out. Check the DRDY signal connection");
+    return;
+  }
 
   for (auto i = 0; i < 8; i++) {
     Serial.print(data[i]);
