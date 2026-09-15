@@ -38,6 +38,13 @@ still compile and run the same as before when `begin()` succeeds.
 > Please refer to pictures in later in this page.   
 
 Example sketches can be built and run on any of those boards.  
+> **Note**  
+> On AVR (UNO R3), `double` is the same 32-bit type as `float` (about 7 significant
+> decimal digits), while UNO R4 Minima/WiFi use a real 64-bit `double`. The library's
+> volt-conversion coefficients are on the order of `1e-6` to `1e-7`, so combined with a
+> 24-bit ADC reading they use close to all the precision a 32-bit `double` has to give.
+> UNO R3 is fine for trying the examples and general use, but if your application needs
+> the ADC's full resolution, use a UNO R4 board.
 
 ### Simple example code for NAFE13388-UIM
 Next is a sample of the basic operation of NAFE13388-UIM measuring analog voltage on AI1P and AI1N terminal.    
