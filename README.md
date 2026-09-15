@@ -29,6 +29,38 @@ if (!afe.begin()) {
 Sketches written for v2.x that call `afe.begin();` without checking the return value
 still compile and run the same as before when `begin()` succeeds.
 
+### A timed-out reading is now reported, not silently stale
+
+When the DRDY wait times out — most often because the DRDY signal is not connected —
+v2.x read the ADC data register anyway and returned whatever the previous conversion
+had left there. There was no way to tell that value apart from a fresh measurement.
+
+The reading is now marked invalid instead:
+
+| what you call | on timeout |
+|---|---|
+| `start_and_read( ch )`, and `raw_t` conversions of a logical channel | `AFE_base::raw_invalid` |
+| `raw2v()` / `raw2mv()` / `raw2uv()`, and `volt_t` conversions | `NAN` |
+| `start_and_read( raw_t* )` / `start_and_read( volt_t* )` | every enabled slot filled with the above, and the call returns `false` |
+| `self_calibrate()` | `CalibrationError::ReadError` |
+
+`raw_invalid` is a value the 24-bit ADC can never produce, so it cannot be mistaken for
+data. The array form of `start_and_read()` returned `void` in v2.x, so giving it a
+`bool` return does not break existing calls.
+
+```cpp
+NAFE13388_UIM::volt_t data[8];
+
+if (!afe.start_and_read(data)) {
+  Serial.println("DRDY wait timed out. Check the DRDY signal connection");
+  return;
+}
+```
+
+Sketches that do not check will now see `NAN` (or `raw_invalid`) where they previously
+saw a plausible but stale number. That is the intended change: the old behaviour hid a
+wiring fault indefinitely.
+
 ## Easy to use
 
 3 types of Arduino UNO boards: **R3**, **R4 Minima** and **R4 WiFi** are supported.  
