@@ -251,6 +251,33 @@ public:
 	 */
 	void	use_DRDY_trigger( bool use = true );
 
+	/** Number of logical channel slots available (0 ~ max_logical_channels - 1) */
+	static constexpr int	max_logical_channels	= 16;
+
+	/** Check whether a logical channel number is in range
+	 *
+	 * @param ch logical channel number to check
+	 * @return true if 0 <= ch < max_logical_channels
+	 */
+	static inline bool valid_ch( int ch )
+	{
+		return (0 <= ch) && (ch < max_logical_channels);
+	}
+
+	/** Compute a logical channel's DRDY delay from its CH_CONFIG1/CH_CONFIG2 (or
+	 *	AI_CONFIG1/AI_CONFIG2) register values
+	 *
+	 *	Pure computation shared by NAFE13388_Base and NAFE33352_Base's calc_delay(),
+	 *	extracted so it can be exercised without hardware (data-rate/sinc/delay
+	 *	table lookup only, no register access).
+	 *
+	 * @param ch_config1        CH_CONFIG1 / AI_CONFIG1 register value
+	 * @param ch_config2        CH_CONFIG2 / AI_CONFIG2 register value
+	 * @param highspeed_variant true for the -MB (highspeed) variant
+	 * @return delay in seconds, or 0.0 for a reserved data-rate/sinc combination
+	 */
+	static double	calc_delay_from_config( uint16_t ch_config1, uint16_t ch_config2, bool highspeed_variant );
+
 protected:
 	/** Fill the enabled channels' slots with "no valid reading" markers */
 	void	invalidate( raw_t *data );
@@ -277,16 +304,16 @@ protected:
 	int				enabled_channels;
 	
 	/** Number of enabled logical channels */
-	uint8_t			sequence_order[ 16 ];
-	
+	uint8_t			sequence_order[ max_logical_channels ];
+
 	/** Coefficient to convert from ADC read value to micro-volt */
-	double			coeff_V[ 16 ];
+	double			coeff_V[ max_logical_channels ];
 
 	/** Multiplexer setting */
-	int				mux_setting[ 16 ];
+	int				mux_setting[ max_logical_channels ];
 
 	/** Channel delay */
-	double			ch_delay[ 16 ];
+	double			ch_delay[ max_logical_channels ];
 	double			total_delay;
 	static double	delay_accuracy;
 	
@@ -418,9 +445,9 @@ public:
 		void	configure( uint16_t cc0 = 0x0000, uint16_t cc1 = 0x0000, uint16_t cc2 = 0x0000, uint16_t cc3 = 0x0000 );
 	};
 	
-	LogicalChannel	logical_channel[ 16 ];
+	LogicalChannel	logical_channel[ max_logical_channels ];
 
-	private:	
+	private:
 	double 	calc_delay( int ch );
 	void 	channel_info_update( uint16_t value );
 
@@ -486,6 +513,15 @@ public:
 	 */
 	inline double raw2v( int ch, raw_t value )
 	{
+		if ( !valid_ch( ch ) )
+		{
+#ifdef AFE_NXP_DEBUG
+			Serial.print( "raw2v(): invalid logical channel " );
+			Serial.println( ch );
+#endif
+			return NAN;
+		}
+
 		if ( raw_invalid == value )
 			return NAN;
 
