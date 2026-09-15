@@ -67,8 +67,8 @@ void NAFE13388_Base::LogicalChannel::configure( uint16_t cc0, uint16_t cc1, uint
 
 /* AFE_base class ******************************************/
 
-AFE_base::AFE_base(  bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC ) : 
-	dev_add( spi_addr ), highspeed_variant( hsv ), pin_nINT( nINT ), pin_DRDY( DRDY ), pin_SYN( SYN ), pin_nRESET( nRESET ), pin_DRDY_input( DRDY_input ), pin_SYNCDAC( SYNCDAC ), enabled_channels( 0 )
+AFE_base::AFE_base(  bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC ) :
+	SPI_for_AFE( spi_addr ), highspeed_variant( hsv ), pin_nINT( nINT ), pin_DRDY( DRDY ), pin_SYN( SYN ), pin_nRESET( nRESET ), pin_DRDY_input( DRDY_input ), pin_SYNCDAC( SYNCDAC ), enabled_channels( 0 )
 {
 	pinMode( pin_nINT,		INPUT );
 	pinMode( pin_DRDY,		INPUT );

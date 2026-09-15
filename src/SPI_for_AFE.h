@@ -20,6 +20,12 @@
 class SPI_for_AFE
 {
 public:
+	/** Constructor
+	 *
+	 * @param spi_addr device address bit, OR'd into the first command byte
+	 */
+	SPI_for_AFE( bool spi_addr = false );
+
 	/** Destructor */
 	virtual ~SPI_for_AFE() {}
 
@@ -82,6 +88,7 @@ protected:
 	/** Initialize SPI peripheral and chip-select pin */
 	void init( void );
 	uint32_t	frequency;
+	bool		dev_add;
 
 private:
 	//	functions to access AFE multibyte data access independent from endianess
@@ -109,7 +116,6 @@ private:
 	 *	this and rejects anything longer, so the two cannot drift apart. */
 	static constexpr int	max_burst_length	= 16;
 	static constexpr int	max_burst_width		= 3;
-//	const bool	dev_ad;
 };
 
 #endif //	ARDUINO_SPI_FOR_AFE_H

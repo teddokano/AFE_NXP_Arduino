@@ -1,8 +1,13 @@
 #include "AFE_NXP.h"
 
+SPI_for_AFE::SPI_for_AFE( bool spi_addr )
+	: dev_add( spi_addr )
+{
+}
+
 void SPI_for_AFE::txrx( uint8_t *data, int size )
 {
-//	data[ 0 ]	|= dev_ad ? 0x80 : 0x00;
+	data[ 0 ]	|= dev_add ? 0x80 : 0x00;
 
 	SPI.beginTransaction( SPISettings( frequency, MSBFIRST, SPI_MODE1 ) );
 	digitalWrite( SS, LOW );

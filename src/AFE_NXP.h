@@ -283,7 +283,6 @@ protected:
 	void	invalidate( raw_t *data );
 	void	invalidate( volt_t *data );
 
-	bool	dev_add;
 	bool	highspeed_variant;
 	int		pin_nINT;
 	int		pin_DRDY;
