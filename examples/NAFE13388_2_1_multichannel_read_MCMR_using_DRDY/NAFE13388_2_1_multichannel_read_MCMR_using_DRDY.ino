@@ -45,14 +45,14 @@ void setup() {
   }
   afe.blink_leds();
 
-  afe.logical_channel[0].configure(0x1710, 0x00A4, 0xBC00, 0x0000);
-  afe.logical_channel[1].configure(0x7110, 0x00A4, 0xBC00, 0x0000);
-  afe.logical_channel[2].configure(0x2710, 0x00A4, 0xBC00, 0x0000);
-  afe.logical_channel[3].configure(0x7210, 0x00A4, 0xBC00, 0x0000);
-  afe.logical_channel[4].configure(0x3710, 0x00A4, 0xBC00, 0x0000);
-  afe.logical_channel[5].configure(0x7310, 0x00A4, 0xBC00, 0x0000);
-  afe.logical_channel[6].configure(0x4710, 0x00A4, 0xBC00, 0x0000);
-  afe.logical_channel[7].configure(0x7410, 0x00A4, 0xBC00, 0x0000);
+  afe.logical_channel[0].configure(0x1710, 0x00A4, 0x8400, 0x0000);
+  afe.logical_channel[1].configure(0x7110, 0x00A4, 0x8400, 0x0000);
+  afe.logical_channel[2].configure(0x2710, 0x00A4, 0x8400, 0x0000);
+  afe.logical_channel[3].configure(0x7210, 0x00A4, 0x8400, 0x0000);
+  afe.logical_channel[4].configure(0x3710, 0x00A4, 0x8400, 0x0000);
+  afe.logical_channel[5].configure(0x7310, 0x00A4, 0x8400, 0x0000);
+  afe.logical_channel[6].configure(0x4710, 0x00A4, 0x8400, 0x0000);
+  afe.logical_channel[7].configure(0x7410, 0x00A4, 0x8400, 0x0000);
 
   Serial.println("\n");
   Serial.println("logical channel 0 = (AI1P-AICOM)");
@@ -73,7 +73,14 @@ void setup() {
 
 void loop() {
   NAFE13388_UIM::volt_t data[8];
-  afe.start_and_read(data);
+
+  //  start_and_read() returns false if the DRDY signal never arrived. The
+  //  library fills the array with NAN in that case, so the values are never
+  //  silently stale -- but checking the return value says why.
+  if (!afe.start_and_read(data)) {
+    Serial.println("DRDY wait timed out. Check the DRDY signal connection");
+    return;
+  }
 
   for (auto i = 0; i < 8; i++) {
     Serial.print(data[i]);
