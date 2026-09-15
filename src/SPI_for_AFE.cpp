@@ -59,10 +59,10 @@ int32_t SPI_for_AFE::read_r24( uint16_t reg )
 
 void SPI_for_AFE::burst( uint32_t *data, int length, int width )
 {
-	if ( (length < 0) || (16 < length) || (width < 1) || (3 < width) )
+	if ( (length < 0) || (max_burst_length < length) || (width < 1) || (max_burst_width < width) )
 		return;
 
-	uint8_t		v[ command_length + 3 * 16 ];
+	uint8_t		v[ command_length + max_burst_width * max_burst_length ];
 	uint16_t	reg	  = (0x2005 << 1) | 0x4000;	// CMD_BURST_DATA
 
 	v[ 0 ]	= (uint8_t)(reg >> 8);
