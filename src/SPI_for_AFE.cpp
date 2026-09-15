@@ -1,13 +1,19 @@
 #include "AFE_NXP.h"
 
+SPI_for_AFE::SPI_for_AFE( bool spi_addr )
+	: dev_add( spi_addr )
+{
+}
+
 void SPI_for_AFE::txrx( uint8_t *data, int size )
 {
-//	data[ 0 ]	|= dev_ad ? 0x80 : 0x00;
+	data[ 0 ]	|= dev_add ? 0x80 : 0x00;
 
 	SPI.beginTransaction( SPISettings( frequency, MSBFIRST, SPI_MODE1 ) );
 	digitalWrite( SS, LOW );
 	SPI.transfer( data, size );
 	digitalWrite( SS, HIGH );
+	SPI.endTransaction();
 }
 
 void SPI_for_AFE::write_r16( uint16_t reg )
@@ -58,14 +64,18 @@ int32_t SPI_for_AFE::read_r24( uint16_t reg )
 
 void SPI_for_AFE::burst( uint32_t *data, int length, int width )
 {
-	uint8_t		v[ command_length + 3 * 16 ];
+	if ( (length < 0) || (max_burst_length < length) || (width < 1) || (max_burst_width < width) )
+		return;
+
+	uint8_t		v[ command_length + max_burst_width * max_burst_length ];
 	uint16_t	reg	  = (0x2005 << 1) | 0x4000;	// CMD_BURST_DATA
 
 	v[ 0 ]	= (uint8_t)(reg >> 8);
 	v[ 1 ]	= (uint8_t)(reg & 0xFF);
-	
+
+	memset( v + command_length, 0xFF, length * width );
 	txrx( v, command_length + length * width );
-	
+
 	for ( auto i = 0; i < length; i++ )
 		*data++	= get_data24( v + command_length + i * width );
 }

@@ -11,6 +11,24 @@ with [RTD](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE1
 [thermocouple](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_6_0_Thermocouple) and 
 [loadcell](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_7_0_LoadCell). 
 
+## Migrating to v3.0.0
+
+`begin()` (and the `reset()` / `boot()` it calls) now returns `bool` instead of `void`.
+Previously, if the chip never became ready, the library printed a message and hung in
+an infinite loop inside `begin()`. It now returns `false` and leaves the decision of
+how to report and stop to the sketch, for example:
+
+```cpp
+if (!afe.begin()) {
+  Serial.println("afe.begin() failed. Check power supply or pin connections");
+  while (true)
+    ;
+}
+```
+
+Sketches written for v2.x that call `afe.begin();` without checking the return value
+still compile and run the same as before when `begin()` succeeds.
+
 ## Easy to use
 
 3 types of Arduino UNO boards: **R3**, **R4 Minima** and **R4 WiFi** are supported.  
@@ -48,12 +66,16 @@ void setup() {
   pinMode(SS, OUTPUT);  //  Required for UNO R4
 
   //  AFE reset and check connection
-  afe.begin();
+  if (!afe.begin()) {
+    Serial.println("afe.begin() failed. Check power supply or pin connections");
+    while (true)
+      ;
+  }
   afe.blink_leds();
 
   //  ADC logical channel setup
-  afe.logical_channel[0].configure(0x1710, 0x00A4, 0xBC00, 0x0000);
-  afe.logical_channel[1].configure(0x2710, 0x00A4, 0xBC00, 0x0000);
+  afe.logical_channel[0].configure(0x1710, 0x00A4, 0x8400, 0x0000);
+  afe.logical_channel[1].configure(0x2710, 0x00A4, 0x8400, 0x0000);
 
   Serial.println("\nlogical channel 0 (AI1P-AICOM) and 1 (AI2P-AICOM) voltages are shown in ADC readout value [V]");
 
@@ -99,7 +121,11 @@ void setup() {
   pinMode(SS, OUTPUT);  //  Required for UNO R4
 
   //  AFE reset and check connection
-  shasta.begin();
+  if (!shasta.begin()) {
+    Serial.println("shasta.begin() failed. Check power supply or pin connections");
+    while (true)
+      ;
+  }
 
 #ifdef VOLTAGE_OUTPUT_SETTING
   //  DAC setup: configure to voltage output

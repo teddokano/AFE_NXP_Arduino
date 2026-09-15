@@ -43,7 +43,11 @@ void setup() {
   SPI.begin();
   pinMode(SS, OUTPUT);  //  Required for UNO R4
 
-  afe.begin();
+  if (!afe.begin()) {
+    Serial.println("afe.begin() failed. Check power supply or pin connections");
+    while (true)
+      ;
+  }
   afe.blink_leds();
 
   //  Logical-channel for Thermocouple
