@@ -115,12 +115,12 @@ NAFE33352_Base::DAC& NAFE33352_Base::DAC::operator=( double value )
 NAFE33352_Base::NAFE33352_Base( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC )
 	: AFE_base( spi_addr, hsv, nINT, DRDY, SYN, nRESET, DRDY_input, SYNCDAC )
 {
-	for ( auto i = 0; i < 16; i++ )
+	for ( auto i = 0; i < max_logical_channels; i++ )
 	{
 		logical_channel[ i ].afe_ptr	= this;
 		logical_channel[ i ].ch_number	= i;
 	}
-	
+
 	dac.afe_ptr	= this;
 }
 
@@ -196,7 +196,16 @@ void NAFE33352_Base::open_dac_output( const uint16_t (&cc)[ 6 ] )
 
 
 void NAFE33352_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
-{	
+{
+	if ( !valid_ch( ch ) )
+	{
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "open_logical_channel(): invalid logical channel " );
+		Serial.println( ch );
+#endif
+		return;
+	}
+
 	static bool			pga_enabled	= false;
 	constexpr double	pow2_24		= (double)(1L << 24);
 	double				coeff		= 0.00;
@@ -283,12 +292,12 @@ void NAFE33352_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 
 void NAFE33352_Base::channel_info_update( uint16_t value )
 {
-	constexpr auto	bit_length	= 16;
+	constexpr auto	bit_length	= max_logical_channels;
 	enabled_channels			= 0;
 	total_delay					= 0.00;
-	
-	memset( sequence_order, 0, 16 );
-		
+
+	memset( sequence_order, 0, max_logical_channels );
+
 	for ( auto i = 0; i < bit_length; i++ )
 	{
 		if ( value & (0x1 << i) )
@@ -328,7 +337,16 @@ void NAFE33352_Base::open_logical_channel( int ch, uint16_t cc0, uint16_t cc1, u
 #pragma GCC diagnostic pop
 
 void NAFE33352_Base::enable_logical_channel( int ch )
-{	
+{
+	if ( !valid_ch( ch ) )
+	{
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "enable_logical_channel(): invalid logical channel " );
+		Serial.println( ch );
+#endif
+		return;
+	}
+
 	const uint16_t	setbit	= 0x1 << (ch + 8);
 	const uint16_t	bits	= bit_op( NAFE33352_Base::Register16::AI_MULTI_CH_EN, ~setbit, setbit );
 
@@ -336,7 +354,16 @@ void NAFE33352_Base::enable_logical_channel( int ch )
 }
 
 void NAFE33352_Base::close_logical_channel( int ch )
-{	
+{
+	if ( !valid_ch( ch ) )
+	{
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "close_logical_channel(): invalid logical channel " );
+		Serial.println( ch );
+#endif
+		return;
+	}
+
 	const uint16_t	clearingbit	= 0x1 << (ch + 8);
 	const uint16_t	bits		= bit_op( NAFE33352_Base::Register16::AI_MULTI_CH_EN, ~clearingbit, ~clearingbit );
 
@@ -351,6 +378,15 @@ void NAFE33352_Base::close_logical_channel( void )
 
 void NAFE33352_Base::start( int ch )
 {
+	if ( !valid_ch( ch ) )
+	{
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "start(): invalid logical channel " );
+		Serial.println( ch );
+#endif
+		return;
+	}
+
 	command( NAFE33352_Base::Command::CMD_CH0 + ch );
 	command( NAFE33352_Base::Command::CMD_SS );
 }
@@ -372,6 +408,15 @@ void NAFE33352_Base::DRDY_by_sequencer_done( bool flag )
 
 int32_t NAFE33352_Base::read( int ch )
 {
+	if ( !valid_ch( ch ) )
+	{
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "read(): invalid logical channel " );
+		Serial.println( ch );
+#endif
+		return 0;
+	}
+
 	return reg( NAFE33352_Base::Register24::AI_DATA0 + ch );
 }
 
@@ -382,7 +427,7 @@ void NAFE33352_Base::read( raw_t *data )
 
 void NAFE33352_Base::read( volt_t *data )
 {
-	raw_t	raw_data[ 16 ];
+	raw_t	raw_data[ max_logical_channels ];
 	
 	read( raw_data );
 	

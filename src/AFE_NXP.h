@@ -231,6 +231,19 @@ public:
 	 */
 	void	use_DRDY_trigger( bool use = true );
 
+	/** Number of logical channel slots available (0 ~ max_logical_channels - 1) */
+	static constexpr int	max_logical_channels	= 16;
+
+	/** Check whether a logical channel number is in range
+	 *
+	 * @param ch logical channel number to check
+	 * @return true if 0 <= ch < max_logical_channels
+	 */
+	static inline bool valid_ch( int ch )
+	{
+		return (0 <= ch) && (ch < max_logical_channels);
+	}
+
 	/** Compute a logical channel's DRDY delay from its CH_CONFIG1/CH_CONFIG2 (or
 	 *	AI_CONFIG1/AI_CONFIG2) register values
 	 *
@@ -267,16 +280,16 @@ protected:
 	int				enabled_channels;
 	
 	/** Number of enabled logical channels */
-	uint8_t			sequence_order[ 16 ];
-	
+	uint8_t			sequence_order[ max_logical_channels ];
+
 	/** Coefficient to convert from ADC read value to micro-volt */
-	double			coeff_V[ 16 ];
+	double			coeff_V[ max_logical_channels ];
 
 	/** Multiplexer setting */
-	int				mux_setting[ 16 ];
+	int				mux_setting[ max_logical_channels ];
 
 	/** Channel delay */
-	double			ch_delay[ 16 ];
+	double			ch_delay[ max_logical_channels ];
 	double			total_delay;
 	static double	delay_accuracy;
 	
@@ -408,7 +421,7 @@ public:
 		void	configure( uint16_t cc0 = 0x0000, uint16_t cc1 = 0x0000, uint16_t cc2 = 0x0000, uint16_t cc3 = 0x0000 );
 	};
 	
-	LogicalChannel	logical_channel[ 16 ];
+	LogicalChannel	logical_channel[ max_logical_channels ];
 
 	private:
 	double 	calc_delay( int ch );
@@ -476,6 +489,15 @@ public:
 	 */
 	inline double raw2v( int ch, raw_t value )
 	{
+		if ( !valid_ch( ch ) )
+		{
+#ifdef AFE_NXP_DEBUG
+			Serial.print( "raw2v(): invalid logical channel " );
+			Serial.println( ch );
+#endif
+			return NAN;
+		}
+
 		double	v	= value * coeff_V[ ch ];
 
 		if ( HV_MUX != mux_setting[ ch ] )
