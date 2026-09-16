@@ -277,8 +277,11 @@ double AFE_base::calc_delay_from_config( uint16_t ch_config1, uint16_t ch_config
 		delay_setting	/= 2.00;
 	}
 
+	//	Single-cycle settling (datasheet Table 7): codes 0 ... 11 run with the
+	//	second SINC stage bypassed and are four times slower than normal settling,
+	//	codes 12 ... 28 are slower by the SINC order + 1
 	if ( !adc_normal_setting  )
-		base_freq	/= (adc_sinc + 1);
+		base_freq	/= (adc_data_rate < 12) ? 4 : (adc_sinc + 1);
 
 	if ( ch_chop )
 		base_freq	/= 2;
