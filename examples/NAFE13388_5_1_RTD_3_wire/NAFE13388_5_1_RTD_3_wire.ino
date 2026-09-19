@@ -28,7 +28,7 @@
 #include <NAFE13388_UIM.h>
 #include <math.h>
 
-constexpr double excitation_current = 259.15e-6;
+constexpr double excitation_current = 259.1e-6;
 
 typedef struct _measurement_channel_pair {
   int channel_A;
@@ -39,10 +39,10 @@ typedef struct _measurement_channel_pair {
 
 
 constexpr measurement_channel_pair pair[] = {
-  { 0, 1, 2394.9 },
-  { 2, 3, 2394.1 },
-  { 4, 5, 2396.8 },
-  { 6, 7, 2394.3 }
+  { 0, 1, 2394.5 },
+  { 2, 3, 2393.7 },
+  { 4, 5, 2396.1 },
+  { 6, 7, 2393.5 }
 };
 
 double
@@ -84,12 +84,12 @@ void loop() {
     double Va = afe.logical_channel[pair[rtd_index].channel_A];
     double Vb = afe.logical_channel[pair[rtd_index].channel_B];
 
-    double Ra = -Va / excitation_current;
+    double Ra = Va / excitation_current;
     double Rb = -Vb / excitation_current;
 
-    double resistance = Rb - pair[rtd_index].resistance_filter - Ra;
+    double Rrtd = Rb - pair[rtd_index].resistance_filter - Ra;
 
-    double temp = get_temp_cvd(resistance);
+    double temp = get_temp_cvd(Rrtd);
 
     Serial.print("rtd[");
     Serial.print(rtd_index);
@@ -104,7 +104,8 @@ void loop() {
     Serial.print(Ra, 8);
     Serial.print("  Rb = ");
     Serial.print(Rb, 8);
-
+    Serial.print("  Rrtd = ");
+    Serial.print(Rrtd, 8);
 
     Serial.print("  temp = ");
     Serial.print(temp, 8);
