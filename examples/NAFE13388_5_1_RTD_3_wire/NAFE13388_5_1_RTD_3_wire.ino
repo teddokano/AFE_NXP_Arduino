@@ -35,16 +35,6 @@ typedef struct _measurement_channel_pair {
   double excitation_current;
 } measurement_channel_pair;
 
-#if 0
-constexpr measurement_channel_pair pair[] = {
-  { 0, 1, 2394.5 },
-  { 2, 3, 2393.7 },
-  { 4, 5, 2396.1 },
-  { 6, 7, 2393.5 }
-};
-
-constexpr double excitation_current = 259.1e-6;
-#else
 constexpr measurement_channel_pair pair[] = {
   { 0, 1, 2394.85 },
   { 2, 3, 2394.01 },
@@ -53,10 +43,8 @@ constexpr measurement_channel_pair pair[] = {
 };
 
 constexpr double excitation_current = 259.15e-6;
-#endif
 
-double
-get_temp(double resistance);
+double get_temp(double resistance);
 double get_temp(int logical_channel_num);
 double get_temp_cvd(double resistance);
 double get_temp_cvd(int logical_channel_num);
