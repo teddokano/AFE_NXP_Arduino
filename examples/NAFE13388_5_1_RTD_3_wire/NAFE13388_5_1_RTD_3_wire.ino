@@ -28,8 +28,6 @@
 #include <NAFE13388_UIM.h>
 #include <math.h>
 
-constexpr double excitation_current = 259.1e-6;
-
 typedef struct _measurement_channel_pair {
   int channel_A;
   int channel_B;
@@ -37,13 +35,25 @@ typedef struct _measurement_channel_pair {
   double excitation_current;
 } measurement_channel_pair;
 
-
+#if 0
 constexpr measurement_channel_pair pair[] = {
   { 0, 1, 2394.5 },
   { 2, 3, 2393.7 },
   { 4, 5, 2396.1 },
   { 6, 7, 2393.5 }
 };
+
+constexpr double excitation_current = 259.1e-6;
+#else
+constexpr measurement_channel_pair pair[] = {
+  { 0, 1, 2394.85 },
+  { 2, 3, 2394.01 },
+  { 4, 5, 2396.41 },
+  { 6, 7, 2393.71 }
+};
+
+constexpr double excitation_current = 259.15e-6;
+#endif
 
 double
 get_temp(double resistance);
