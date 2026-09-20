@@ -11,6 +11,56 @@ with [RTD](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE1
 [thermocouple](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_6_0_Thermocouple) and 
 [loadcell](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE13388_7_0_LoadCell). 
 
+## Migrating to v3.0.0
+
+`begin()` (and the `reset()` / `boot()` it calls) now returns `bool` instead of `void`.
+Previously, if the chip never became ready, the library printed a message and hung in
+an infinite loop inside `begin()`. It now returns `false` and leaves the decision of
+how to report and stop to the sketch, for example:
+
+```cpp
+if (!afe.begin()) {
+  Serial.println("afe.begin() failed. Check power supply or pin connections");
+  while (true)
+    ;
+}
+```
+
+Sketches written for v2.x that call `afe.begin();` without checking the return value
+still compile and run the same as before when `begin()` succeeds.
+
+### A timed-out reading is now reported, not silently stale
+
+When the DRDY wait times out — most often because the DRDY signal is not connected —
+v2.x read the ADC data register anyway and returned whatever the previous conversion
+had left there. There was no way to tell that value apart from a fresh measurement.
+
+The reading is now marked invalid instead:
+
+| what you call | on timeout |
+|---|---|
+| `start_and_read( ch )`, and `raw_t` conversions of a logical channel | `AFE_base::raw_invalid` |
+| `raw2v()` / `raw2mv()` / `raw2uv()`, and `volt_t` conversions | `NAN` |
+| `start_and_read( raw_t* )` / `start_and_read( volt_t* )` | every enabled slot filled with the above, and the call returns `false` |
+| `self_calibrate()` | `CalibrationError::ReadError` |
+
+`raw_invalid` is a value the 24-bit ADC can never produce, so it cannot be mistaken for
+data. The array form of `start_and_read()` returned `void` in v2.x, so giving it a
+`bool` return does not break existing calls.
+
+```cpp
+NAFE13388_UIM::volt_t data[8];
+
+if (!afe.start_and_read(data)) {
+  Serial.println("DRDY wait timed out. Check the DRDY signal connection");
+  return;
+}
+```
+
+Sketches that do not check will now see `NAN` (or `raw_invalid`) where they previously
+saw a plausible but stale number. That is the intended change: the old behaviour hid a
+wiring fault indefinitely.
+
 ## Easy to use
 
 3 types of Arduino UNO boards: **R3**, **R4 Minima** and **R4 WiFi** are supported.  
@@ -20,6 +70,13 @@ with [RTD](https://github.com/teddokano/AFE_NXP_Arduino/tree/main/examples/NAFE1
 > Please refer to pictures in later in this page.   
 
 Example sketches can be built and run on any of those boards.  
+> **Note**  
+> On AVR (UNO R3), `double` is the same 32-bit type as `float` (about 7 significant
+> decimal digits), while UNO R4 Minima/WiFi use a real 64-bit `double`. The library's
+> volt-conversion coefficients are on the order of `1e-6` to `1e-7`, so combined with a
+> 24-bit ADC reading they use close to all the precision a 32-bit `double` has to give.
+> UNO R3 is fine for trying the examples and general use, but if your application needs
+> the ADC's full resolution, use a UNO R4 board.
 
 ### Simple example code for NAFE13388-UIM
 Next is a sample of the basic operation of NAFE13388-UIM measuring analog voltage on AI1P and AI1N terminal.    
@@ -41,12 +98,16 @@ void setup() {
   pinMode(SS, OUTPUT);  //  Required for UNO R4
 
   //  AFE reset and check connection
-  afe.begin();
+  if (!afe.begin()) {
+    Serial.println("afe.begin() failed. Check power supply or pin connections");
+    while (true)
+      ;
+  }
   afe.blink_leds();
 
   //  ADC logical channel setup
-  afe.logical_channel[0].configure(0x1710, 0x00A4, 0xBC00, 0x0000);
-  afe.logical_channel[1].configure(0x2710, 0x00A4, 0xBC00, 0x0000);
+  afe.logical_channel[0].configure(0x1710, 0x00A4, 0x8400, 0x0000);
+  afe.logical_channel[1].configure(0x2710, 0x00A4, 0x8400, 0x0000);
 
   Serial.println("\nlogical channel 0 (AI1P-AICOM) and 1 (AI2P-AICOM) voltages are shown in ADC readout value [V]");
 
@@ -92,7 +153,11 @@ void setup() {
   pinMode(SS, OUTPUT);  //  Required for UNO R4
 
   //  AFE reset and check connection
-  shasta.begin();
+  if (!shasta.begin()) {
+    Serial.println("shasta.begin() failed. Check power supply or pin connections");
+    while (true)
+      ;
+  }
 
 #ifdef VOLTAGE_OUTPUT_SETTING
   //  DAC setup: configure to voltage output

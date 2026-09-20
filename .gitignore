@@ -7,6 +7,11 @@
 *.exe
 *.o
 *.so
+/build/
+
+# Generated Doxygen output (deployed to GitHub Pages by CI, not committed) #
+##############################################################################
+/docs/
 
 # Packages #
 ############
@@ -37,3 +42,5 @@
 ehthumbs.db
 Thumbs.db
 
+examples/NAFE13388_5_1_RTD_3_wire/
+examples/NAFE33352_3_0_RTD_4_wire/

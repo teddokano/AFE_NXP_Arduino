@@ -67,8 +67,8 @@ void NAFE13388_Base::LogicalChannel::configure( uint16_t cc0, uint16_t cc1, uint
 
 /* AFE_base class ******************************************/
 
-AFE_base::AFE_base(  bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC ) : 
-	dev_add( spi_addr ), highspeed_variant( hsv ), pin_nINT( nINT ), pin_DRDY( DRDY ), pin_SYN( SYN ), pin_nRESET( nRESET ), pin_DRDY_input( DRDY_input ), pin_SYNCDAC( SYNCDAC ), enabled_channels( 0 )
+AFE_base::AFE_base(  bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC ) :
+	SPI_for_AFE( spi_addr ), highspeed_variant( hsv ), pin_nINT( nINT ), pin_DRDY( DRDY ), pin_SYN( SYN ), pin_nRESET( nRESET ), pin_DRDY_input( DRDY_input ), pin_SYNCDAC( SYNCDAC ), enabled_channels( 0 )
 {
 	pinMode( pin_nINT,		INPUT );
 	pinMode( pin_DRDY,		INPUT );
@@ -88,6 +88,7 @@ AFE_base::~AFE_base()
 void AFE_base::init( void )
 {
 	attachInterrupt( digitalPinToInterrupt( pin_DRDY_input ), DRDY_cb, CHANGE );
+	SPI.usingInterrupt( digitalPinToInterrupt( pin_DRDY_input ) );
 
 	drdy_flag		= false;
 	set_DRDY_callback( static_default_drdy_cb );
@@ -95,15 +96,21 @@ void AFE_base::init( void )
 	use_DRDY_trigger( false );
 }
 
-void AFE_base::begin( void )
+bool AFE_base::begin( void )
 {
 	instance	= this;
-	
+
 	SPI_for_AFE::init();	//	set proper SPI_CS = HIGH state. This is required for UNO R4
-	
-	reset();
-	boot();	
+
+	if ( !reset() )
+		return false;
+
+	if ( !boot() )
+		return false;
+
 	init();
+
+	return true;
 }
 
 void AFE_base::set_DRDY_callback( callback_fp_t func )
@@ -134,10 +141,26 @@ int32_t AFE_base::start_and_read( int ch )
 	double	wait_time	= cbf_DRDY ? -1.0 : ch_delay[ ch ] * delay_accuracy;
 	
 	start( ch );
-	wait_conversion_complete( wait_time );
+	
+	//	No point reading CH_DATA back: it still holds the previous conversion,
+	//	which is indistinguishable from a fresh one once it is returned.
+	if ( wait_conversion_complete( wait_time ) )
+		return raw_invalid;
 	
 	return read( ch );
 };
+
+void AFE_base::invalidate( raw_t *data )
+{
+	for ( auto i = 0; i < enabled_channels; i++ )
+		data[ i ]	= raw_invalid;
+}
+
+void AFE_base::invalidate( volt_t *data )
+{
+	for ( auto i = 0; i < enabled_channels; i++ )
+		data[ i ]	= NAN;
+}
 
 #ifdef	NON_TEMPLATE_VERSION_FOR_START_AND_READ
 void AFE_base::start_and_read( raw_t* data )
@@ -145,7 +168,12 @@ void AFE_base::start_and_read( raw_t* data )
 	double	wait_time	= cbf_DRDY ? -1.0 : total_delay * delay_accuracy;
 	
 	start();
-	wait_conversion_complete( wait_time );
+	
+	if ( wait_conversion_complete( wait_time ) )
+	{
+		invalidate( data );
+		return;
+	}
 	
 	read( data );
 };
@@ -170,24 +198,27 @@ int AFE_base::wait_conversion_complete( double wait )
 	if ( 0 < wait )
 	{
 		if ( wait < 0.016 )
-			delayMicroseconds( wait * delay_accuracy * 1e6 );
+			delayMicroseconds( wait * 1e6 );
 		else
-			delay( wait * delay_accuracy * 1e3 );			
+			delay( wait * 1e3 );
 		return	0;
 	}
 
-	auto	timeout_count	= timeout_limit;
+	uint32_t	start_us	= micros();
 
-	while ( !drdy_flag && --timeout_count )
-		;
+	while ( !drdy_flag )
+	{
+		if ( (micros() - start_us) > timeout_us )
+		{
+			drdy_flag	= false;
+#ifdef AFE_NXP_DEBUG
+			Serial.println( "DRDY signal wait timeout" );
+#endif
+			return	-1;
+		}
+	}
 
 	drdy_flag	= false;
-	
-	if ( !timeout_count )
-	{
-		printf( "DRDY signal wait timeout\r\n" );
-		return	-1;
-	}
 	return	0;
 }
 
@@ -199,6 +230,76 @@ void AFE_base::use_DRDY_trigger( bool use )
 		set_DRDY_callback( nullptr );
 }
 
+double AFE_base::calc_delay_from_config( uint16_t ch_config1, uint16_t ch_config2, bool highspeed_variant )
+{
+	constexpr static double	data_rates[]	= {	   288000, 192000, 144000, 96000, 72000, 48000, 36000, 24000,
+													18000,  12000,   9000,  6000,  4500,  3000,  2250,  1125,
+													 562.5,    400,    300,   200,   100,    60,    50,    30,
+														25,     20,     15,    10,   7.5, 						};
+	constexpr static uint16_t	delays[]	= {		0,   2,   4,   6,   8,  10,   12,  14,
+												   16,  18,  20,  28,  38,  40,   42,  56,
+												   64,  76,  90, 128, 154, 178, 204, 224,
+												  256, 358, 512, 716,
+												  1024, 1664, 3276, 7680, 19200, 23040, };
+
+	constexpr static uint8_t	last_ch_delay_code	= (sizeof( delays ) / sizeof( delays[ 0 ] )) - 1;
+
+	uint8_t		adc_data_rate		= (ch_config1 >>  3) & 0x001F;
+	uint8_t		adc_sinc			= (ch_config1 >>  0) & 0x0007;
+	uint8_t		ch_delay			= (ch_config2 >> 10) & 0x003F;
+	bool		adc_normal_setting	= (ch_config2 >>  9) & 0x0001;
+	bool		ch_chop				= (ch_config2 >>  7) & 0x0001;
+
+	if ( (28 < adc_data_rate) || (4 < adc_sinc) || ((adc_data_rate < 12) && (adc_sinc)) )
+		return 0.00;
+
+	//	CH_DELAY is a 6 bit field (0 ... 63) but only codes 0 ... last_ch_delay_code
+	//	have a defined delay. An undefined code leaves no way to know what the chip
+	//	actually inserts, so clamp to the longest defined delay: waiting too long only
+	//	costs throughput, while waiting too little hands back unconverted data.
+	if ( last_ch_delay_code < ch_delay )
+	{
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "calc_delay_from_config(): CH_DELAY code " );
+		Serial.print( (int)ch_delay );
+		Serial.print( " is not defined. Clamped to " );
+		Serial.println( (int)last_ch_delay_code );
+#endif
+		ch_delay	= last_ch_delay_code;
+	}
+
+	double		base_freq			= data_rates[ adc_data_rate ];
+	double		delay_setting		= delays[ ch_delay ] / 4608000.00;
+
+	if ( highspeed_variant )
+	{
+		base_freq		*= 2.00;
+		delay_setting	/= 2.00;
+	}
+
+	//	Single-cycle settling (datasheet Table 7): codes 0 ... 11 run with the
+	//	second SINC stage bypassed and are four times slower than normal settling,
+	//	codes 12 ... 28 are slower by the SINC order + 1
+	if ( !adc_normal_setting  )
+		base_freq	/= (adc_data_rate < 12) ? 4 : (adc_sinc + 1);
+
+	if ( ch_chop )
+		base_freq	/= 2;
+
+#ifdef AFE_NXP_DEBUG
+	Serial.print( "adc_data_rate = " );
+	Serial.println( (int)adc_data_rate );
+	Serial.print( "base_freq = " );
+	Serial.println( base_freq, 6 );
+	Serial.print( "delay_setting = " );
+	Serial.println( delay_setting, 10 );
+	Serial.print( "channel delay = " );
+	Serial.println( (1 / base_freq) + delay_setting, 10 );
+#endif
+
+	return (1 / base_freq) + delay_setting;
+}
+
 
 AFE_base*				AFE_base::instance	= nullptr;
 AFE_base::callback_fp_t	AFE_base::cbf_DRDY	= nullptr;
@@ -208,56 +309,64 @@ AFE_base::callback_fp_t	AFE_base::cbf_DRDY	= nullptr;
 NAFE13388_Base::NAFE13388_Base( bool spi_addr, bool hsv, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC ) 
 	: AFE_base( spi_addr, hsv, nINT, DRDY, SYN, nRESET, DRDY_input, SYNCDAC )
 {
-	for ( auto i = 0; i < 16; i++ )
+	for ( auto i = 0; i < max_logical_channels; i++ )
 	{
 		logical_channel[ i ].afe_ptr	= this;
 		logical_channel[ i ].ch_number	= i;
-	}	
+	}
 }
 
 NAFE13388_Base::~NAFE13388_Base()
 {
 }
 
-void NAFE13388_Base::boot( void )
+bool NAFE13388_Base::boot( void )
 {
-	command( CMD_ABORT ); 
+	command( CMD_ABORT );
 	delay( 1 );
 
 	DRDY_by_sequencer_done( true );
+
+	return true;
 }
 
-void NAFE13388_Base::reset( bool hardware_reset )
+bool NAFE13388_Base::reset( bool hardware_reset )
 {
 	if ( hardware_reset )
 	{
-		digitalWrite( pin_nRESET, 0 );		
+		digitalWrite( pin_nRESET, 0 );
 		delay( 1 );
-		digitalWrite( pin_nRESET, 1 );		
+		digitalWrite( pin_nRESET, 1 );
 	}
 	else
 	{
-		command( CMD_RESET ); 
+		command( CMD_RESET );
 	}
-	
+
 	constexpr uint16_t	CHIP_READY	= 1 << 13;
 	constexpr auto		RETRY		= 10;
-	
+
 	for ( auto i = 0; i < RETRY; i++ )
 	{
 		delay( 3 );
 		if ( reg( Register16::SYS_STATUS0 ) & CHIP_READY )
-			return;
+			return true;
 	}
-	
-	Serial.println( "NAFE13388 couldn't get ready. Check power supply or pin connections\r\n" );
-	
-	while ( true )
-		;
+
+	return false;
 }
 
 void NAFE13388_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
-{	
+{
+	if ( !valid_ch( ch ) )
+	{
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "open_logical_channel(): invalid logical channel " );
+		Serial.println( ch );
+#endif
+		return;
+	}
+
 	command( ch );
 	
 	if ( cc[ 0 ] & 0x0010 )
@@ -274,19 +383,23 @@ void NAFE13388_Base::open_logical_channel( int ch, const uint16_t (&cc)[ 4 ] )
 	for ( auto i = 0; i < 4; i++ )
 		reg( Register16::CH_CONFIG0 + i, cc[ i ] );
 	
-	enable_logical_channel( ch );
-	
+	//	ch_delay[ ch ] must be settled before enable_logical_channel() because
+	//	that call recalculates total_delay as the sum of ch_delay[] over the
+	//	enabled channels. Doing it the other way round leaves this channel
+	//	counted as zero, making total_delay short by one channel.
 	ch_delay[ ch ]		= calc_delay( ch );
+	
+	enable_logical_channel( ch );
 }
 
 void NAFE13388_Base::channel_info_update( uint16_t value )
 {
-	constexpr auto	bit_length	= 16;
+	constexpr auto	bit_length	= max_logical_channels;
 	enabled_channels			= 0;
 	total_delay					= 0.00;
-	
-	memset( sequence_order, 0, 16 );
-		
+
+	memset( sequence_order, 0, max_logical_channels );
+
 	for ( auto i = 0; i < bit_length; i++ )
 	{
 		if ( value & (0x1 << i) )
@@ -297,61 +410,24 @@ void NAFE13388_Base::channel_info_update( uint16_t value )
 		}
 	}
 
-#if 0
+#ifdef AFE_NXP_DEBUG
 	for ( auto i = 0; i < bit_length; i++ )
-		printf( " %x", sequence_order[ i ] );
-	printf( "\r\n" );
+	{
+		Serial.print( ' ' );
+		Serial.print( sequence_order[ i ], HEX );
+	}
+	Serial.println();
 #endif
 }
 
 double NAFE13388_Base::calc_delay( int ch )
 {
-	constexpr static double	data_rates[]	= {	   288000, 192000, 144000, 96000, 72000, 48000, 36000, 24000, 
-													18000,  12000,   9000,  6000,  4500,  3000,  2250,  1125, 
-													 562.5,    400,    300,   200,   100,    60,    50,    30, 
-														25,     20,     15,    10,   7.5, 						};
-	constexpr static uint16_t	delays[]	= {		0,   2,   4,   6,   8,  10,   12,  14, 
-												   16,  18,  20,  28,  38,  40,   42,  56, 
-												   64,  76,  90, 128, 154, 178, 204, 224, 
-												  256, 358, 512, 716, 
-												  1024, 1664, 3276, 7680, 19200, 23040, };
-	
 	command( ch );
 
 	uint16_t ch_config1	= reg( Register16::CH_CONFIG1 );
 	uint16_t ch_config2	= reg( Register16::CH_CONFIG2 );
-	
-	uint8_t		adc_data_rate		= (ch_config1 >>  3) & 0x001F;
-	uint8_t		adc_sinc			= (ch_config1 >>  0) & 0x0007;
-	uint8_t		ch_delay			= (ch_config2 >> 10) & 0x003F;
-	bool		adc_normal_setting	= (ch_config2 >>  9) & 0x0001;
-	bool		ch_chop				= (ch_config2 >>  7) & 0x0001;
-	
-	double		base_freq			= data_rates[ adc_data_rate ];
-	double		delay_setting		= delays[ ch_delay ] / 4608000.00;
-	
-	if ( highspeed_variant )
-	{
-		base_freq		*= 2.00;
-		delay_setting	/= 2.00;		
-	}
-	
-	if ( (28 < adc_data_rate) || (4 < adc_sinc) || ((adc_data_rate < 12) && (adc_sinc)) )
-		return 0.00;
-	
-	if ( !adc_normal_setting  )
-		base_freq	/= (adc_sinc + 1);
-	
-	if ( ch_chop )
-		base_freq	/= 2;
-	
-#if 0
-	printf( "base_freq = %lf\r\n", base_freq );
-	printf( "delay_setting = %lf\r\n", delay_setting  );
-	printf( "total delay = %lf\r\n", (1 / base_freq) + delay_setting  );
-#endif
-	
-	return (1 / base_freq) + delay_setting;
+
+	return calc_delay_from_config( ch_config1, ch_config2, highspeed_variant );
 }
 
 void NAFE13388_Base::open_logical_channel( int ch, uint16_t cc0, uint16_t cc1, uint16_t cc2, uint16_t cc3 )
@@ -361,7 +437,16 @@ void NAFE13388_Base::open_logical_channel( int ch, uint16_t cc0, uint16_t cc1, u
 }
 
 void NAFE13388_Base::enable_logical_channel( int ch )
-{	
+{
+	if ( !valid_ch( ch ) )
+	{
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "enable_logical_channel(): invalid logical channel " );
+		Serial.println( ch );
+#endif
+		return;
+	}
+
 	const uint16_t	setbit	= 0x1 << ch;
 	const uint16_t	bits	= bit_op( Register16::CH_CONFIG4, ~setbit, setbit );
 
@@ -369,7 +454,16 @@ void NAFE13388_Base::enable_logical_channel( int ch )
 }
 
 void NAFE13388_Base::close_logical_channel( int ch )
-{	
+{
+	if ( !valid_ch( ch ) )
+	{
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "close_logical_channel(): invalid logical channel " );
+		Serial.println( ch );
+#endif
+		return;
+	}
+
 	const uint16_t	clearingbit	= 0x1 << ch;
 	const uint16_t	bits		= bit_op( Register16::CH_CONFIG4, ~clearingbit, ~clearingbit );
 
@@ -384,6 +478,15 @@ void NAFE13388_Base::close_logical_channel( void )
 
 void NAFE13388_Base::start( int ch )
 {
+	if ( !valid_ch( ch ) )
+	{
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "start(): invalid logical channel " );
+		Serial.println( ch );
+#endif
+		return;
+	}
+
 	command( ch     );
 	command( Command::CMD_SS );
 }
@@ -405,6 +508,15 @@ void NAFE13388_Base::DRDY_by_sequencer_done( bool flag )
 
 int32_t NAFE13388_Base::read( int ch )
 {
+	if ( !valid_ch( ch ) )
+	{
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "read(): invalid logical channel " );
+		Serial.println( ch );
+#endif
+		return 0;
+	}
+
 	return reg( Register24::CH_DATA0 + ch );
 }
 
@@ -415,7 +527,7 @@ void NAFE13388_Base::read( raw_t *data )
 
 void NAFE13388_Base::read( volt_t *data )
 {
-	raw_t	raw_data[ 16 ];
+	raw_t	raw_data[ max_logical_channels ];
 	
 	read( raw_data );
 	
@@ -493,11 +605,19 @@ void NAFE13388_Base::gain_offset_coeff( const ref_points &ref )
 	int32_t	gain_coeff_new		= round( gain_coeff_cal * custom_gain );
 	int32_t	offset_coeff_new	= round( custom_offset - offsset_coeff_cal );
 
-#if 0
-	printf( "ref_point_high = %8ld @%6.3lf\r\n", ref.high.data, ref.high.voltage );
-	printf( "ref_point_low  = %8ld @%6.3lf\r\n", ref.low.data,  ref.low.voltage  );
-	printf( "gain_coeff_new   = %8ld\r\n", gain_coeff_new   );
-	printf( "offset_coeff_new = %8ld\r\n", offset_coeff_new );
+#ifdef AFE_NXP_DEBUG
+	Serial.print( "ref_point_high = " );
+	Serial.print( ref.high.data );
+	Serial.print( " @" );
+	Serial.println( ref.high.voltage, 3 );
+	Serial.print( "ref_point_low  = " );
+	Serial.print( ref.low.data );
+	Serial.print( " @" );
+	Serial.println( ref.low.voltage, 3 );
+	Serial.print( "gain_coeff_new   = " );
+	Serial.println( gain_coeff_new );
+	Serial.print( "offset_coeff_new = " );
+	Serial.println( offset_coeff_new );
 #endif
 	
 	reg( Register24::GAIN_COEFF0   + ref.coeff_index, gain_coeff_new   );
@@ -533,10 +653,16 @@ int NAFE13388_Base::self_calibrate( int pga_gain_index, int channel_selection, i
 		input_select				= low_gain ? 0x5 : 0x6;
 		reference_source_voltage	= (reg( low_gain ? Register24::OPT_COEF1 : Register24::OPT_COEF2 ) * 5.00) / (double)(1UL << 24);
 
-#if 1
-		printf( "==== self-calibration for PGA gain setting: x%3.1lf\r\n", pga_gain[ gain_index ] );
-		printf( "gain = %s\r\n", low_gain ? "low" : "high" );
-		printf( "REF%s = %10.8lfV\r\n", low_gain ? "H" : "L", reference_source_voltage );
+#ifdef AFE_NXP_DEBUG
+		Serial.print( "==== self-calibration for PGA gain setting: x" );
+		Serial.println( pga_gain[ gain_index ], 1 );
+		Serial.print( "gain = " );
+		Serial.println( low_gain ? "low" : "high" );
+		Serial.print( "REF" );
+		Serial.print( low_gain ? "H" : "L" );
+		Serial.print( " = " );
+		Serial.print( reference_source_voltage, 8 );
+		Serial.println( "V" );
 #endif
 	}
 	
@@ -573,16 +699,38 @@ int NAFE13388_Base::self_calibrate( int pga_gain_index, int channel_selection, i
 	open_logical_channel( channel_selection, refc );
 	raw_t	data_COM	= start_and_read( channel_selection );
 
+	//	Any of the three timing out would put a wrong gain/offset coefficient
+	//	into the chip, which then silently skews every later reading.
+	if ( (raw_invalid == data_REF) || (raw_invalid == data_GND) || (raw_invalid == data_COM) )
+		return CalibrationError::ReadError;
+
 	//	calculation
 	
 	const double	fullscale_voltage	= 5.00 / pga_gain[ gain_index ];
 	const double	calibrated_gain		= (double)(0x1UL << 23) * (reference_source_voltage / fullscale_voltage) / (double)(data_REF - data_GND);
 
-#if 0
-	printf( "data_REF = %8ld (%lfV)\r\n",  data_REF, raw2v(  channel_selection, data_REF ) );
-	printf( "data_GND = %8ld (%lfmV)\r\n", data_GND, raw2mv( channel_selection, data_GND ) );
-	printf( "data_COM = %8ld (%lfmV)\r\n", data_COM, raw2mv( channel_selection, data_COM ) );
-	printf( "gain adjustment = %8lf (%lfdB)\r\n\r\n", calibrated_gain, 20 * log10( calibrated_gain ) );
+#ifdef AFE_NXP_DEBUG
+	Serial.print( "data_REF = " );
+	Serial.print( data_REF );
+	Serial.print( " (" );
+	Serial.print( raw2v( channel_selection, data_REF ), 6 );
+	Serial.println( "V)" );
+	Serial.print( "data_GND = " );
+	Serial.print( data_GND );
+	Serial.print( " (" );
+	Serial.print( raw2mv( channel_selection, data_GND ), 6 );
+	Serial.println( "mV)" );
+	Serial.print( "data_COM = " );
+	Serial.print( data_COM );
+	Serial.print( " (" );
+	Serial.print( raw2mv( channel_selection, data_COM ), 6 );
+	Serial.println( "mV)" );
+	Serial.print( "gain adjustment = " );
+	Serial.print( calibrated_gain, 6 );
+	Serial.print( " (" );
+	Serial.print( 20 * log10( calibrated_gain ), 6 );
+	Serial.println( "dB)" );
+	Serial.println();
 #endif
 	
 	if ( !( (0.95 < calibrated_gain) && (calibrated_gain < 1.05) ) )

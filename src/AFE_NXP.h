@@ -14,6 +14,18 @@
 #include <stdint.h>
 #include <SPI_for_AFE.h>
 
+/*	Debug output: disabled by default. Define AFE_NXP_DEBUG (before including
+ *	this header, or as a build flag) to enable it.
+ *
+ *	Debug blocks in the .cpp files are wrapped in #ifdef AFE_NXP_DEBUG / #endif
+ *	and print with Serial.print()/println() directly -- no printf()-family
+ *	call (not even snprintf() into a buffer). AVR's default vfprintf doesn't
+ *	support floating-point conversions (%f/%lf) without linking a separate
+ *	float-enabled printf, and several of these messages print doubles; using
+ *	%lf there produced garbage and (reliably, on UNO R3) a reset loop -- not
+ *	just missing output.
+ */
+
 class AFE_base : public SPI_for_AFE
 {
 public:
@@ -21,6 +33,17 @@ public:
 	/** ADC readout types */
 	using raw_t		= int32_t;
 	using volt_t	= double;
+
+	/** Returned in place of an ADC reading when no valid conversion result is
+	 *	available. Currently that means the DRDY wait timed out.
+	 *
+	 *	ADC results are 24 bit signed, so a real reading is always within
+	 *	-8388608 ... 8388607 and this value can never collide with one.
+	 *	raw2v() maps it to NAN -- and raw2mv()/raw2uv() go through raw2v() --
+	 *	so the volt_t side of the API carries the same information without
+	 *	needing a sentinel of its own.
+	 */
+	static constexpr raw_t	raw_invalid	= INT32_MIN;
 
 	/** Constructor to create an AFE_base instance */
 	AFE_base( bool spi_addr, bool highspeed_variant, int nINT, int DRDY, int SYN, int nRESET, int DRDY_input, int SYNCDAC );
@@ -33,14 +56,19 @@ public:
 	 *	NAFE13388 initialization. It does following steps
 	 *	(1) Call reset()
 	 *	(2) Call boot()
+	 *
+	 * @return true on success, false if reset() or boot() failed
 	 */
-	virtual void begin( void );
+	virtual bool begin( void );
 
 	/** Set system-level config registers */
-	virtual void boot( void )	= 0;
+	virtual bool boot( void )	= 0;
 
-	/** Issue RESET command */
-	virtual void reset( bool hardware_reset = false )	= 0;
+	/** Issue RESET command
+	 *
+	 * @return true if the chip became ready, false on timeout
+	 */
+	virtual bool reset( bool hardware_reset = false )	= 0;
 
 	/** Callback function type called when DRDY asserts */
 	typedef void	(*callback_fp_t)( void );
@@ -140,16 +168,25 @@ public:
 	/** Start ADC and read results for all enabled channels
 	 *
 	 * @param data pointer to array to store ADC data (raw_t* or volt_t*)
+	 * @return true if the conversion completed, false if the DRDY wait timed
+	 *         out. On timeout every enabled slot of the array is filled with
+	 *         raw_invalid (raw_t*) or NAN (volt_t*) instead of a stale value.
 	 */
 	template<typename T>
-	inline void start_and_read( T data )
+	inline bool start_and_read( T data )
 	{
 		double	wait_time	= cbf_DRDY ? -1.0 : total_delay * delay_accuracy;
 		
 		start();
-		wait_conversion_complete( wait_time );
+		
+		if ( wait_conversion_complete( wait_time ) )
+		{
+			invalidate( data );
+			return false;
+		}
 		
 		read( data );
+		return true;
 	};
 #endif
 
@@ -219,8 +256,38 @@ public:
 	 */
 	void	use_DRDY_trigger( bool use = true );
 
+	/** Number of logical channel slots available (0 ~ max_logical_channels - 1) */
+	static constexpr int	max_logical_channels	= 16;
+
+	/** Check whether a logical channel number is in range
+	 *
+	 * @param ch logical channel number to check
+	 * @return true if 0 <= ch < max_logical_channels
+	 */
+	static inline bool valid_ch( int ch )
+	{
+		return (0 <= ch) && (ch < max_logical_channels);
+	}
+
+	/** Compute a logical channel's DRDY delay from its CH_CONFIG1/CH_CONFIG2 (or
+	 *	AI_CONFIG1/AI_CONFIG2) register values
+	 *
+	 *	Pure computation shared by NAFE13388_Base and NAFE33352_Base's calc_delay(),
+	 *	extracted so it can be exercised without hardware (data-rate/sinc/delay
+	 *	table lookup only, no register access).
+	 *
+	 * @param ch_config1        CH_CONFIG1 / AI_CONFIG1 register value
+	 * @param ch_config2        CH_CONFIG2 / AI_CONFIG2 register value
+	 * @param highspeed_variant true for the -MB (highspeed) variant
+	 * @return delay in seconds, or 0.0 for a reserved data-rate/sinc combination
+	 */
+	static double	calc_delay_from_config( uint16_t ch_config1, uint16_t ch_config2, bool highspeed_variant );
+
 protected:
-	bool	dev_add;
+	/** Fill the enabled channels' slots with "no valid reading" markers */
+	void	invalidate( raw_t *data );
+	void	invalidate( volt_t *data );
+
 	bool	highspeed_variant;
 	int		pin_nINT;
 	int		pin_DRDY;
@@ -241,20 +308,20 @@ protected:
 	int				enabled_channels;
 	
 	/** Number of enabled logical channels */
-	uint8_t			sequence_order[ 16 ];
-	
+	uint8_t			sequence_order[ max_logical_channels ];
+
 	/** Coefficient to convert from ADC read value to micro-volt */
-	double			coeff_V[ 16 ];
+	double			coeff_V[ max_logical_channels ];
 
 	/** Multiplexer setting */
-	int				mux_setting[ 16 ];
+	int				mux_setting[ max_logical_channels ];
 
 	/** Channel delay */
-	double			ch_delay[ 16 ];
+	double			ch_delay[ max_logical_channels ];
 	double			total_delay;
 	static double	delay_accuracy;
 	
-	constexpr static uint32_t	timeout_limit	= 10000000;
+	constexpr static uint32_t	timeout_us	= 1000000;	//	DRDY wait timeout, 1 second
 
 	void					default_drdy_cb();
 	static void				static_default_drdy_cb();
@@ -338,10 +405,13 @@ public:
 	virtual ~NAFE13388_Base();
 	
 	/** Set system-level config registers */
-	virtual void boot( void );
+	virtual bool boot( void );
 
-	/** Issue RESET command */
-	virtual void reset( bool hardware_reset = false );
+	/** Issue RESET command
+	 *
+	 * @return true if the chip became ready, false on timeout
+	 */
+	virtual bool reset( bool hardware_reset = false );
 	
 	/** Configure logical channel
 	 *
@@ -382,9 +452,9 @@ public:
 		void	configure( uint16_t cc0 = 0x0000, uint16_t cc1 = 0x0000, uint16_t cc2 = 0x0000, uint16_t cc3 = 0x0000 );
 	};
 	
-	LogicalChannel	logical_channel[ 16 ];
+	LogicalChannel	logical_channel[ max_logical_channels ];
 
-	private:	
+	private:
 	double 	calc_delay( int ch );
 	void 	channel_info_update( uint16_t value );
 
@@ -450,6 +520,18 @@ public:
 	 */
 	inline double raw2v( int ch, raw_t value )
 	{
+		if ( !valid_ch( ch ) )
+		{
+#ifdef AFE_NXP_DEBUG
+			Serial.print( "raw2v(): invalid logical channel " );
+			Serial.println( ch );
+#endif
+			return NAN;
+		}
+
+		if ( raw_invalid == value )
+			return NAN;
+
 		double	v	= value * coeff_V[ ch ];
 
 		if ( HV_MUX != mux_setting[ ch ] )
@@ -747,6 +829,7 @@ public:
 		NoError		=  0,
 		GainError	= -1,
 		OffsetError	= -2,
+		ReadError	= -3,	//	a measurement timed out, so the coefficients cannot be trusted
 	};
 	
 	/** On-board calibration with specified input and voltage
