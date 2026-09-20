@@ -22,7 +22,7 @@
 
 NAFE33352_UIOM shasta;
 
-//#define VOLTAGE_OUTPUT_SETTING
+#define VOLTAGE_OUTPUT_SETTING
 double output_value;
 int count = 0;
 
