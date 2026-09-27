@@ -32,22 +32,20 @@ typedef struct _measurement_channel_pair {
   int channel_A;
   int channel_B;
   double resistance_filter;
-  double excitation_current;
 } measurement_channel_pair;
 
 constexpr measurement_channel_pair pair[] = {
-  { 0, 1, 2394.85 },
-  { 2, 3, 2394.01 },
-  { 4, 5, 2396.41 },
-  { 6, 7, 2393.71 }
+  { 0, 1, 2395.52 },
+  { 2, 3, 2394.66 },
+  { 4, 5, 2397.25 },
+  { 6, 7, 2394.49 }
 };
 
-constexpr double excitation_current = 259.15e-6;
+constexpr double excitation_current = 259e-6;
+constexpr int n_of_rtds = 4;
 
-double get_temp(double resistance);
-double get_temp(int logical_channel_num);
 double get_temp_cvd(double resistance);
-double get_temp_cvd(int logical_channel_num);
+void calibration(void);
 
 NAFE13388_UIM afe;
 
@@ -67,18 +65,20 @@ void setup() {
   }
   afe.blink_leds();
 
-  for (int rtd_index = 0; rtd_index < 4; rtd_index++) {
+  for (int rtd_index = 0; rtd_index < n_of_rtds; rtd_index++) {
     afe.logical_channel[pair[rtd_index].channel_A].configure(0x0790 | (rtd_index + 1) << 12, 0x40C4, 0x8400, 0xA600 | (rtd_index + 1));
     afe.logical_channel[pair[rtd_index].channel_B].configure(0x0090 | (rtd_index + 1) << 12 | (rtd_index + 1) << 8, 0x40C4, 0x8400, 0xA600 | (rtd_index + 1));
   }
 
   Serial.print("\r\nenabled logical channel(s) = ");
   Serial.println(afe.enabled_logical_channels());
+
+  calibration();
 }
 
 void loop() {
 
-  for (int rtd_index = 0; rtd_index < 4; rtd_index++) {
+  for (int rtd_index = 0; rtd_index < n_of_rtds; rtd_index++) {
     double Va = afe.logical_channel[pair[rtd_index].channel_A];
     double Vb = afe.logical_channel[pair[rtd_index].channel_B];
 
@@ -104,10 +104,8 @@ void loop() {
     Serial.print(Rb, 8);
     Serial.print("  Rrtd = ");
     Serial.print(Rrtd, 8);
-
     Serial.print("  temp = ");
     Serial.print(temp, 8);
-    Serial.print("℃, ");
 
     Serial.println("");
   }
@@ -135,4 +133,53 @@ double get_temp_cvd(double resistance) {
   }
 
   return t;
+}
+
+void calibration(void) {
+  pinMode(SW3, INPUT);
+  if (digitalRead(SW3))
+    return;
+
+  Serial.println("SW3 press detected. Entering into calibration mode");
+
+  double Vb[n_of_rtds] = { 0 };
+  double Rb[n_of_rtds] = { 0 };
+  constexpr int loop_count = 10;
+
+  for (int i = 0; i < loop_count; i++) {
+    Serial.print("measureing Rb (");
+    Serial.print(i);
+    Serial.print("/");
+    Serial.print(loop_count);
+    Serial.println(")");
+
+    for (int rtd_index = 0; rtd_index < n_of_rtds; rtd_index++) {
+      double v = afe.logical_channel[pair[rtd_index].channel_B];
+      Vb[rtd_index] += v; 
+    }
+  }
+
+
+  for (int rtd_index = 0; rtd_index < n_of_rtds; rtd_index++) {
+    Vb[rtd_index] /= loop_count;
+    Rb[rtd_index] += -Vb[rtd_index] / excitation_current;
+
+    Serial.print("  Vb[");
+    Serial.print(rtd_index);
+    Serial.print("] = ");
+    Serial.print(Vb[rtd_index], 8);
+
+    Serial.print("  Rb[");
+    Serial.print(rtd_index);
+    Serial.print("] = ");
+    Serial.print(Rb[rtd_index], 8);
+
+    Serial.println("");
+  }
+  Serial.println("");
+
+  Serial.println("done.");
+
+  while (true)
+    ;
 }
